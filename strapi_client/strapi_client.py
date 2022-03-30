@@ -1,3 +1,4 @@
+from typing import Union
 import requests
 
 
@@ -7,12 +8,13 @@ class StrapiClient:
     baseurl: str = None
     _token: str = None
 
-    def __init__(self, baseurl: str):
+    def __init__(self, baseurl: str) -> None:
+        """Initialize client."""
         if not baseurl.endswith('/'):
             baseurl = baseurl + '/'
         self.baseurl = baseurl
 
-    def authorize(self, identifier: str, password: str, token: str = None):
+    def authorize(self, identifier: str, password: str, token: str = None) -> None:
         """Set up or retrieve access token."""
         if not token:
             url = self.baseurl + 'api/auth/local'
@@ -40,7 +42,7 @@ class StrapiClient:
         resp_obj = resp.json()
         return resp_obj
 
-    def update_entry(self, plural_api_id: str, document_id: int, data: dict):
+    def update_entry(self, plural_api_id: str, document_id: int, data: dict) -> None:
         """Update entry fields."""
         url = f'{self.baseurl}api/{plural_api_id}/{document_id}'
         body = {
@@ -50,7 +52,7 @@ class StrapiClient:
         if resp.status_code != 200:
             raise Exception(f'Unable to update entry, error {resp.status_code}')
 
-    def _get_auth_header(self) -> dict:
+    def _get_auth_header(self) -> Union[dict, None]:
         """Compose auth header from token."""
         if self._token:
             header = {'Authorization': 'Bearer ' + self._token}
@@ -59,8 +61,8 @@ class StrapiClient:
         return header
 
     @staticmethod
-    def _stringify_params(name, parameters):
-        """Stringify dict ro query parameters."""
+    def _stringify_params(name: str, parameters: dict) -> dict:
+        """Stringify dict for query parameters."""
         def flatten(d):
             for k, v in d.items():
                 if isinstance(v, dict):
