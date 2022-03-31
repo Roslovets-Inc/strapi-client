@@ -29,20 +29,32 @@ class StrapiClient:
             token = res_obj['jwt']
         self._token = token
 
-    def get_entries(self, plural_api_id: str, filters: dict = None) -> dict:
+    def get_entries(
+            self,
+            plural_api_id: str,
+            filters: Union[dict, None] = None,
+            pagination: Union[dict, None] = None
+    ) -> dict:
         """Get list of entries."""
-        if filters:
-            filters_param = self._stringify_params('filters', filters)
-        else:
-            filters_param = {}
+        filters_param = _stringify_parameters('filters', filters)
+        pagination_param = _stringify_parameters('pagination', pagination)
         url = f'{self.baseurl}api/{plural_api_id}'
-        resp = requests.get(url, headers=self._get_auth_header(), params={**filters_param})
+        resp = requests.get(
+            url,
+            headers=self._get_auth_header(),
+            params={**filters_param, **pagination_param}
+        )
         if resp.status_code != 200:
             raise Exception(f'Unable to get entries, error {resp.status_code}')
         resp_obj = resp.json()
         return resp_obj
 
-    def update_entry(self, plural_api_id: str, document_id: int, data: dict) -> None:
+    def update_entry(
+            self,
+            plural_api_id: str,
+            document_id: int,
+            data: dict
+    ) -> None:
         """Update entry fields."""
         url = f'{self.baseurl}api/{plural_api_id}/{document_id}'
         body = {
@@ -60,14 +72,20 @@ class StrapiClient:
             header = None
         return header
 
-    @staticmethod
-    def _stringify_params(name: str, parameters: dict) -> dict:
-        """Stringify dict for query parameters."""
-        def flatten(d):
-            for k, v in d.items():
-                if isinstance(v, dict):
-                    for s, i in flatten(v):
-                        yield '[%s]%s' % (k, s), i
-                else:
-                    yield '[%s]' % k, v
-        return {name + k: v for k, v in flatten(parameters)}
+
+def _stringify_parameters(name: str, parameters: Union[dict, None]) -> dict:
+    """Stringify dict for query parameters."""
+    if parameters:
+        return {name + k: v for k, v in _flatten_parameters(parameters)}
+    else:
+        return {}
+
+
+def _flatten_parameters(parameters: dict):
+    """Flatten parameters dict for query."""
+    for key, value in parameters.items():
+        if isinstance(value, dict):
+            for key1, value1 in _flatten_parameters(value):
+                yield f'[{key}]{key1}', value1
+        else:
+            yield f'[{key}]', value
