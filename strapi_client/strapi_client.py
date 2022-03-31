@@ -33,16 +33,18 @@ class StrapiClient:
             self,
             plural_api_id: str,
             filters: Union[dict, None] = None,
-            pagination: Union[dict, None] = None
+            pagination: Union[dict, None] = None,
+            publication_state: Union[str, None] = None
     ) -> dict:
         """Get list of entries."""
         filters_param = _stringify_parameters('filters', filters)
         pagination_param = _stringify_parameters('pagination', pagination)
+        publication_state_param = _stringify_parameters('publicationState', publication_state)
         url = f'{self.baseurl}api/{plural_api_id}'
         resp = requests.get(
             url,
             headers=self._get_auth_header(),
-            params={**filters_param, **pagination_param}
+            params={**filters_param, **pagination_param, **publication_state_param}
         )
         if resp.status_code != 200:
             raise Exception(f'Unable to get entries, error {resp.status_code}')
@@ -83,8 +85,10 @@ def process_response(response: dict) -> (dict, dict):
 
 def _stringify_parameters(name: str, parameters: Union[dict, None]) -> dict:
     """Stringify dict for query parameters."""
-    if parameters:
+    if type(parameters) is dict:
         return {name + k: v for k, v in _flatten_parameters(parameters)}
+    elif type(parameters) is str:
+        return {name: parameters}
     else:
         return {}
 
