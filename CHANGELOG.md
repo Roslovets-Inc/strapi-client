@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [1.1.1](https://github.com/Roslovets-Inc/strapi-client/compare/v1.1.0...v1.1.1) (2022-03-31)
+
+
+### Bug Fixes
+
+* export process_response() ([f39dca3](https://github.com/Roslovets-Inc/strapi-client/commit/f39dca3db5054febd3dec3f41c16fd7dba18531b))
+
 ## [1.1.0](https://github.com/Roslovets-Inc/strapi-client/compare/v1.0.0...v1.1.0) (2022-03-31)
 
 
