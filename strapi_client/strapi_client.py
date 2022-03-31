@@ -73,6 +73,14 @@ class StrapiClient:
         return header
 
 
+def process_response(response: dict) -> (dict, dict):
+    """Process response with entries."""
+    data = response['data']
+    entries = [{'id': entry['id'], **entry['attributes']} for entry in data]
+    pagination = response['meta']['pagination']
+    return entries, pagination
+
+
 def _stringify_parameters(name: str, parameters: Union[dict, None]) -> dict:
     """Stringify dict for query parameters."""
     if parameters:
