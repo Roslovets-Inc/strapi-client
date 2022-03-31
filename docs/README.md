@@ -12,7 +12,7 @@
 
 ## Functions
 
-- No functions
+- [`strapi_client.process_response`](./strapi_client.md#function-process_response): Process response with entries.
 
 
 ---

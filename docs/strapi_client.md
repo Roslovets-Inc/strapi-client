@@ -8,6 +8,18 @@
 
 
 
+---
+
+<a href="../strapi_client/strapi_client.py#L78"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
+## <kbd>function</kbd> `process_response`
+
+```python
+process_response(response: dict) → (<class 'dict'>, <class 'dict'>)
+```
+
+Process response with entries. 
+
 
 ---
 
@@ -48,14 +60,19 @@ Set up or retrieve access token.
 ### <kbd>method</kbd> `get_entries`
 
 ```python
-get_entries(plural_api_id: str, filters: dict = None) → dict
+get_entries(
+    plural_api_id: str,
+    filters: Optional[dict] = None,
+    pagination: Optional[dict] = None,
+    publication_state: Optional[str] = None
+) → dict
 ```
 
 Get list of entries. 
 
 ---
 
-<a href="../strapi_client/strapi_client.py#L45"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../strapi_client/strapi_client.py#L54"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `update_entry`
 
