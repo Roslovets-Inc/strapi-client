@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, List
 import requests
 
 
@@ -32,19 +32,23 @@ class StrapiClient:
     def get_entries(
             self,
             plural_api_id: str,
+            sort: Union[List[str], None] = None,
             filters: Union[dict, None] = None,
+            populate: Union[List[str], None] = None,
             pagination: Union[dict, None] = None,
             publication_state: Union[str, None] = None
     ) -> dict:
         """Get list of entries."""
+        sort_param = _stringify_parameters('sort', sort)
         filters_param = _stringify_parameters('filters', filters)
+        populate_param = _stringify_parameters('populate', populate)
         pagination_param = _stringify_parameters('pagination', pagination)
         publication_state_param = _stringify_parameters('publicationState', publication_state)
         url = f'{self.baseurl}api/{plural_api_id}'
         resp = requests.get(
             url,
             headers=self._get_auth_header(),
-            params={**filters_param, **pagination_param, **publication_state_param}
+            params={**sort_param, **filters_param, **pagination_param, **populate_param, **publication_state_param}
         )
         if resp.status_code != 200:
             raise Exception(f'Unable to get entries, error {resp.status_code}')
@@ -83,12 +87,14 @@ def process_response(response: dict) -> (dict, dict):
     return entries, pagination
 
 
-def _stringify_parameters(name: str, parameters: Union[dict, None]) -> dict:
+def _stringify_parameters(name: str, parameters: Union[dict, List[str], None]) -> dict:
     """Stringify dict for query parameters."""
     if type(parameters) is dict:
         return {name + k: v for k, v in _flatten_parameters(parameters)}
     elif type(parameters) is str:
         return {name: parameters}
+    elif type(parameters) is list:
+        return {name: ','.join(parameters)}
     else:
         return {}
 
