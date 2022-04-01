@@ -10,7 +10,7 @@
 
 ---
 
-<a href="../strapi_client/strapi_client.py#L82"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../strapi_client/strapi_client.py#L91"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `process_response`
 
@@ -55,7 +55,7 @@ Set up or retrieve access token.
 
 ---
 
-<a href="../strapi_client/strapi_client.py#L32"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../strapi_client/strapi_client.py#L33"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `get_entries`
 
@@ -74,7 +74,7 @@ Get list of entries.
 
 ---
 
-<a href="../strapi_client/strapi_client.py#L58"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../strapi_client/strapi_client.py#L66"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `update_entry`
 
