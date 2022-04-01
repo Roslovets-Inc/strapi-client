@@ -10,7 +10,7 @@
 
 ---
 
-<a href="../strapi_client/strapi_client.py#L78"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../strapi_client/strapi_client.py#L82"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `process_response`
 
@@ -62,7 +62,9 @@ Set up or retrieve access token.
 ```python
 get_entries(
     plural_api_id: str,
+    sort: Optional[List[str]] = None,
     filters: Optional[dict] = None,
+    populate: Optional[List[str]] = None,
     pagination: Optional[dict] = None,
     publication_state: Optional[str] = None
 ) → dict
@@ -72,7 +74,7 @@ Get list of entries.
 
 ---
 
-<a href="../strapi_client/strapi_client.py#L54"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../strapi_client/strapi_client.py#L58"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `update_entry`
 
