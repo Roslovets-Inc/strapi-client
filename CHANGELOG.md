@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0](https://github.com/Roslovets-Inc/strapi-client/compare/v1.2.0...v2.0.0) (2022-04-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* convert code to async
+
+### Features
+
+* convert code to async ([e3c403c](https://github.com/Roslovets-Inc/strapi-client/commit/e3c403c27adcc7b19f7fafbd6b8b1ca92414d69d))
+
 ## [1.2.0](https://github.com/Roslovets-Inc/strapi-client/compare/v1.1.1...v1.2.0) (2022-04-01)
 
 
