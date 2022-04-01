@@ -1,4 +1,4 @@
-from typing import Union, List
+from typing import Union, Optional, List
 import requests
 
 
@@ -32,11 +32,11 @@ class StrapiClient:
     def get_entries(
             self,
             plural_api_id: str,
-            sort: Union[List[str], None] = None,
-            filters: Union[dict, None] = None,
-            populate: Union[List[str], None] = None,
-            pagination: Union[dict, None] = None,
-            publication_state: Union[str, None] = None
+            sort: Optional[List[str]] = None,
+            filters: Optional[dict] = None,
+            populate: Optional[List[str]] = None,
+            pagination: Optional[dict] = None,
+            publication_state: Optional[str] = None
     ) -> dict:
         """Get list of entries."""
         sort_param = _stringify_parameters('sort', sort)
@@ -70,7 +70,7 @@ class StrapiClient:
         if resp.status_code != 200:
             raise Exception(f'Unable to update entry, error {resp.status_code}')
 
-    def _get_auth_header(self) -> Union[dict, None]:
+    def _get_auth_header(self) -> Optional[dict]:
         """Compose auth header from token."""
         if self._token:
             header = {'Authorization': 'Bearer ' + self._token}
