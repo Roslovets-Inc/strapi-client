@@ -16,7 +16,7 @@ classifiers =[
 
 [tool.poetry.dependencies]
 python = ">=3.6"
-requests = "*"
+aiohttp = "*"
 
 [tool.poetry.dev-dependencies]
 python-semantic-release = "*"

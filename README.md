@@ -17,13 +17,17 @@ pip install strapi-client
 Quick start:
 
 ```python
+import asyncio
 from strapi_client import StrapiClient
 
-strapi = StrapiClient(strapi_url)
-strapi.authorize(your_identifier, your_password) # optional
-users = strapi.get_entries('users', filters={'username': {'$eq': 'Pavel'}})
-user_id = users['data'][0]['id']
-strapi.update_entry('users', user_id, data={'username': 'Mark'})
+async def main():
+    strapi = StrapiClient(strapi_url)
+    await strapi.authorize(your_identifier, your_password) # optional
+    users = await strapi.get_entries('users', filters={'username': {'$eq': 'Pavel'}})
+    user_id = users['data'][0]['id']
+    await strapi.update_entry('users', user_id, data={'username': 'Mark'})
+
+asyncio.run(main())
 ```
 
 ## Development

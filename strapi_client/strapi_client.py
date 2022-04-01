@@ -1,5 +1,5 @@
 from typing import Union, Optional, List
-import requests
+import aiohttp
 
 
 class StrapiClient:
@@ -14,7 +14,7 @@ class StrapiClient:
             baseurl = baseurl + '/'
         self.baseurl = baseurl
 
-    def authorize(self, identifier: str, password: str, token: str = None) -> None:
+    async def authorize(self, identifier: str, password: str, token: str = None) -> None:
         """Set up or retrieve access token."""
         if not token:
             url = self.baseurl + 'api/auth/local'
@@ -22,14 +22,15 @@ class StrapiClient:
                 'identifier': identifier,
                 'password': password
             }
-            res = requests.post(url, json=body)
-            if res.status_code != 200:
-                raise Exception(f'Unable to authorize, error {res.status_code}')
-            res_obj = res.json()
-            token = res_obj['jwt']
-        self._token = token
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, json=body) as res:
+                    if res.status != 200:
+                        raise Exception(f'Unable to authorize, error {res.status}')
+                    res_obj = await res.json()
+                    token = res_obj['jwt']
+                self._token = token
 
-    def get_entries(
+    async def get_entries(
             self,
             plural_api_id: str,
             sort: Optional[List[str]] = None,
@@ -45,17 +46,24 @@ class StrapiClient:
         pagination_param = _stringify_parameters('pagination', pagination)
         publication_state_param = _stringify_parameters('publicationState', publication_state)
         url = f'{self.baseurl}api/{plural_api_id}'
-        resp = requests.get(
-            url,
-            headers=self._get_auth_header(),
-            params={**sort_param, **filters_param, **pagination_param, **populate_param, **publication_state_param}
-        )
-        if resp.status_code != 200:
-            raise Exception(f'Unable to get entries, error {resp.status_code}')
-        resp_obj = resp.json()
-        return resp_obj
+        async with aiohttp.ClientSession() as session:
+            async with session.get(
+                    url,
+                    headers=self._get_auth_header(),
+                    params={
+                        **sort_param,
+                        **filters_param,
+                        **pagination_param,
+                        **populate_param,
+                        **publication_state_param
+                    }
+            ) as res:
+                if res.status != 200:
+                    raise Exception(f'Unable to get entries, error {res.status}')
+                res_obj = await res.json()
+                return res_obj
 
-    def update_entry(
+    async def update_entry(
             self,
             plural_api_id: str,
             document_id: int,
@@ -66,9 +74,10 @@ class StrapiClient:
         body = {
             'data': data
         }
-        resp = requests.put(url, json=body, headers=self._get_auth_header())
-        if resp.status_code != 200:
-            raise Exception(f'Unable to update entry, error {resp.status_code}')
+        async with aiohttp.ClientSession() as session:
+            async with session.put(url, json=body, headers=self._get_auth_header()) as res:
+                if res.status != 200:
+                    raise Exception(f'Unable to update entry, error {res.status}')
 
     def _get_auth_header(self) -> Optional[dict]:
         """Compose auth header from token."""
