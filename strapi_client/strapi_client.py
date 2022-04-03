@@ -36,6 +36,7 @@ class StrapiClient:
             sort: Optional[List[str]] = None,
             filters: Optional[dict] = None,
             populate: Optional[List[str]] = None,
+            fields: Optional[List[str]] = None,
             pagination: Optional[dict] = None,
             publication_state: Optional[str] = None
     ) -> dict:
@@ -43,6 +44,7 @@ class StrapiClient:
         sort_param = _stringify_parameters('sort', sort)
         filters_param = _stringify_parameters('filters', filters)
         populate_param = _stringify_parameters('populate', populate)
+        fields_param = _stringify_parameters('fields', fields)
         pagination_param = _stringify_parameters('pagination', pagination)
         publication_state_param = _stringify_parameters('publicationState', publication_state)
         url = f'{self.baseurl}api/{plural_api_id}'
@@ -55,11 +57,12 @@ class StrapiClient:
                         **filters_param,
                         **pagination_param,
                         **populate_param,
+                        **fields_param,
                         **publication_state_param
                     }
             ) as res:
                 if res.status != 200:
-                    raise Exception(f'Unable to get entries, error {res.status}')
+                    raise Exception(f'Unable to get entries, error {res.status}: {res.reason}')
                 res_obj = await res.json()
                 return res_obj
 
