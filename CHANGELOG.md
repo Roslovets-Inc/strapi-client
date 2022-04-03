@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.0](https://github.com/Roslovets-Inc/strapi-client/compare/v2.0.0...v2.1.0) (2022-04-03)
+
+
+### Features
+
+* fields opt for get_entries() ([58e0044](https://github.com/Roslovets-Inc/strapi-client/commit/58e0044db9f01aadd2f1bdf77e807e46f90b7bd2))
+
 ## [2.0.0](https://github.com/Roslovets-Inc/strapi-client/compare/v1.2.0...v2.0.0) (2022-04-01)
 
 
