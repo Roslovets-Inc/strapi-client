@@ -10,7 +10,7 @@
 
 ---
 
-<a href="../strapi_client/strapi_client.py#L91"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../strapi_client/strapi_client.py#L94"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `process_response`
 
@@ -65,6 +65,7 @@ get_entries(
     sort: Optional[List[str]] = None,
     filters: Optional[dict] = None,
     populate: Optional[List[str]] = None,
+    fields: Optional[List[str]] = None,
     pagination: Optional[dict] = None,
     publication_state: Optional[str] = None
 ) → dict
@@ -74,7 +75,7 @@ Get list of entries.
 
 ---
 
-<a href="../strapi_client/strapi_client.py#L66"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../strapi_client/strapi_client.py#L69"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `update_entry`
 
