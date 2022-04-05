@@ -38,9 +38,11 @@ class StrapiClient:
             populate: Optional[List[str]] = None,
             fields: Optional[List[str]] = None,
             pagination: Optional[dict] = None,
-            publication_state: Optional[str] = None
+            publication_state: Optional[str] = None,
+            get_all: bool = False,
+            batch_size: int = 100
     ) -> dict:
-        """Get list of entries."""
+        """Get list of entries. Optionally can operate in batch mode to get all entities automatically."""
         sort_param = _stringify_parameters('sort', sort)
         filters_param = _stringify_parameters('filters', filters)
         populate_param = _stringify_parameters('populate', populate)
@@ -48,22 +50,38 @@ class StrapiClient:
         pagination_param = _stringify_parameters('pagination', pagination)
         publication_state_param = _stringify_parameters('publicationState', publication_state)
         url = f'{self.baseurl}api/{plural_api_id}'
+        params = {
+            **sort_param,
+            **filters_param,
+            **pagination_param,
+            **populate_param,
+            **fields_param,
+            **publication_state_param
+        }
         async with aiohttp.ClientSession() as session:
-            async with session.get(
-                    url,
-                    headers=self._get_auth_header(),
-                    params={
-                        **sort_param,
-                        **filters_param,
-                        **pagination_param,
-                        **populate_param,
-                        **fields_param,
-                        **publication_state_param
+            if not get_all:
+                res_obj = await self._get_entities(session, url, params)
+                return res_obj
+            else:
+                page = 1
+                get_more = True
+                while get_more:
+                    pagination = {
+                        'page': page,
+                        'pageSize': batch_size
                     }
-            ) as res:
-                if res.status != 200:
-                    raise Exception(f'Unable to get entries, error {res.status}: {res.reason}')
-                res_obj = await res.json()
+                    pagination_param = _stringify_parameters('pagination', pagination)
+                    for key in pagination_param:
+                        params[key] = pagination_param[key]
+                    res_obj1 = await self._get_entities(session, url, params)
+                    if page == 1:
+                        res_obj = res_obj1
+                    else:
+                        res_obj['data'] += res_obj1['data']
+                        res_obj['meta'] = res_obj1['meta']
+                    page += 1
+                    pages = res_obj['meta']['pagination']['pageCount']
+                    get_more = page <= pages
                 return res_obj
 
     async def update_entry(
@@ -89,6 +107,18 @@ class StrapiClient:
         else:
             header = None
         return header
+
+    async def _get_entities(self, session, url, params) -> dict:
+        """Helper function to get entities."""
+        async with session.get(
+                url,
+                headers=self._get_auth_header(),
+                params=params
+        ) as res:
+            if res.status != 200:
+                raise Exception(f'Unable to get entries, error {res.status}: {res.reason}')
+            res_obj = await res.json()
+            return res_obj
 
 
 def process_response(response: dict) -> (dict, dict):
