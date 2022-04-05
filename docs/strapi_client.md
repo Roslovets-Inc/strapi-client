@@ -10,7 +10,7 @@
 
 ---
 
-<a href="../strapi_client/strapi_client.py#L94"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../strapi_client/strapi_client.py#L124"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `process_response`
 
@@ -67,15 +67,17 @@ get_entries(
     populate: Optional[List[str]] = None,
     fields: Optional[List[str]] = None,
     pagination: Optional[dict] = None,
-    publication_state: Optional[str] = None
+    publication_state: Optional[str] = None,
+    get_all: bool = False,
+    batch_size: int = 100
 ) → dict
 ```
 
-Get list of entries. 
+Get list of entries. Optionally can operate in batch mode to get all entities automatically. 
 
 ---
 
-<a href="../strapi_client/strapi_client.py#L69"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../strapi_client/strapi_client.py#L87"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `update_entry`
 
