@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0](https://github.com/Roslovets-Inc/strapi-client/compare/v2.1.0...v2.2.0) (2022-04-05)
+
+
+### Features
+
+* get_all, batch_size opts for get_entities() ([2aebf7a](https://github.com/Roslovets-Inc/strapi-client/commit/2aebf7ac54d0b33778aaf95ebdf6cf63f232d93b))
+
 ## [2.1.0](https://github.com/Roslovets-Inc/strapi-client/compare/v2.0.0...v2.1.0) (2022-04-03)
 
 
