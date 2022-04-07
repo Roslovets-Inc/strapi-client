@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.0](https://github.com/Roslovets-Inc/strapi-client/compare/v2.2.0...v2.3.0) (2022-04-07)
+
+
+### Features
+
+* create_entry(), upsert_entry() ([e008099](https://github.com/Roslovets-Inc/strapi-client/commit/e008099ac51ecba504131954a868896cc23211d5))
+* delete_entry() ([2c2e35d](https://github.com/Roslovets-Inc/strapi-client/commit/2c2e35d17ffe740c04513b67b521d0876fe71708))
+* get_entry() ([d44ad7d](https://github.com/Roslovets-Inc/strapi-client/commit/d44ad7db8c42296c9890be9b3d965b66435c020e))
+* StrapiClientSync ([e7299d8](https://github.com/Roslovets-Inc/strapi-client/commit/e7299d8f7cc09e7b82615a04c6f169a556125ab2))
+
 ## [2.2.0](https://github.com/Roslovets-Inc/strapi-client/compare/v2.1.0...v2.2.0) (2022-04-05)
 
 
