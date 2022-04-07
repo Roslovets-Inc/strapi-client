@@ -25,7 +25,7 @@ class StrapiClient:
             async with aiohttp.ClientSession() as session:
                 async with session.post(url, json=body) as res:
                     if res.status != 200:
-                        raise Exception(f'Unable to authorize, error {res.status}')
+                        raise Exception(f'Unable to authorize, error {res.status}: {res.reason}')
                     res_obj = await res.json()
                     token = res_obj['jwt']
                 self._token = token
@@ -84,12 +84,28 @@ class StrapiClient:
                     get_more = page <= pages
                 return res_obj
 
+    async def create_entry(
+            self,
+            plural_api_id: str,
+            data: dict
+    ) -> dict:
+        """Create entry."""
+        url = f'{self.baseurl}api/{plural_api_id}'
+        body = {
+            'data': data
+        }
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, json=body, headers=self._get_auth_header()) as res:
+                if res.status != 200:
+                    raise Exception(f'Unable to create entry, error {res.status}: {res.reason}')
+                return await res.json()
+
     async def update_entry(
             self,
             plural_api_id: str,
             document_id: int,
             data: dict
-    ) -> None:
+    ) -> dict:
         """Update entry fields."""
         url = f'{self.baseurl}api/{plural_api_id}/{document_id}'
         body = {
@@ -98,7 +114,39 @@ class StrapiClient:
         async with aiohttp.ClientSession() as session:
             async with session.put(url, json=body, headers=self._get_auth_header()) as res:
                 if res.status != 200:
-                    raise Exception(f'Unable to update entry, error {res.status}')
+                    raise Exception(f'Unable to update entry, error {res.status}: {res.reason}')
+                return await res.json()
+
+    async def upsert_entry(
+            self,
+            plural_api_id: str,
+            data: dict,
+            keys: List[str]
+    ) -> None:
+        """Create entry or update fields."""
+        filters = {}
+        for key in keys:
+            filters[key] = {'$eq': data[key]}
+        current_rec = await self.get_entries(
+            plural_api_id=plural_api_id,
+            fields=['id'],
+            filters=filters,
+            pagination={'page': 1, 'pageSize': 2}
+        )
+        num = current_rec['meta']['pagination']['total']
+        if num > 1:
+            raise ValueError(f'Keys are ambiguous, found {num} records')
+        elif num == 1:
+            return await self.update_entry(
+                plural_api_id=plural_api_id,
+                document_id=current_rec['data'][0]['id'],
+                data=data
+            )
+        else:
+            return await self.create_entry(
+                plural_api_id=plural_api_id,
+                data=data
+            )
 
     def _get_auth_header(self) -> Optional[dict]:
         """Compose auth header from token."""
