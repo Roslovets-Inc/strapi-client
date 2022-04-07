@@ -34,7 +34,7 @@ class StrapiClient:
             self,
             plural_api_id: str,
             document_id: int,
-            ) -> dict:
+    ) -> dict:
         """Get entry by id."""
         url = f'{self.baseurl}api/{plural_api_id}/{document_id}'
         async with aiohttp.ClientSession() as session:
@@ -128,6 +128,19 @@ class StrapiClient:
             async with session.put(url, json=body, headers=self._get_auth_header()) as res:
                 if res.status != 200:
                     raise Exception(f'Unable to update entry, error {res.status}: {res.reason}')
+                return await res.json()
+
+    async def delete_entry(
+            self,
+            plural_api_id: str,
+            document_id: int
+    ) -> dict:
+        """Delete entry by id."""
+        url = f'{self.baseurl}api/{plural_api_id}/{document_id}'
+        async with aiohttp.ClientSession() as session:
+            async with session.delete(url, headers=self._get_auth_header()) as res:
+                if res.status != 200:
+                    raise Exception(f'Unable to delete entry, error {res.status}: {res.reason}')
                 return await res.json()
 
     async def upsert_entry(

@@ -28,7 +28,7 @@ class StrapiClientSync:
             self,
             plural_api_id: str,
             document_id: int,
-            ) -> dict:
+    ) -> dict:
         """Get entry by id."""
         args = locals()
         del args['self']
@@ -71,6 +71,16 @@ class StrapiClientSync:
         args = locals()
         del args['self']
         return asyncio.run(self._strapi_client.update_entry(**args))
+
+    def delete_entry(
+            self,
+            plural_api_id: str,
+            document_id: int
+    ) -> dict:
+        """Delete entry by id."""
+        args = locals()
+        del args['self']
+        return asyncio.run(self._strapi_client.delete_entry(**args))
 
     def upsert_entry(
             self,
