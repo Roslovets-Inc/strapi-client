@@ -30,6 +30,19 @@ class StrapiClient:
                     token = res_obj['jwt']
                 self._token = token
 
+    async def get_entry(
+            self,
+            plural_api_id: str,
+            document_id: int,
+            ) -> dict:
+        """Get entry by id."""
+        url = f'{self.baseurl}api/{plural_api_id}/{document_id}'
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url, headers=self._get_auth_header()) as res:
+                if res.status != 200:
+                    raise Exception(f'Unable to get entry, error {res.status}: {res.reason}')
+                return await res.json()
+
     async def get_entries(
             self,
             plural_api_id: str,
@@ -122,7 +135,7 @@ class StrapiClient:
             plural_api_id: str,
             data: dict,
             keys: List[str]
-    ) -> None:
+    ) -> dict:
         """Create entry or update fields."""
         filters = {}
         for key in keys:

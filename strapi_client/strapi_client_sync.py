@@ -24,6 +24,16 @@ class StrapiClientSync:
             **args
         ))
 
+    def get_entry(
+            self,
+            plural_api_id: str,
+            document_id: int,
+            ) -> dict:
+        """Get entry by id."""
+        args = locals()
+        del args['self']
+        return asyncio.run(self._strapi_client.get_entry(**args))
+
     def get_entries(
             self,
             plural_api_id: str,
