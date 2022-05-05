@@ -1,4 +1,4 @@
-from typing import Union, Optional, List
+from typing import Union, Optional, List, Tuple
 import aiohttp
 
 
@@ -195,10 +195,18 @@ class StrapiClient:
             return res_obj
 
 
-def process_response(response: dict) -> (dict, dict):
+def process_data(entry: dict) -> Union[dict, List[dict]]:
     """Process response with entries."""
-    data = response['data']
-    entries = [{'id': entry['id'], **entry['attributes']} for entry in data]
+    data: Union[dict, List[dict]] = entry['data']
+    if type(data) is list:
+        return [{'id': d['id'], **d['attributes']} for d in data]
+    else:
+        return {'id': data['id'], **data['attributes']}
+
+
+def process_response(response: dict) -> Tuple[List[dict], dict]:
+    """Process response with entries."""
+    entries = process_data(response)
     pagination = response['meta']['pagination']
     return entries, pagination
 
