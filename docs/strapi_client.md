@@ -12,10 +12,23 @@
 
 <a href="../strapi_client/strapi_client.py#L198"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
+## <kbd>function</kbd> `process_data`
+
+```python
+process_data(entry: dict) → Union[dict, List[dict]]
+```
+
+Process response with entries. 
+
+
+---
+
+<a href="../strapi_client/strapi_client.py#L207"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
 ## <kbd>function</kbd> `process_response`
 
 ```python
-process_response(response: dict) → (<class 'dict'>, <class 'dict'>)
+process_response(response: dict) → Tuple[List[dict], dict]
 ```
 
 Process response with entries. 

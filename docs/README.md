@@ -14,6 +14,7 @@
 
 ## Functions
 
+- [`strapi_client.process_data`](./strapi_client.md#function-process_data): Process response with entries.
 - [`strapi_client.process_response`](./strapi_client.md#function-process_response): Process response with entries.
 
 
