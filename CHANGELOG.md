@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.0](https://github.com/Roslovets-Inc/strapi-client/compare/v2.4.0...v2.5.0) (2022-05-11)
+
+
+### Features
+
+* populate and fields opts for get_entry ([bc6a1ab](https://github.com/Roslovets-Inc/strapi-client/commit/bc6a1abec61acf845ae23da9fc743af8b8a2f6d8))
+
 ## [2.4.0](https://github.com/Roslovets-Inc/strapi-client/compare/v2.3.0...v2.4.0) (2022-05-05)
 
 
