@@ -63,7 +63,7 @@ class StrapiClient:
             get_all: bool = False,
             batch_size: int = 100
     ) -> dict:
-        """Get list of entries. Optionally can operate in batch mode to get all entities automatically."""
+        """Get list of entries. Optionally can operate in batch mode to get all entries automatically."""
         sort_param = _stringify_parameters('sort', sort)
         filters_param = _stringify_parameters('filters', filters)
         populate_param = _stringify_parameters('populate', populate)
@@ -81,7 +81,7 @@ class StrapiClient:
         }
         async with aiohttp.ClientSession() as session:
             if not get_all:
-                res_obj = await self._get_entities(session, url, params)
+                res_obj = await self._get_entries(session, url, params)
                 return res_obj
             else:
                 page = 1
@@ -94,7 +94,7 @@ class StrapiClient:
                     pagination_param = _stringify_parameters('pagination', pagination)
                     for key in pagination_param:
                         params[key] = pagination_param[key]
-                    res_obj1 = await self._get_entities(session, url, params)
+                    res_obj1 = await self._get_entries(session, url, params)
                     if page == 1:
                         res_obj = res_obj1
                     else:
@@ -190,8 +190,8 @@ class StrapiClient:
             header = None
         return header
 
-    async def _get_entities(self, session, url, params) -> dict:
-        """Helper function to get entities."""
+    async def _get_entries(self, session, url, params) -> dict:
+        """Helper function to get entries."""
         async with session.get(
                 url,
                 headers=self._get_auth_header(),
