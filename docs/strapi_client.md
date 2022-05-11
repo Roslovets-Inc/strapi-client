@@ -10,7 +10,7 @@
 
 ---
 
-<a href="../strapi_client/strapi_client.py#L198"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../strapi_client/strapi_client.py#L206"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `process_data`
 
@@ -23,7 +23,7 @@ Process response with entries.
 
 ---
 
-<a href="../strapi_client/strapi_client.py#L207"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../strapi_client/strapi_client.py#L215"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `process_response`
 
@@ -68,7 +68,7 @@ Set up or retrieve access token.
 
 ---
 
-<a href="../strapi_client/strapi_client.py#L100"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../strapi_client/strapi_client.py#L108"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `create_entry`
 
@@ -80,7 +80,7 @@ Create entry.
 
 ---
 
-<a href="../strapi_client/strapi_client.py#L133"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../strapi_client/strapi_client.py#L141"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `delete_entry`
 
@@ -92,7 +92,7 @@ Delete entry by id.
 
 ---
 
-<a href="../strapi_client/strapi_client.py#L46"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../strapi_client/strapi_client.py#L54"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `get_entries`
 
@@ -110,7 +110,7 @@ get_entries(
 ) → dict
 ```
 
-Get list of entries. Optionally can operate in batch mode to get all entities automatically. 
+Get list of entries. Optionally can operate in batch mode to get all entries automatically. 
 
 ---
 
@@ -119,14 +119,19 @@ Get list of entries. Optionally can operate in batch mode to get all entities au
 ### <kbd>method</kbd> `get_entry`
 
 ```python
-get_entry(plural_api_id: str, document_id: int) → dict
+get_entry(
+    plural_api_id: str,
+    document_id: int,
+    populate: Optional[List[str]] = None,
+    fields: Optional[List[str]] = None
+) → dict
 ```
 
 Get entry by id. 
 
 ---
 
-<a href="../strapi_client/strapi_client.py#L116"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../strapi_client/strapi_client.py#L124"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `update_entry`
 
@@ -138,7 +143,7 @@ Update entry fields.
 
 ---
 
-<a href="../strapi_client/strapi_client.py#L146"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../strapi_client/strapi_client.py#L154"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `upsert_entry`
 
