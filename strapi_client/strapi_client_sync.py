@@ -28,6 +28,8 @@ class StrapiClientSync:
             self,
             plural_api_id: str,
             document_id: int,
+            populate: Optional[List[str]] = None,
+            fields: Optional[List[str]] = None
     ) -> dict:
         """Get entry by id."""
         args = locals()

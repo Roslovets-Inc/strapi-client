@@ -34,11 +34,19 @@ class StrapiClient:
             self,
             plural_api_id: str,
             document_id: int,
+            populate: Optional[List[str]] = None,
+            fields: Optional[List[str]] = None
     ) -> dict:
         """Get entry by id."""
+        populate_param = _stringify_parameters('populate', populate)
+        fields_param = _stringify_parameters('fields', fields)
+        params = {
+            **populate_param,
+            **fields_param
+        }
         url = f'{self.baseurl}api/{plural_api_id}/{document_id}'
         async with aiohttp.ClientSession() as session:
-            async with session.get(url, headers=self._get_auth_header()) as res:
+            async with session.get(url, headers=self._get_auth_header(), params=params) as res:
                 if res.status != 200:
                     raise Exception(f'Unable to get entry, error {res.status}: {res.reason}')
                 return await res.json()
