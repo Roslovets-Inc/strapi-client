@@ -10,7 +10,7 @@
 
 ---
 
-<a href="../strapi_client/strapi_client.py#L206"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../strapi_client/strapi_client.py#L211"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `process_data`
 
@@ -23,7 +23,7 @@ Process response with entries.
 
 ---
 
-<a href="../strapi_client/strapi_client.py#L215"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../strapi_client/strapi_client.py#L220"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `process_response`
 
@@ -148,7 +148,12 @@ Update entry fields.
 ### <kbd>method</kbd> `upsert_entry`
 
 ```python
-upsert_entry(plural_api_id: str, data: dict, keys: List[str]) → dict
+upsert_entry(
+    plural_api_id: str,
+    data: dict,
+    keys: List[str],
+    unique: bool = True
+) → dict
 ```
 
 Create entry or update fields. 

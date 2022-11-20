@@ -123,7 +123,12 @@ Update entry fields.
 ### <kbd>method</kbd> `upsert_entry`
 
 ```python
-upsert_entry(plural_api_id: str, data: dict, keys: List[str]) → dict
+upsert_entry(
+    plural_api_id: str,
+    data: dict,
+    keys: List[str],
+    unique: bool = True
+) → dict
 ```
 
 Create entry or update fields. 
