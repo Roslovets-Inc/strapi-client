@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.0](https://github.com/Roslovets-Inc/strapi-client/compare/v2.5.0...v2.6.0) (2022-11-20)
+
+
+### Features
+
+* upsert_entry works with not unique entries ([bf7ff9c](https://github.com/Roslovets-Inc/strapi-client/commit/bf7ff9ce92a2b65b65f9e477b34fe14ad3e0d926))
+
 ## [2.5.0](https://github.com/Roslovets-Inc/strapi-client/compare/v2.4.0...v2.5.0) (2022-05-11)
 
 
