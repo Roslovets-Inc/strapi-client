@@ -88,7 +88,8 @@ class StrapiClientSync:
             self,
             plural_api_id: str,
             data: dict,
-            keys: List[str]
+            keys: List[str],
+            unique: bool = True
     ) -> dict:
         """Create entry or update fields."""
         args = locals()

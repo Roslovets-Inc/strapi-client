@@ -155,22 +155,27 @@ class StrapiClient:
             self,
             plural_api_id: str,
             data: dict,
-            keys: List[str]
+            keys: List[str],
+            unique: bool = True
     ) -> dict:
         """Create entry or update fields."""
         filters = {}
         for key in keys:
-            filters[key] = {'$eq': data[key]}
+            if data[key] is not None:
+                filters[key] = {'$eq': data[key]}
+            else:
+                filters[key] = {'$null': 'true'}
         current_rec = await self.get_entries(
             plural_api_id=plural_api_id,
             fields=['id'],
+            sort=['id:desc'],
             filters=filters,
-            pagination={'page': 1, 'pageSize': 2}
+            pagination={'page': 1, 'pageSize': 1}
         )
         num = current_rec['meta']['pagination']['total']
-        if num > 1:
+        if unique and num > 1:
             raise ValueError(f'Keys are ambiguous, found {num} records')
-        elif num == 1:
+        elif num >= 1:
             return await self.update_entry(
                 plural_api_id=plural_api_id,
                 document_id=current_rec['data'][0]['id'],
