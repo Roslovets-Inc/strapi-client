@@ -3,7 +3,7 @@ import aiohttp
 
 
 class StrapiClient:
-    """RESP API client for Strapi."""
+    """REST API client for Strapi."""
 
     baseurl: str = None
     _token: str = None
