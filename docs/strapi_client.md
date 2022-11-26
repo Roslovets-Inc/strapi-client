@@ -39,7 +39,7 @@ Process response with entries.
 <a href="../strapi_client/strapi_client.py#L5"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `StrapiClient`
-RESP API client for Strapi. 
+REST API client for Strapi. 
 
 <a href="../strapi_client/strapi_client.py#L11"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 

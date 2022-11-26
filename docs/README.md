@@ -9,7 +9,7 @@
 
 ## Classes
 
-- [`strapi_client.StrapiClient`](./strapi_client.md#class-strapiclient): RESP API client for Strapi.
+- [`strapi_client.StrapiClient`](./strapi_client.md#class-strapiclient): REST API client for Strapi.
 - [`strapi_client_sync.StrapiClientSync`](./strapi_client_sync.md#class-strapiclientsync): RESP API client for Strapi.
 
 ## Functions
