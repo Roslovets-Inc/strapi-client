@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [2.6.1](https://github.com/Roslovets-Inc/strapi-client/compare/v2.6.0...v2.6.1) (2023-04-05)
+
+
+### Bug Fixes
+
+* **process_data:** return empty dict if no data ([814e25e](https://github.com/Roslovets-Inc/strapi-client/commit/814e25e5ce7ff82d7c50451f4502a61c8d5b2f41))
+
 ## [2.6.0](https://github.com/Roslovets-Inc/strapi-client/compare/v2.5.0...v2.6.0) (2022-11-20)
 
 
