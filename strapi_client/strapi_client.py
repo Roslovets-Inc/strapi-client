@@ -210,8 +210,10 @@ class StrapiClient:
 
 def process_data(entry: dict) -> Union[dict, List[dict]]:
     """Process response with entries."""
-    data: Union[dict, List[dict]] = entry['data']
-    if type(data) is list:
+    data: Optional[Union[dict, List[dict]]] = entry['data']
+    if data is None:
+        return {}
+    elif type(data) is list:
         return [{'id': d['id'], **d['attributes']} for d in data]
     else:
         return {'id': data['id'], **data['attributes']}
