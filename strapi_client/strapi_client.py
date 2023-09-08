@@ -29,6 +29,8 @@ class StrapiClient:
                     res_obj = await res.json()
                     token = res_obj['jwt']
                 self._token = token
+        else:
+            self._token = token
 
     async def get_entry(
             self,
