@@ -38,7 +38,7 @@ jobs:
                   committer_email: actions@github.com
 
             - name: 📢 Semantic Release
-              uses: bjoluc/semantic-release-config-poetry@v1
+              uses: bjoluc/semantic-release-config-poetry@v2
               with:
                   pypi_token: ${{ secrets.PYPI_TOKEN }}
                   github_token: ${{ secrets.GITHUB_TOKEN }}
