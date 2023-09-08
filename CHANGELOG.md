@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.0](https://github.com/Roslovets-Inc/strapi-client/compare/v2.6.1...v2.7.0) (2023-09-08)
+
+
+### Features
+
+* authorize() with token, typing ([7bcc9a8](https://github.com/Roslovets-Inc/strapi-client/commit/7bcc9a8704ca525637a2d00e7070dc56447833c6))
+
 ### [2.6.1](https://github.com/Roslovets-Inc/strapi-client/compare/v2.6.0...v2.6.1) (2023-04-05)
 
 
