@@ -5,8 +5,8 @@ import aiohttp
 class StrapiClient:
     """REST API client for Strapi."""
 
-    baseurl: str = None
-    _token: str = None
+    baseurl: str
+    _token: Optional[str] = None
 
     def __init__(self, baseurl: str) -> None:
         """Initialize client."""
@@ -14,11 +14,20 @@ class StrapiClient:
             baseurl = baseurl + '/'
         self.baseurl = baseurl
 
-    async def authorize(self, identifier: str, password: str, token: str = None) -> None:
+    async def authorize(
+            self,
+            identifier: Optional[str] = None,
+            password: Optional[str] = None,
+            token: Optional[str] = None
+    ) -> None:
         """Set up or retrieve access token."""
-        if not token:
-            url = self.baseurl + 'api/auth/local'
-            body = {
+        if token:
+            self._token = token
+        else:
+            if not identifier or not password:
+                raise ValueError('Either token or identifier and password must be provided')
+            url: str = self.baseurl + 'api/auth/local'
+            body: dict = {
                 'identifier': identifier,
                 'password': password
             }
@@ -29,8 +38,6 @@ class StrapiClient:
                     res_obj = await res.json()
                     token = res_obj['jwt']
                 self._token = token
-        else:
-            self._token = token
 
     async def get_entry(
             self,
@@ -40,13 +47,13 @@ class StrapiClient:
             fields: Optional[List[str]] = None
     ) -> dict:
         """Get entry by id."""
-        populate_param = _stringify_parameters('populate', populate)
-        fields_param = _stringify_parameters('fields', fields)
-        params = {
+        populate_param: dict = _stringify_parameters('populate', populate)
+        fields_param: dict = _stringify_parameters('fields', fields)
+        params: dict = {
             **populate_param,
             **fields_param
         }
-        url = f'{self.baseurl}api/{plural_api_id}/{document_id}'
+        url: str = f'{self.baseurl}api/{plural_api_id}/{document_id}'
         async with aiohttp.ClientSession() as session:
             async with session.get(url, headers=self._get_auth_header(), params=params) as res:
                 if res.status != 200:
@@ -66,14 +73,14 @@ class StrapiClient:
             batch_size: int = 100
     ) -> dict:
         """Get list of entries. Optionally can operate in batch mode to get all entries automatically."""
-        sort_param = _stringify_parameters('sort', sort)
-        filters_param = _stringify_parameters('filters', filters)
-        populate_param = _stringify_parameters('populate', populate)
-        fields_param = _stringify_parameters('fields', fields)
-        pagination_param = _stringify_parameters('pagination', pagination)
-        publication_state_param = _stringify_parameters('publicationState', publication_state)
-        url = f'{self.baseurl}api/{plural_api_id}'
-        params = {
+        sort_param: dict = _stringify_parameters('sort', sort)
+        filters_param: dict = _stringify_parameters('filters', filters)
+        populate_param: dict = _stringify_parameters('populate', populate)
+        fields_param: dict = _stringify_parameters('fields', fields)
+        pagination_param: dict = _stringify_parameters('pagination', pagination)
+        publication_state_param: dict = _stringify_parameters('publicationState', publication_state)
+        url: str = f'{self.baseurl}api/{plural_api_id}'
+        params: dict = {
             **sort_param,
             **filters_param,
             **pagination_param,
@@ -83,29 +90,30 @@ class StrapiClient:
         }
         async with aiohttp.ClientSession() as session:
             if not get_all:
-                res_obj = await self._get_entries(session, url, params)
-                return res_obj
+                res: dict = await self._get_entries(session, url, params)
+                return res
             else:
-                page = 1
-                get_more = True
+                page: int = 1
+                get_more: bool = True
                 while get_more:
-                    pagination = {
+                    pagination: dict = {
                         'page': page,
                         'pageSize': batch_size
                     }
-                    pagination_param = _stringify_parameters('pagination', pagination)
+                    pagination_param: dict = _stringify_parameters('pagination', pagination)
+                    key: str
                     for key in pagination_param:
                         params[key] = pagination_param[key]
-                    res_obj1 = await self._get_entries(session, url, params)
+                    res_page = await self._get_entries(session, url, params)
                     if page == 1:
-                        res_obj = res_obj1
+                        res = res_page
                     else:
-                        res_obj['data'] += res_obj1['data']
-                        res_obj['meta'] = res_obj1['meta']
+                        res['data'] += res_page['data']
+                        res['meta'] = res_page['meta']
                     page += 1
-                    pages = res_obj['meta']['pagination']['pageCount']
-                    get_more = page <= pages
-                return res_obj
+                    pages_total: int = res['meta']['pagination']['pageCount']
+                    get_more = page <= pages_total
+                return res
 
     async def create_entry(
             self,
@@ -113,8 +121,8 @@ class StrapiClient:
             data: dict
     ) -> dict:
         """Create entry."""
-        url = f'{self.baseurl}api/{plural_api_id}'
-        body = {
+        url: str = f'{self.baseurl}api/{plural_api_id}'
+        body: dict = {
             'data': data
         }
         async with aiohttp.ClientSession() as session:
@@ -130,8 +138,8 @@ class StrapiClient:
             data: dict
     ) -> dict:
         """Update entry fields."""
-        url = f'{self.baseurl}api/{plural_api_id}/{document_id}'
-        body = {
+        url: str = f'{self.baseurl}api/{plural_api_id}/{document_id}'
+        body: dict = {
             'data': data
         }
         async with aiohttp.ClientSession() as session:
@@ -146,7 +154,7 @@ class StrapiClient:
             document_id: int
     ) -> dict:
         """Delete entry by id."""
-        url = f'{self.baseurl}api/{plural_api_id}/{document_id}'
+        url: str = f'{self.baseurl}api/{plural_api_id}/{document_id}'
         async with aiohttp.ClientSession() as session:
             async with session.delete(url, headers=self._get_auth_header()) as res:
                 if res.status != 200:
@@ -161,23 +169,24 @@ class StrapiClient:
             unique: bool = True
     ) -> dict:
         """Create entry or update fields."""
-        filters = {}
+        filters: dict = {}
+        key: str
         for key in keys:
             if data[key] is not None:
                 filters[key] = {'$eq': data[key]}
             else:
                 filters[key] = {'$null': 'true'}
-        current_rec = await self.get_entries(
+        current_rec: dict = await self.get_entries(
             plural_api_id=plural_api_id,
             fields=['id'],
             sort=['id:desc'],
             filters=filters,
             pagination={'page': 1, 'pageSize': 1}
         )
-        num = current_rec['meta']['pagination']['total']
-        if unique and num > 1:
-            raise ValueError(f'Keys are ambiguous, found {num} records')
-        elif num >= 1:
+        rec_total: int = current_rec['meta']['pagination']['total']
+        if unique and rec_total > 1:
+            raise RuntimeError(f'Keys are ambiguous, found {rec_total} records')
+        elif rec_total >= 1:
             return await self.update_entry(
                 plural_api_id=plural_api_id,
                 document_id=current_rec['data'][0]['id'],
@@ -192,7 +201,7 @@ class StrapiClient:
     def _get_auth_header(self) -> Optional[dict]:
         """Compose auth header from token."""
         if self._token:
-            header = {'Authorization': 'Bearer ' + self._token}
+            header: Optional[dict] = {'Authorization': 'Bearer ' + self._token}
         else:
             header = None
         return header
@@ -206,8 +215,8 @@ class StrapiClient:
         ) as res:
             if res.status != 200:
                 raise Exception(f'Unable to get entries, error {res.status}: {res.reason}')
-            res_obj = await res.json()
-            return res_obj
+            res_dict: dict = await res.json()
+            return res_dict
 
 
 def process_data(entry: dict) -> Union[dict, List[dict]]:
@@ -223,8 +232,8 @@ def process_data(entry: dict) -> Union[dict, List[dict]]:
 
 def process_response(response: dict) -> Tuple[List[dict], dict]:
     """Process response with entries."""
-    entries = process_data(response)
-    pagination = response['meta']['pagination']
+    entries: List[dict] = process_data(response)
+    pagination: dict = response['meta']['pagination']
     return entries, pagination
 
 

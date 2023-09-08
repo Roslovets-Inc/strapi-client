@@ -16,7 +16,12 @@ class StrapiClientSync:
         """Initialize client."""
         self._strapi_client = StrapiClient(baseurl=baseurl)
 
-    def authorize(self, identifier: str, password: str, token: str = None) -> None:
+    def authorize(
+            self,
+            identifier: Optional[str] = None,
+            password: Optional[str] = None,
+            token: Optional[str] = None
+    ) -> None:
         """Set up or retrieve access token."""
         args = locals()
         del args['self']
