@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.0](https://github.com/Roslovets-Inc/strapi-client/compare/v2.7.0...v2.8.0) (2023-09-16)
+
+
+### Features
+
+* send_post_request(), send_get_request() ([2b9e168](https://github.com/Roslovets-Inc/strapi-client/commit/2b9e168d1445f27a87c1cd451207b97305ea3394))
+
 ## [2.7.0](https://github.com/Roslovets-Inc/strapi-client/compare/v2.6.1...v2.7.0) (2023-09-08)
 
 
