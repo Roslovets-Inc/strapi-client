@@ -198,6 +198,33 @@ class StrapiClient:
                 data=data
             )
 
+    async def send_post_request(
+            self,
+            route: str,
+            body: Optional[dict] = None
+    ) -> dict:
+        """Send POST request to custom endpoint."""
+        route = route.lstrip('/')
+        url: str = f'{self.baseurl}api/{route}'
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, json=body, headers=self._get_auth_header()) as res:
+                if res.status != 200:
+                    raise Exception(f'Unable to send POST request, error {res.status}: {res.reason}')
+                return await res.json()
+
+    async def send_get_request(
+            self,
+            route: str
+    ) -> dict:
+        """Send GET request to custom endpoint."""
+        route = route.lstrip('/')
+        url: str = f'{self.baseurl}api/{route}'
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url, headers=self._get_auth_header()) as res:
+                if res.status != 200:
+                    raise Exception(f'Unable to send GET request, error {res.status}: {res.reason}')
+                return await res.json()
+
     def _get_auth_header(self) -> Optional[dict]:
         """Compose auth header from token."""
         if self._token:

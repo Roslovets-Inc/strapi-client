@@ -100,3 +100,19 @@ class StrapiClientSync:
         args = locals()
         del args['self']
         return asyncio.run(self._strapi_client.upsert_entry(**args))
+
+    def send_post_request(
+            self,
+            route: str,
+            body: Optional[dict] = None
+    ) -> dict:
+        """Send POST request to custom endpoint."""
+        return asyncio.run(self._strapi_client.send_post_request(route=route, body=body))
+
+
+    def send_get_request(
+            self,
+            route: str
+    ) -> dict:
+        """Send GET request to custom endpoint."""
+        return asyncio.run(self._strapi_client.send_get_request(route=route))
