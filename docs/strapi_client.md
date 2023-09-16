@@ -10,7 +10,7 @@
 
 ---
 
-<a href="../strapi_client/strapi_client.py#L222"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../strapi_client/strapi_client.py#L249"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `process_data`
 
@@ -23,7 +23,7 @@ Process response with entries.
 
 ---
 
-<a href="../strapi_client/strapi_client.py#L233"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../strapi_client/strapi_client.py#L260"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `process_response`
 
@@ -132,6 +132,30 @@ get_entry(
 ```
 
 Get entry by id. 
+
+---
+
+<a href="../strapi_client/strapi_client.py#L215"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
+### <kbd>method</kbd> `send_get_request`
+
+```python
+send_get_request(route: str) → dict
+```
+
+Send GET request to custom endpoint. 
+
+---
+
+<a href="../strapi_client/strapi_client.py#L201"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
+### <kbd>method</kbd> `send_post_request`
+
+```python
+send_post_request(route: str, body: Optional[dict] = None) → dict
+```
+
+Send POST request to custom endpoint. 
 
 ---
 

@@ -110,6 +110,30 @@ Get entry by id.
 
 ---
 
+<a href="../strapi_client/strapi_client_sync.py#L113"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
+### <kbd>method</kbd> `send_get_request`
+
+```python
+send_get_request(route: str) → dict
+```
+
+Send GET request to custom endpoint. 
+
+---
+
+<a href="../strapi_client/strapi_client_sync.py#L104"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
+### <kbd>method</kbd> `send_post_request`
+
+```python
+send_post_request(route: str, body: Optional[dict] = None) → dict
+```
+
+Send POST request to custom endpoint. 
+
+---
+
 <a href="../strapi_client/strapi_client_sync.py#L71"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `update_entry`
