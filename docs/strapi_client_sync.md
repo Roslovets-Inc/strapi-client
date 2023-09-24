@@ -110,7 +110,19 @@ Get entry by id.
 
 ---
 
-<a href="../strapi_client/strapi_client_sync.py#L113"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../strapi_client/strapi_client_sync.py#L129"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
+### <kbd>method</kbd> `get_uploaded_files`
+
+```python
+get_uploaded_files(filters: Optional[dict] = None) → list[dict]
+```
+
+Get uploaded files. 
+
+---
+
+<a href="../strapi_client/strapi_client_sync.py#L112"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `send_get_request`
 
@@ -143,6 +155,23 @@ update_entry(plural_api_id: str, document_id: int, data: dict) → dict
 ```
 
 Update entry fields. 
+
+---
+
+<a href="../strapi_client/strapi_client_sync.py#L119"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
+### <kbd>method</kbd> `upload_files`
+
+```python
+upload_files(
+    files: list[str],
+    ref: Optional[str] = None,
+    ref_id: Optional[int] = None,
+    field: Optional[str] = None
+) → dict
+```
+
+Upload files. 
 
 ---
 
