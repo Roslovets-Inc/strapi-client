@@ -109,10 +109,26 @@ class StrapiClientSync:
         """Send POST request to custom endpoint."""
         return asyncio.run(self._strapi_client.send_post_request(route=route, body=body))
 
-
     def send_get_request(
             self,
             route: str
     ) -> dict:
         """Send GET request to custom endpoint."""
         return asyncio.run(self._strapi_client.send_get_request(route=route))
+
+    def upload_files(
+            self,
+            files: list[str],
+            ref: Optional[str] = None,
+            ref_id: Optional[int] = None,
+            field: Optional[str] = None
+    ) -> dict:
+        """Upload files."""
+        return asyncio.run(self._strapi_client.upload_files(files=files, ref=ref, ref_id=ref_id, field=field))
+
+    def get_uploaded_files(
+            self,
+            filters: Optional[dict] = None
+    ) -> list[dict]:
+        """Get uploaded files."""
+        return asyncio.run(self._strapi_client.get_uploaded_files(filters=filters))

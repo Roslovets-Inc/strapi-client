@@ -1,4 +1,5 @@
 from typing import Union, Optional, List, Tuple
+import os.path
 import aiohttp
 
 
@@ -223,6 +224,46 @@ class StrapiClient:
             async with session.get(url, headers=self._get_auth_header()) as res:
                 if res.status != 200:
                     raise Exception(f'Unable to send GET request, error {res.status}: {res.reason}')
+                return await res.json()
+
+    async def upload_files(
+            self,
+            files: list,
+            ref: Optional[str] = None,
+            ref_id: Optional[int] = None,
+            field: Optional[str] = None
+    ) -> dict:
+        """Upload files."""
+        url: str = f'{self.baseurl}api/upload'
+        data = aiohttp.FormData()
+        for file in files:
+            full_path: str = file
+            filename: str = os.path.basename(full_path)
+            data.add_field('files', open(full_path, 'rb'), filename=filename)
+        if ref and ref_id and field:
+            data.add_field('ref', ref)
+            data.add_field('refId', str(ref_id))
+            data.add_field('field', field)
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, data=data, headers=self._get_auth_header()) as res:
+                if res.status != 200:
+                    raise Exception(f'Unable to send POST request, error {res.status}: {res.reason}')
+                return await res.json()
+
+    async def get_uploaded_files(
+            self,
+            filters: Optional[dict] = None
+    ) -> list[dict]:
+        """Get uploaded files."""
+        url: str = f'{self.baseurl}api/upload/files'
+        filters_param: dict = _stringify_parameters('filters', filters)
+        params: dict = {
+            **filters_param
+        }
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url, params=params, headers=self._get_auth_header()) as res:
+                if res.status != 200:
+                    raise Exception(f'Unable to get uploaded files, error {res.status}: {res.reason}')
                 return await res.json()
 
     def _get_auth_header(self) -> Optional[dict]:
