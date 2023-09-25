@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.1](https://github.com/Roslovets-Inc/strapi-client/compare/v2.9.0...v2.9.1) (2023-09-25)
+
+
+### Bug Fixes
+
+* format list of values for query parameters ([5e74db5](https://github.com/Roslovets-Inc/strapi-client/commit/5e74db526d240e5a1e60ef9906a90b4607613d80))
+
 ## [2.9.0](https://github.com/Roslovets-Inc/strapi-client/compare/v2.8.0...v2.9.0) (2023-09-24)
 
 
