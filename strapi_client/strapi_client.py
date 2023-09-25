@@ -312,7 +312,7 @@ def _stringify_parameters(name: str, parameters: Union[dict, List[str], None]) -
     elif type(parameters) is str:
         return {name: parameters}
     elif type(parameters) is list:
-        return {name: ','.join(parameters)}
+        return {f'{name}[{i}]': p for i, p in enumerate(parameters)}
     else:
         return {}
 
