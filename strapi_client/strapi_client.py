@@ -44,7 +44,7 @@ class StrapiClient:
             self,
             plural_api_id: str,
             document_id: int,
-            populate: Optional[List[str]] = None,
+            populate: Optional[Union[List[str], str]] = None,
             fields: Optional[List[str]] = None
     ) -> dict:
         """Get entry by id."""
@@ -66,7 +66,7 @@ class StrapiClient:
             plural_api_id: str,
             sort: Optional[List[str]] = None,
             filters: Optional[dict] = None,
-            populate: Optional[List[str]] = None,
+            populate: Optional[Union[List[str], str]] = None,
             fields: Optional[List[str]] = None,
             pagination: Optional[dict] = None,
             publication_state: Optional[str] = None,
