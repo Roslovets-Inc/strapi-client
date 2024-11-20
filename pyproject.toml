@@ -18,6 +18,7 @@ packages = [{ include = "strapi_client", from = "src" }]
 [tool.poetry.dependencies]
 python = ">=3.10,<4"
 aiohttp = "^3.8.6"
+requests = "^2.31.0"
 
 [tool.poetry.dev-dependencies]
 python-semantic-release = "9.14.0"

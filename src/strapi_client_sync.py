@@ -1,20 +1,14 @@
 from typing import Any
-import asyncio
-import platform
-from .strapi_client import StrapiClient
-
-if platform.system() == 'Windows':
-    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+import os
+import requests
+from .strapi_client_base import StrapiClientBase
+from .utils import stringify_parameters, compose_request_parameters
 
 
-class StrapiClientSync:
-    """RESP API client for Strapi."""
-
-    _strapi_client: StrapiClient
-
-    def __init__(self, baseurl: str) -> None:
-        """Initialize client."""
-        self._strapi_client = StrapiClient(baseurl=baseurl)
+class StrapiClientSync(StrapiClientBase):
+    """Synchronous REST API client for Strapi."""
+    base_url: str
+    _auth_header: dict[str, str] | None = None
 
     def authorize(
             self,
@@ -22,30 +16,42 @@ class StrapiClientSync:
             password: str | None = None,
             token: str | None = None
     ) -> None:
-        """Set up or retrieve access token."""
-        args = locals()
-        del args['self']
-        asyncio.run(self._strapi_client.authorize(
-            **args
-        ))
+        """Set up access token or retrieve it using identifier and password."""
+        if token is None:
+            if not identifier or not password:
+                raise ValueError('Either token or identifier and password must be provided')
+            url = self.base_url + 'api/auth/local'
+            body = {
+                'identifier': identifier,
+                'password': password
+            }
+            res = requests.post(url, json=body)
+            if res.status_code != 200:
+                raise RuntimeError(f'Unable to authorize, error {res.status_code}: {res.reason}')
+            res_obj = res.json()
+            token = str(res_obj['jwt'])
+        self._auth_header = {'Authorization': 'Bearer ' + token}
 
     def get_entry(
             self,
             plural_api_id: str,
-            document_id: int,
+            document_id: str,
             populate: list[str] | None = None,
             fields: list[str] | None = None
     ) -> dict[str, Any]:
-        """Get entry by id."""
-        args = locals()
-        del args['self']
-        return asyncio.run(self._strapi_client.get_entry(**args))
+        """Get entry by ID."""
+        params = compose_request_parameters(populate=populate, fields=fields)
+        url = f'{self.base_url}api/{plural_api_id}/{document_id}'
+        res = requests.get(url, headers=self._auth_header, params=params)
+        if res.status_code != 200:
+            raise RuntimeError(f'Unable to get entry, error {res.status_code}: {res.reason}')
+        return res.json()
 
     def get_entries(
             self,
             plural_api_id: str,
             sort: list[str] | None = None,
-            filters: dict | None = None,
+            filters: dict[str, Any] | None = None,
             populate: list[str] | None = None,
             fields: list[str] | None = None,
             pagination: dict | None = None,
@@ -53,68 +59,134 @@ class StrapiClientSync:
             get_all: bool = False,
             batch_size: int = 100
     ) -> dict[str, Any]:
-        """Get list of entries. Optionally can operate in batch mode to get all entities automatically."""
-        args = locals()
-        del args['self']
-        return asyncio.run(self._strapi_client.get_entries(**args))
+        """Get list of entries. Supports batch mode to retrieve all entries."""
+        url = f'{self.base_url}api/{plural_api_id}'
+        params = compose_request_parameters(
+            sort=sort,
+            filters=filters,
+            populate=populate,
+            fields=fields,
+            pagination=pagination,
+            publication_state=publication_state,
+        )
+        if not get_all:
+            res = requests.get(url, headers=self._auth_header, params=params)
+            if res.status_code != 200:
+                raise RuntimeError(f'Unable to get entries, error {res.status_code}: {res.reason}')
+            return res.json()
+
+        # Batch mode
+        page = 1
+        all_data = []
+        while True:
+            params.update(stringify_parameters('pagination', {'page': page, 'pageSize': batch_size}))
+            res = requests.get(url, headers=self._auth_header, params=params)
+            if res.status_code != 200:
+                raise RuntimeError(f'Unable to get entries, error {res.status_code}: {res.reason}')
+            data = res.json()
+            all_data.extend(data['data'])
+            if page >= data['meta']['pagination']['pageCount']:
+                break
+            page += 1
+        return {'data': all_data}
 
     def create_entry(
             self,
             plural_api_id: str,
-            data: dict
+            data: dict[str, Any]
     ) -> dict[str, Any]:
         """Create entry."""
-        args = locals()
-        del args['self']
-        return asyncio.run(self._strapi_client.create_entry(**args))
+        url = f'{self.base_url}api/{plural_api_id}'
+        res = requests.post(url, json={'data': data}, headers=self._auth_header)
+        if res.status_code != 200:
+            raise RuntimeError(f'Unable to create entry, error {res.status_code}: {res.reason}')
+        return res.json()
 
     def update_entry(
             self,
             plural_api_id: str,
-            document_id: int,
+            document_id: str,
             data: dict[str, Any]
     ) -> dict[str, Any]:
         """Update entry fields."""
-        args = locals()
-        del args['self']
-        return asyncio.run(self._strapi_client.update_entry(**args))
+        url = f'{self.base_url}api/{plural_api_id}/{document_id}'
+        res = requests.put(url, json={'data': data}, headers=self._auth_header)
+        if res.status_code != 200:
+            raise RuntimeError(f'Unable to update entry, error {res.status_code}: {res.reason}')
+        return res.json()
 
     def delete_entry(
             self,
             plural_api_id: str,
-            document_id: int
+            document_id: str
     ) -> dict[str, Any]:
-        """Delete entry by id."""
-        args = locals()
-        del args['self']
-        return asyncio.run(self._strapi_client.delete_entry(**args))
+        """Delete entry by ID."""
+        url = f'{self.base_url}api/{plural_api_id}/{document_id}'
+        res = requests.delete(url, headers=self._auth_header)
+        if res.status_code != 200:
+            raise RuntimeError(f'Unable to delete entry, error {res.status_code}: {res.reason}')
+        return res.json()
 
     def upsert_entry(
             self,
             plural_api_id: str,
-            data: dict,
+            data: dict[str, Any],
             keys: list[str],
             unique: bool = True
     ) -> dict[str, Any]:
         """Create entry or update fields."""
-        args = locals()
-        del args['self']
-        return asyncio.run(self._strapi_client.upsert_entry(**args))
+        filters: dict[str, dict[str, str]] = {}
+        for key in keys:
+            if data[key] is not None:
+                filters[key] = {'$eq': data[key]}
+            else:
+                filters[key] = {'$null': 'true'}
+        current_rec: dict[str, Any] = self.get_entries(
+            plural_api_id=plural_api_id,
+            fields=['id'],
+            sort=['id:desc'],
+            filters=filters,
+            pagination={'page': 1, 'pageSize': 1}
+        )
+        rec_total: int = current_rec['meta']['pagination']['total']
+        if unique and rec_total > 1:
+            raise RuntimeError(f'Keys are ambiguous, found {rec_total} records')
+        elif rec_total >= 1:
+            return self.update_entry(
+                plural_api_id=plural_api_id,
+                document_id=current_rec['data'][0]['id'],
+                data=data
+            )
+        else:
+            return self.create_entry(
+                plural_api_id=plural_api_id,
+                data=data
+            )
 
     def send_post_request(
             self,
             route: str,
             body: dict | None = None
     ) -> dict[str, Any]:
-        """Send POST request to custom endpoint."""
-        return asyncio.run(self._strapi_client.send_post_request(route=route, body=body))
+        """Send POST request to a custom endpoint."""
+        route = route.lstrip('/')
+        url = f'{self.base_url}api/{route}'
+        res = requests.post(url, json=body, headers=self._auth_header)
+        if res.status_code != 200:
+            raise RuntimeError(f'Unable to send POST request, error {res.status_code}: {res.reason}')
+        return res.json()
 
     def send_get_request(
             self,
             route: str
     ) -> dict[str, Any]:
-        """Send GET request to custom endpoint."""
-        return asyncio.run(self._strapi_client.send_get_request(route=route))
+        """Send GET request to a custom endpoint."""
+        route = route.lstrip('/')
+        url = f'{self.base_url}api/{route}'
+        res = requests.get(url, headers=self._auth_header)
+        if res.status_code != 200:
+            raise RuntimeError(f'Unable to send GET request, error {res.status_code}: {res.reason}')
+        return res.json()
 
     def upload_files(
             self,
@@ -124,11 +196,16 @@ class StrapiClientSync:
             field: str | None = None
     ) -> dict[str, Any]:
         """Upload files."""
-        return asyncio.run(self._strapi_client.upload_files(files=files, ref=ref, ref_id=ref_id, field=field))
-
-    def get_uploaded_files(
-            self,
-            filters: dict | None = None
-    ) -> list[dict[str, Any]]:
-        """Get uploaded files."""
-        return asyncio.run(self._strapi_client.get_uploaded_files(filters=filters))
+        url = f'{self.base_url}api/upload'
+        with requests.Session() as session:
+            files_data = [
+                ('files', (os.path.basename(file), open(file, 'rb')))
+                for file in files
+            ]
+            data = {}
+            if ref and ref_id and field:
+                data.update({'ref': ref, 'refId': str(ref_id), 'field': field})
+            res = session.post(url, files=files_data, data=data, headers=self._auth_header)
+            if res.status_code != 200:
+                raise RuntimeError(f'Unable to upload files, error {res.status_code}: {res.reason}')
+            return res.json()

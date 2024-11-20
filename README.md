@@ -14,7 +14,19 @@ pip install strapi-client
 
 ## Examples
 
-Quick start:
+### Quick start (sync version):
+
+```python
+from src import StrapiClientSync
+
+strapi = StrapiClientSync(YOUR_STRAPI_URL)
+strapi.authorize(token=YOUR_STRAPI_TOKEN)
+users = strapi.get_entries('users', filters={'username': {'$eq': 'Pavel'}})
+user_id = users['data'][0]['id']
+strapi.update_entry('users', user_id, data={'username': 'Mark'})
+```
+
+Quick start (async version):
 
 ```python
 import asyncio
@@ -22,8 +34,8 @@ from src import StrapiClient
 
 
 async def main():
-    strapi = StrapiClient(strapi_url)
-    await strapi.authorize(your_identifier, your_password)  # optional
+    strapi = StrapiClient(YOUR_STRAPI_URL)
+    await strapi.authorize(token=YOUR_STRAPI_TOKEN)
     users = await strapi.get_entries('users', filters={'username': {'$eq': 'Pavel'}})
     user_id = users['data'][0]['id']
     await strapi.update_entry('users', user_id, data={'username': 'Mark'})
