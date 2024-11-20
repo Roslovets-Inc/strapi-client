@@ -72,7 +72,7 @@ class StrapiClientSync:
             self,
             plural_api_id: str,
             document_id: int,
-            data: dict
+            data: dict[str, Any]
     ) -> dict[str, Any]:
         """Update entry fields."""
         args = locals()

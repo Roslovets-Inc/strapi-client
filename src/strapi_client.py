@@ -134,7 +134,7 @@ class StrapiClient:
             self,
             plural_api_id: str,
             document_id: str,
-            data: dict
+            data: dict[str, Any]
     ) -> dict[str, Any]:
         """Update entry fields."""
         url: str = f'{self.baseurl}api/{plural_api_id}/{document_id}'
@@ -284,24 +284,6 @@ class StrapiClient:
             if res.status != 200:
                 raise RuntimeError(f'Unable to get entries, error {res.status}: {res.reason}')
             return await res.json()
-
-
-def process_data(entry: dict[str, Any]) -> dict[str, Any] | list[dict[str, Any]]:
-    """Process response with entries."""
-    data: dict[str, Any] | list[dict[str, Any]] | None = entry['data']
-    if data is None:
-        return {}
-    elif type(data) is list:
-        return [{'id': d['id'], **d['attributes']} for d in data]
-    else:
-        return {'id': data['id'], **data['attributes']}
-
-
-def process_response(response: dict[str, Any]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    """Process response with entries."""
-    entries: list[dict[str, Any]] = process_data(response)
-    pagination: dict[str, Any] = response['meta']['pagination']
-    return entries, pagination
 
 
 def _stringify_parameters(name: str, parameters: dict | list[str] | None) -> dict[str, Any]:
