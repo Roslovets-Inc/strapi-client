@@ -18,14 +18,16 @@ Quick start:
 
 ```python
 import asyncio
-from strapi_client import StrapiClient
+from src import StrapiClient
+
 
 async def main():
     strapi = StrapiClient(strapi_url)
-    await strapi.authorize(your_identifier, your_password) # optional
+    await strapi.authorize(your_identifier, your_password)  # optional
     users = await strapi.get_entries('users', filters={'username': {'$eq': 'Pavel'}})
     user_id = users['data'][0]['id']
     await strapi.update_entry('users', user_id, data={'username': 'Mark'})
+
 
 asyncio.run(main())
 ```

@@ -1,7 +1,7 @@
-from typing import Union, Optional, List
+from typing import Any
 import asyncio
 import platform
-from strapi_client import StrapiClient
+from .strapi_client import StrapiClient
 
 if platform.system() == 'Windows':
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
@@ -18,9 +18,9 @@ class StrapiClientSync:
 
     def authorize(
             self,
-            identifier: Optional[str] = None,
-            password: Optional[str] = None,
-            token: Optional[str] = None
+            identifier: str | None = None,
+            password: str | None = None,
+            token: str | None = None
     ) -> None:
         """Set up or retrieve access token."""
         args = locals()
@@ -33,9 +33,9 @@ class StrapiClientSync:
             self,
             plural_api_id: str,
             document_id: int,
-            populate: Optional[List[str]] = None,
-            fields: Optional[List[str]] = None
-    ) -> dict:
+            populate: list[str] | None = None,
+            fields: list[str] | None = None
+    ) -> dict[str, Any]:
         """Get entry by id."""
         args = locals()
         del args['self']
@@ -44,15 +44,15 @@ class StrapiClientSync:
     def get_entries(
             self,
             plural_api_id: str,
-            sort: Optional[List[str]] = None,
-            filters: Optional[dict] = None,
-            populate: Optional[List[str]] = None,
-            fields: Optional[List[str]] = None,
-            pagination: Optional[dict] = None,
-            publication_state: Optional[str] = None,
+            sort: list[str] | None = None,
+            filters: dict | None = None,
+            populate: list[str] | None = None,
+            fields: list[str] | None = None,
+            pagination: dict | None = None,
+            publication_state: str | None = None,
             get_all: bool = False,
             batch_size: int = 100
-    ) -> dict:
+    ) -> dict[str, Any]:
         """Get list of entries. Optionally can operate in batch mode to get all entities automatically."""
         args = locals()
         del args['self']
@@ -62,7 +62,7 @@ class StrapiClientSync:
             self,
             plural_api_id: str,
             data: dict
-    ) -> dict:
+    ) -> dict[str, Any]:
         """Create entry."""
         args = locals()
         del args['self']
@@ -73,7 +73,7 @@ class StrapiClientSync:
             plural_api_id: str,
             document_id: int,
             data: dict
-    ) -> dict:
+    ) -> dict[str, Any]:
         """Update entry fields."""
         args = locals()
         del args['self']
@@ -83,7 +83,7 @@ class StrapiClientSync:
             self,
             plural_api_id: str,
             document_id: int
-    ) -> dict:
+    ) -> dict[str, Any]:
         """Delete entry by id."""
         args = locals()
         del args['self']
@@ -93,9 +93,9 @@ class StrapiClientSync:
             self,
             plural_api_id: str,
             data: dict,
-            keys: List[str],
+            keys: list[str],
             unique: bool = True
-    ) -> dict:
+    ) -> dict[str, Any]:
         """Create entry or update fields."""
         args = locals()
         del args['self']
@@ -104,31 +104,31 @@ class StrapiClientSync:
     def send_post_request(
             self,
             route: str,
-            body: Optional[dict] = None
-    ) -> dict:
+            body: dict | None = None
+    ) -> dict[str, Any]:
         """Send POST request to custom endpoint."""
         return asyncio.run(self._strapi_client.send_post_request(route=route, body=body))
 
     def send_get_request(
             self,
             route: str
-    ) -> dict:
+    ) -> dict[str, Any]:
         """Send GET request to custom endpoint."""
         return asyncio.run(self._strapi_client.send_get_request(route=route))
 
     def upload_files(
             self,
-            files: list[str],
-            ref: Optional[str] = None,
-            ref_id: Optional[int] = None,
-            field: Optional[str] = None
-    ) -> dict:
+            files: list,
+            ref: str | None = None,
+            ref_id: int | None = None,
+            field: str | None = None
+    ) -> dict[str, Any]:
         """Upload files."""
         return asyncio.run(self._strapi_client.upload_files(files=files, ref=ref, ref_id=ref_id, field=field))
 
     def get_uploaded_files(
             self,
-            filters: Optional[dict] = None
-    ) -> list[dict]:
+            filters: dict | None = None
+    ) -> list[dict[str, Any]]:
         """Get uploaded files."""
         return asyncio.run(self._strapi_client.get_uploaded_files(filters=filters))
