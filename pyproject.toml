@@ -8,11 +8,12 @@ readme = "README.md"
 homepage = "https://github.com/Roslovets-Inc/strapi-client"
 repository = "https://github.com/Roslovets-Inc/strapi-client"
 keywords = ["strapi", "cms", "api", "rest"]
-classifiers =[
+classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent"
-    ]
+]
+packages = [{ include = "strapi_client", from = "src" }]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<4"

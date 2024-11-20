@@ -42,7 +42,7 @@ class StrapiClient:
     async def get_entry(
             self,
             plural_api_id: str,
-            document_id: int,
+            document_id: str,
             populate: list[str] | None = None,
             fields: list[str] | None = None
     ) -> dict[str, Any]:
@@ -133,7 +133,7 @@ class StrapiClient:
     async def update_entry(
             self,
             plural_api_id: str,
-            document_id: int,
+            document_id: str,
             data: dict
     ) -> dict[str, Any]:
         """Update entry fields."""
@@ -150,7 +150,7 @@ class StrapiClient:
     async def delete_entry(
             self,
             plural_api_id: str,
-            document_id: int
+            document_id: str
     ) -> dict[str, Any]:
         """Delete entry by id."""
         url: str = f'{self.baseurl}api/{plural_api_id}/{document_id}'
@@ -288,7 +288,7 @@ class StrapiClient:
 
 def process_data(entry: dict[str, Any]) -> dict[str, Any] | list[dict[str, Any]]:
     """Process response with entries."""
-    data: dict | list[dict] | None = entry['data']
+    data: dict[str, Any] | list[dict[str, Any]] | None = entry['data']
     if data is None:
         return {}
     elif type(data) is list:
