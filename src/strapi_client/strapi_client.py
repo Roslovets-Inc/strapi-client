@@ -155,8 +155,8 @@ class StrapiClient(StrapiClientBase):
                 filters[key] = {'$null': 'true'}
         current_rec: dict[str, Any] = await self.get_entries(
             plural_api_id=plural_api_id,
-            fields=['id'],
-            sort=['id:desc'],
+            fields=['documentId'],
+            sort=['documentId:desc'],
             filters=filters,
             pagination={'page': 1, 'pageSize': 1}
         )
@@ -166,7 +166,7 @@ class StrapiClient(StrapiClientBase):
         elif rec_total >= 1:
             return await self.update_entry(
                 plural_api_id=plural_api_id,
-                document_id=current_rec['data'][0]['id'],
+                document_id=current_rec['data'][0]['documentId'],
                 data=data
             )
         else:

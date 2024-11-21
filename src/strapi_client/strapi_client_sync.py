@@ -26,7 +26,7 @@ class StrapiClientSync(StrapiClientBase):
                 'password': password
             }
             res = requests.post(url, json=body)
-            if res.status_code != 200:
+            if res.status_code >= 400:
                 raise RuntimeError(f'Unable to authorize, error {res.status_code}: {res.reason}')
             res_obj = res.json()
             token = str(res_obj['jwt'])
@@ -43,7 +43,7 @@ class StrapiClientSync(StrapiClientBase):
         params = compose_request_parameters(populate=populate, fields=fields)
         url = f'{self.base_url}api/{plural_api_id}/{document_id}'
         res = requests.get(url, headers=self._auth_header, params=params)
-        if res.status_code != 200:
+        if res.status_code >= 400:
             raise RuntimeError(f'Unable to get entry, error {res.status_code}: {res.reason}')
         return res.json()
 
@@ -71,7 +71,7 @@ class StrapiClientSync(StrapiClientBase):
         )
         if not get_all:
             res = requests.get(url, headers=self._auth_header, params=params)
-            if res.status_code != 200:
+            if res.status_code >= 400:
                 raise RuntimeError(f'Unable to get entries, error {res.status_code}: {res.reason}')
             return res.json()
 
@@ -81,7 +81,7 @@ class StrapiClientSync(StrapiClientBase):
         while True:
             params.update(stringify_parameters('pagination', {'page': page, 'pageSize': batch_size}))
             res = requests.get(url, headers=self._auth_header, params=params)
-            if res.status_code != 200:
+            if res.status_code >= 400:
                 raise RuntimeError(f'Unable to get entries, error {res.status_code}: {res.reason}')
             data = res.json()
             all_data.extend(data['data'])
@@ -98,7 +98,7 @@ class StrapiClientSync(StrapiClientBase):
         """Create entry."""
         url = f'{self.base_url}api/{plural_api_id}'
         res = requests.post(url, json={'data': data}, headers=self._auth_header)
-        if res.status_code != 200:
+        if res.status_code >= 400:
             raise RuntimeError(f'Unable to create entry, error {res.status_code}: {res.reason}')
         return res.json()
 
@@ -111,7 +111,7 @@ class StrapiClientSync(StrapiClientBase):
         """Update entry fields."""
         url = f'{self.base_url}api/{plural_api_id}/{document_id}'
         res = requests.put(url, json={'data': data}, headers=self._auth_header)
-        if res.status_code != 200:
+        if res.status_code >= 400:
             raise RuntimeError(f'Unable to update entry, error {res.status_code}: {res.reason}')
         return res.json()
 
@@ -123,7 +123,7 @@ class StrapiClientSync(StrapiClientBase):
         """Delete entry by ID."""
         url = f'{self.base_url}api/{plural_api_id}/{document_id}'
         res = requests.delete(url, headers=self._auth_header)
-        if res.status_code != 200:
+        if res.status_code >= 400:
             raise RuntimeError(f'Unable to delete entry, error {res.status_code}: {res.reason}')
         return res.json()
 
@@ -143,8 +143,8 @@ class StrapiClientSync(StrapiClientBase):
                 filters[key] = {'$null': 'true'}
         current_rec: dict[str, Any] = self.get_entries(
             plural_api_id=plural_api_id,
-            fields=['id'],
-            sort=['id:desc'],
+            fields=['documentId'],
+            sort=['documentId:desc'],
             filters=filters,
             pagination={'page': 1, 'pageSize': 1}
         )
@@ -154,7 +154,7 @@ class StrapiClientSync(StrapiClientBase):
         elif rec_total >= 1:
             return self.update_entry(
                 plural_api_id=plural_api_id,
-                document_id=current_rec['data'][0]['id'],
+                document_id=current_rec['data'][0]['documentId'],
                 data=data
             )
         else:
@@ -172,7 +172,7 @@ class StrapiClientSync(StrapiClientBase):
         route = route.lstrip('/')
         url = f'{self.base_url}api/{route}'
         res = requests.post(url, json=body, headers=self._auth_header)
-        if res.status_code != 200:
+        if res.status_code >= 400:
             raise RuntimeError(f'Unable to send POST request, error {res.status_code}: {res.reason}')
         return res.json()
 
@@ -184,7 +184,7 @@ class StrapiClientSync(StrapiClientBase):
         route = route.lstrip('/')
         url = f'{self.base_url}api/{route}'
         res = requests.get(url, headers=self._auth_header)
-        if res.status_code != 200:
+        if res.status_code >= 400:
             raise RuntimeError(f'Unable to send GET request, error {res.status_code}: {res.reason}')
         return res.json()
 
@@ -206,6 +206,6 @@ class StrapiClientSync(StrapiClientBase):
             if ref and ref_id and field:
                 data.update({'ref': ref, 'refId': str(ref_id), 'field': field})
             res = session.post(url, files=files_data, data=data, headers=self._auth_header)
-            if res.status_code != 200:
+            if res.status_code >= 400:
                 raise RuntimeError(f'Unable to upload files, error {res.status_code}: {res.reason}')
             return res.json()
