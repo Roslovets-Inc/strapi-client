@@ -1,8 +1,8 @@
 from typing import Any
 import os.path
 import aiohttp
-from .strapi_client_base import StrapiClientBase
-from .utils import stringify_parameters, compose_request_parameters
+from src.strapi_client.strapi_client_base import StrapiClientBase
+from src.strapi_client.utils import stringify_parameters, compose_request_parameters
 
 
 class StrapiClient(StrapiClientBase):
