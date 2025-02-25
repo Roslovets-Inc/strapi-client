@@ -27,6 +27,8 @@ dev = [
     "python-semantic-release==9.21.0",
     "lazydocs==0.4.8",
     "pydocstyle==6.3.0",
+    "mkdocs==1.6.1",
+    "mkdocs-awesome-nav==3.0.0",
 ]
 
 [project.urls]

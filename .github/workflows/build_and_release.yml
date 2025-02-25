@@ -27,24 +27,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: 📖 Generate docs
+      - name: 📦 Install dependencies
         run: |
           pip install uv
           uv sync
-          uv run lazydocs --validate strapi_client --overview-file README.md
 
-      - name: ⬆️ Commit generated docs
-        uses: EndBug/add-and-commit@v7
-        with:
-          add: docs
-          message: "doc: update"
-          committer_name: "github-actions"
-          committer_email: "actions@users.noreply.github.com"
+      - name: 📖 Generate docs
+        run: |
+          mkdir docs
+          cp README.md docs/
+          uv run lazydocs --validate strapi_client --overview-file README.md --output-path docs/reference
+          mkdocs gh-deploy
 
-      - name: 🔨 Build package
-        run: uv build
-
-      - name: 📢 Semantic Release
+      - name: 🔼 Semantic Release
         id: release
         uses: python-semantic-release/python-semantic-release@v9.21.0
         with:
@@ -52,11 +47,14 @@ jobs:
           git_committer_name: "github-actions"
           git_committer_email: "actions@users.noreply.github.com"
 
+      - name: 🔨 Build package
+        run: uv build
+
       - name: 📢 Upload package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         if: steps.release.outputs.released == 'true'
 
-      - name: 📢 Upload to GitHub Release Assets
+      - name: 💾 Upload package to GitHub Release
         uses: python-semantic-release/publish-action@v9.21.0
         if: steps.release.outputs.released == 'true'
         with:
