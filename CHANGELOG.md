@@ -1,6 +1,22 @@
 # CHANGELOG
 
 
+## v3.0.2 (2025-02-25)
+
+### Bug Fixes
+
+- Project description
+  ([`14a450c`](https://github.com/Roslovets-Inc/strapi-client/commit/14a450c69daad14f987054543849ea90a0219833))
+
+### Continuous Integration
+
+- Fix permissions
+  ([`ce3831a`](https://github.com/Roslovets-Inc/strapi-client/commit/ce3831a729285c6d7204ff192abe88386f89f337))
+
+- Fix permissions
+  ([`66e63f0`](https://github.com/Roslovets-Inc/strapi-client/commit/66e63f06a4159c96830d71ba86a7e618095927b7))
+
+
 ## v3.0.1 (2025-02-25)
 
 ### Bug Fixes
