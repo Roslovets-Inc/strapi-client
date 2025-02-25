@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v3.1.0 (2025-02-25)
+
+### Continuous Integration
+
+- Fix docs
+  ([`4804a3b`](https://github.com/Roslovets-Inc/strapi-client/commit/4804a3bf2ea865ed88b6ddefe81b15bfd712e89d))
+
+### Features
+
+- Derive docs to GH Pages
+  ([`4fdd5d1`](https://github.com/Roslovets-Inc/strapi-client/commit/4fdd5d1da882cb87186991e165059e9359502453))
+
+
 ## v3.0.4 (2025-02-25)
 
 ### Bug Fixes
