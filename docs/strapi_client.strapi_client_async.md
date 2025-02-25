@@ -1,6 +1,6 @@
 <!-- markdownlint-disable -->
 
-<a href="..\src\strapi_client\strapi_client_async.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/strapi_client_async.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 # <kbd>module</kbd> `strapi_client.strapi_client_async`
 
@@ -11,7 +11,7 @@
 
 ---
 
-<a href="..\src\strapi_client\strapi_client_async.py#L12"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/strapi_client_async.py#L12"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `StrapiClientAsync`
 Async REST API client for Strapi. 
@@ -37,7 +37,7 @@ Async REST API client for Strapi.
 
 ---
 
-<a href="..\src\strapi_client\strapi_client_async.py#L32"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/strapi_client_async.py#L32"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `authorize`
 
@@ -49,7 +49,7 @@ Get auth token using identifier and password.
 
 ---
 
-<a href="..\src\strapi_client\strapi_client_async.py#L105"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/strapi_client_async.py#L105"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `create_document`
 
@@ -61,7 +61,7 @@ Create new document.
 
 ---
 
-<a href="..\src\strapi_client\strapi_client_async.py#L125"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/strapi_client_async.py#L125"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `delete_document`
 
@@ -73,7 +73,7 @@ Delete document by document id.
 
 ---
 
-<a href="..\src\strapi_client\strapi_client_async.py#L45"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/strapi_client_async.py#L45"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `get_document`
 
@@ -90,7 +90,7 @@ Get document by document id.
 
 ---
 
-<a href="..\src\strapi_client\strapi_client_async.py#L60"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/strapi_client_async.py#L60"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `get_documents`
 
@@ -114,7 +114,7 @@ Get list of documents. By default, operates in batch mode to get all documents a
 
 ---
 
-<a href="..\src\strapi_client\strapi_client_async.py#L216"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/strapi_client_async.py#L216"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `get_uploaded_files`
 
@@ -126,7 +126,7 @@ Get uploaded files.
 
 ---
 
-<a href="..\src\strapi_client\strapi_client_async.py#L184"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/strapi_client_async.py#L184"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `send_delete_request`
 
@@ -138,7 +138,7 @@ Send DELETE request to custom endpoint.
 
 ---
 
-<a href="..\src\strapi_client\strapi_client_async.py#L131"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/strapi_client_async.py#L131"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `send_get_request`
 
@@ -154,7 +154,7 @@ Send GET request to custom endpoint.
 
 ---
 
-<a href="..\src\strapi_client\strapi_client_async.py#L163"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/strapi_client_async.py#L163"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `send_post_request`
 
@@ -173,7 +173,7 @@ Send POST request to custom endpoint.
 
 ---
 
-<a href="..\src\strapi_client\strapi_client_async.py#L146"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/strapi_client_async.py#L146"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `send_put_request`
 
@@ -190,7 +190,7 @@ Send PUT request to custom endpoint.
 
 ---
 
-<a href="..\src\strapi_client\strapi_client_async.py#L115"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/strapi_client_async.py#L115"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `update_document`
 
@@ -206,7 +206,7 @@ Update document fields.
 
 ---
 
-<a href="..\src\strapi_client\strapi_client_async.py#L193"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/strapi_client_async.py#L193"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `upload_files`
 

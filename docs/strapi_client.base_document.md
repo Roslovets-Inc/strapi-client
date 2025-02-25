@@ -1,6 +1,6 @@
 <!-- markdownlint-disable -->
 
-<a href="..\src\strapi_client\base_document.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/base_document.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 # <kbd>module</kbd> `strapi_client.base_document`
 
@@ -10,7 +10,7 @@
 
 ---
 
-<a href="..\src\strapi_client\base_document.py#L10"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/base_document.py#L10"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `DocumentField`
 
@@ -25,7 +25,7 @@ DocumentField(*args, unique: bool = False, relation: bool = False, **kwargs)
 
 ---
 
-<a href="..\src\strapi_client\base_document.py#L16"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/base_document.py#L16"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `BaseDocument`
 Experimental ORM class for Strapi document. 
@@ -57,7 +57,7 @@ Returns the set of fields that have been explicitly set on this model instance.
 
 ---
 
-<a href="..\src\strapi_client\base_document.py#L83"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/base_document.py#L83"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `create_document`
 
@@ -71,7 +71,7 @@ create_document(client: StrapiClientAsync) → Self
 
 ---
 
-<a href="..\src\strapi_client\base_document.py#L108"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/base_document.py#L108"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `delete_document`
 
@@ -85,7 +85,7 @@ delete_document(client: StrapiClientAsync) → None
 
 ---
 
-<a href="..\src\strapi_client\base_document.py#L36"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/base_document.py#L36"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>classmethod</kbd> `get_document`
 
@@ -103,7 +103,7 @@ get_document(
 
 ---
 
-<a href="..\src\strapi_client\base_document.py#L50"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/base_document.py#L50"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>classmethod</kbd> `get_documents`
 
@@ -128,7 +128,7 @@ get_documents(
 
 ---
 
-<a href="..\src\strapi_client\base_document.py#L162"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/base_document.py#L162"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `model_dump_variable`
 
@@ -142,7 +142,7 @@ model_dump_variable(exclude: set[str] | None = None) → dict[str, Any]
 
 ---
 
-<a href="..\src\strapi_client\base_document.py#L170"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/base_document.py#L170"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `model_hash`
 
@@ -156,7 +156,7 @@ model_hash() → str
 
 ---
 
-<a href="..\src\strapi_client\base_document.py#L123"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/base_document.py#L123"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `refresh`
 
@@ -170,7 +170,7 @@ refresh(client: StrapiClientAsync, populate_all: bool = True) → Self
 
 ---
 
-<a href="..\src\strapi_client\base_document.py#L116"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/base_document.py#L116"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `relations_populated`
 
@@ -184,7 +184,7 @@ relations_populated() → bool
 
 ---
 
-<a href="..\src\strapi_client\base_document.py#L119"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/base_document.py#L119"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `set_relations_populated`
 
@@ -198,7 +198,7 @@ set_relations_populated(value: bool) → Self
 
 ---
 
-<a href="..\src\strapi_client\base_document.py#L90"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/base_document.py#L90"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `update_document`
 
@@ -212,7 +212,7 @@ update_document(client: StrapiClientAsync) → Self
 
 ---
 
-<a href="..\src\strapi_client\base_document.py#L133"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/base_document.py#L133"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `upsert_document`
 

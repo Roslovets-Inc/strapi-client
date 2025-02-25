@@ -1,6 +1,6 @@
 <!-- markdownlint-disable -->
 
-<a href="..\src\strapi_client\utils.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/utils.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 # <kbd>module</kbd> `strapi_client.utils`
 
@@ -10,7 +10,7 @@
 
 ---
 
-<a href="..\src\strapi_client\utils.py#L4"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/utils.py#L4"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `flatten_parameters`
 
@@ -23,7 +23,7 @@ Flatten nested dict with parameters to flat structure for query.
 
 ---
 
-<a href="..\src\strapi_client\utils.py#L14"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/utils.py#L14"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `stringify_parameters`
 

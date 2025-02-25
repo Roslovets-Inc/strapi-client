@@ -1,6 +1,6 @@
 <!-- markdownlint-disable -->
 
-<a href="..\src\strapi_client\types.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/types.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 # <kbd>module</kbd> `strapi_client.types`
 
@@ -11,7 +11,7 @@
 
 ---
 
-<a href="..\src\strapi_client\types.py#L6"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/types.py#L6"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `AuthPayload`
 
@@ -46,7 +46,7 @@ Returns the set of fields that have been explicitly set on this model instance.
 
 ---
 
-<a href="..\src\strapi_client\types.py#L11"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/types.py#L11"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `AuthResponse`
 
@@ -81,7 +81,7 @@ Returns the set of fields that have been explicitly set on this model instance.
 
 ---
 
-<a href="..\src\strapi_client\types.py#L15"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/types.py#L15"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `ApiParameters`
 
@@ -115,7 +115,7 @@ Returns the set of fields that have been explicitly set on this model instance.
 
 ---
 
-<a href="..\src\strapi_client\types.py#L28"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/types.py#L28"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `stringify`
 
@@ -130,7 +130,7 @@ stringify() → dict[str, Any]
 
 ---
 
-<a href="..\src\strapi_client\types.py#L54"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/types.py#L54"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `ResponsePagination`
 
@@ -165,7 +165,7 @@ Returns the set of fields that have been explicitly set on this model instance.
 
 ---
 
-<a href="..\src\strapi_client\types.py#L63"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/types.py#L63"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `ResponseMeta`
 
@@ -199,7 +199,7 @@ Returns the set of fields that have been explicitly set on this model instance.
 
 ---
 
-<a href="..\src\strapi_client\types.py#L66"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/types.py#L66"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `get_total_count`
 
@@ -214,7 +214,7 @@ get_total_count() → int
 
 ---
 
-<a href="..\src\strapi_client\types.py#L72"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/types.py#L72"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `DocumentsResponse`
 
@@ -249,7 +249,7 @@ Returns the set of fields that have been explicitly set on this model instance.
 
 ---
 
-<a href="..\src\strapi_client\types.py#L77"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/types.py#L77"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `DocumentResponse`
 
