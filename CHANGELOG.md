@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v3.2.1 (2025-02-25)
+
+### Bug Fixes
+
+- Provide Timeout to init
+  ([`78629a4`](https://github.com/Roslovets-Inc/strapi-client/commit/78629a49fdc8e60666fdb8b220fedd1a82d5fbf5))
+
+### Documentation
+
+- Pypi link
+  ([`d129235`](https://github.com/Roslovets-Inc/strapi-client/commit/d129235bf629f2a35267b41b9bb831e2b36e2455))
+
+
 ## v3.2.0 (2025-02-25)
 
 ### Documentation
