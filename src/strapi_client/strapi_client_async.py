@@ -13,17 +13,17 @@ class StrapiClientAsync(StrapiClientBase):
     """Async REST API client for Strapi."""
     _client: httpx.AsyncClient | None = None
 
-    async def __aenter__(self, timeout: httpx.Timeout | None = None):
-        self.open(timeout=timeout)
+    async def __aenter__(self):
+        self.open()
         return self
 
     async def __aexit__(self, exc_type, exc, tb):
         await self.close()
 
-    def open(self, timeout: httpx.Timeout | None = None) -> httpx.AsyncClient:
+    def open(self) -> httpx.AsyncClient:
         # Fallback to creating a client if not used in a context manager.
         if self._client is None:
-            self._client = httpx.AsyncClient(timeout=timeout)
+            self._client = httpx.AsyncClient(timeout=self.timeout)
         return self._client
 
     async def close(self):
