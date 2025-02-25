@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.0.1 (2025-02-25)
+
+### Bug Fixes
+
+- Build package for pypi
+  ([`162ec29`](https://github.com/Roslovets-Inc/strapi-client/commit/162ec2962027d1e1b06a428f6749404c211b2de2))
+
+
 ## v3.0.0 (2025-02-25)
 
 ### Bug Fixes
