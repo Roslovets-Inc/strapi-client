@@ -40,6 +40,7 @@ class BaseDocument(BaseModel):
             document_id: str,
             populate_all: bool = True,
     ) -> Self:
+        """Get document by document id."""
         response = await client.get_document(
             plural_api_id=cls.__plural_api_id__,
             document_id=document_id,
@@ -61,6 +62,7 @@ class BaseDocument(BaseModel):
             limit: int = 25,
             with_count: bool = True,
     ) -> list[Self]:
+        """Get list of documents."""
         response = await client.get_documents(
             plural_api_id=cls.__plural_api_id__,
             sort=sort,
@@ -81,6 +83,7 @@ class BaseDocument(BaseModel):
         return documents
 
     async def create_document(self, client: StrapiClientAsync) -> Self:
+        """Create new document from object."""
         response = await client.create_document(
             plural_api_id=self.__plural_api_id__,
             data=self.model_dump_variable()
@@ -88,6 +91,7 @@ class BaseDocument(BaseModel):
         return self.model_validate(response.data)
 
     async def update_document(self, client: StrapiClientAsync) -> Self:
+        """Update document fields from object."""
         if not self.document_id:
             raise RuntimeError("Document ID cannot be empty to update document")
         if not self.relations_populated():
@@ -106,6 +110,7 @@ class BaseDocument(BaseModel):
         return self.model_validate(response.data)
 
     async def delete_document(self, client: StrapiClientAsync) -> None:
+        """Delete document attached to object."""
         if not self.document_id:
             raise RuntimeError("Document ID cannot be empty to delete document")
         await client.delete_document(
@@ -121,6 +126,7 @@ class BaseDocument(BaseModel):
         return self
 
     async def refresh(self, client: StrapiClientAsync, populate_all: bool = True) -> Self:
+        """Refresh object with latest data from Strapi including relations."""
         if not self.document_id:
             raise RuntimeError("Document ID cannot be empty to refresh object")
         document = await self.__class__.get_document(client, self.document_id, populate_all=populate_all)
