@@ -57,7 +57,7 @@ Returns the set of fields that have been explicitly set on this model instance.
 
 ---
 
-<a href="../src/strapi_client/base_document.py#L83"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/base_document.py#L85"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `create_document`
 
@@ -65,13 +65,11 @@ Returns the set of fields that have been explicitly set on this model instance.
 create_document(client: StrapiClientAsync) → Self
 ```
 
-
-
-
+Create new document from object. 
 
 ---
 
-<a href="../src/strapi_client/base_document.py#L108"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/base_document.py#L112"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `delete_document`
 
@@ -79,9 +77,7 @@ create_document(client: StrapiClientAsync) → Self
 delete_document(client: StrapiClientAsync) → None
 ```
 
-
-
-
+Delete document attached to object. 
 
 ---
 
@@ -97,13 +93,11 @@ get_document(
 ) → Self
 ```
 
-
-
-
+Get document by document id. 
 
 ---
 
-<a href="../src/strapi_client/base_document.py#L50"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/base_document.py#L51"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>classmethod</kbd> `get_documents`
 
@@ -122,13 +116,11 @@ get_documents(
 ) → list[Self]
 ```
 
-
-
-
+Get list of documents. 
 
 ---
 
-<a href="../src/strapi_client/base_document.py#L162"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/base_document.py#L168"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `model_dump_variable`
 
@@ -142,7 +134,7 @@ model_dump_variable(exclude: set[str] | None = None) → dict[str, Any]
 
 ---
 
-<a href="../src/strapi_client/base_document.py#L170"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/base_document.py#L176"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `model_hash`
 
@@ -156,7 +148,7 @@ model_hash() → str
 
 ---
 
-<a href="../src/strapi_client/base_document.py#L123"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/base_document.py#L128"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `refresh`
 
@@ -164,13 +156,11 @@ model_hash() → str
 refresh(client: StrapiClientAsync, populate_all: bool = True) → Self
 ```
 
-
-
-
+Refresh object with latest data from Strapi including relations. 
 
 ---
 
-<a href="../src/strapi_client/base_document.py#L116"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/base_document.py#L121"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `relations_populated`
 
@@ -184,7 +174,7 @@ relations_populated() → bool
 
 ---
 
-<a href="../src/strapi_client/base_document.py#L119"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/base_document.py#L124"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `set_relations_populated`
 
@@ -198,7 +188,7 @@ set_relations_populated(value: bool) → Self
 
 ---
 
-<a href="../src/strapi_client/base_document.py#L90"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/base_document.py#L93"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `update_document`
 
@@ -206,13 +196,11 @@ set_relations_populated(value: bool) → Self
 update_document(client: StrapiClientAsync) → Self
 ```
 
-
-
-
+Update document fields from object. 
 
 ---
 
-<a href="../src/strapi_client/base_document.py#L133"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="../src/strapi_client/base_document.py#L139"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `upsert_document`
 
