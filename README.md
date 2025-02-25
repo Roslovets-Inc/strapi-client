@@ -1,6 +1,6 @@
 # Strapi Client
 
-Work with Strapi in Python via REST API
+Interact with Strapi from Python using the REST API
 
 ## Install
 
