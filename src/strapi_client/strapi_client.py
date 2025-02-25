@@ -13,20 +13,28 @@ class StrapiClient(StrapiClientBase):
     """REST API client for Strapi."""
     _client: httpx.Client | None = None
 
-    def __enter__(self):
-        self._client = httpx.Client()
+    def __enter__(self, timeout: httpx.Timeout | None = None):
+        self.open(timeout=timeout)
         return self
 
     def __exit__(self, exc_type, exc, tb):
+        self.close()
+
+    def open(self, timeout: httpx.Timeout | None = None) -> httpx.Client:
+        # Fallback to creating a client if not used in a context manager.
+        if self._client is None:
+            self._client = httpx.Client(timeout=timeout)
+        return self._client
+
+    async def close(self):
         if self._client is not None:
             self._client.close()
             self._client = None
 
     @property
     def client(self) -> httpx.Client:
-        if self._client is None:
-            # Fallback to creating a client if not used in a context manager.
-            self._client = httpx.Client()
+        if not self._client:
+            raise RuntimeError("Client is not initialized.")
         return self._client
 
     def authorize(
