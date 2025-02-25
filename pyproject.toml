@@ -37,6 +37,9 @@ Repository = "https://github.com/Roslovets-Inc/strapi-client"
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools.package-data]
+"pkgname" = ["py.typed"]
+
 [tool.mypy]
 plugins = ["pydantic.mypy"]
 
