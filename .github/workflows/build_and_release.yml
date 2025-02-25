@@ -20,13 +20,13 @@ jobs:
           python-version: 3.11
 
       - name: 🔃 Checkout code
-        uses: actions/checkout@v2
-
-      - name: 📦 Install uv
-        run: pip install uv
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: 📖 Generate docs
         run: |
+          pip install uv
           uv sync
           uv run lazydocs --validate strapi_client --overview-file README.md
 
