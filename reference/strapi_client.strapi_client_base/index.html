@@ -105,9 +105,13 @@
 <p><a href="../../src/strapi_client/strapi_client_base.py#L5"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="class-strapiclientbase"><kbd>class</kbd> <code>StrapiClientBase</code></h2>
 <p>Base class with common logic for Strapi clients. </p>
-<p><a href="../../src/strapi_client/strapi_client_base.py#L11"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/strapi_client_base.py#L12"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-__init__"><kbd>method</kbd> <code>__init__</code></h3>
-<pre><code class="language-python">__init__(base_url: str, token: str | None) → None
+<pre><code class="language-python">__init__(
+    base_url: str,
+    token: str | None = None,
+    timeout: Timeout | None = None
+) → None
 </code></pre>
 <hr />
 <h4 id="property-api_url"><kbd>property</kbd> api_url</h4>
