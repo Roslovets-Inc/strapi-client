@@ -38,6 +38,9 @@ jobs:
           committer_name: "github-actions"
           committer_email: "actions@users.noreply.github.com"
 
+      - name: 🔨 Build package
+        run: uv build
+
       - name: 📢 Semantic Release
         id: release
         uses: python-semantic-release/python-semantic-release@v9.21.0
