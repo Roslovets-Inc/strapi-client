@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.0.4 (2025-02-25)
+
+### Bug Fixes
+
+- Add py.typed for mypy
+  ([`e8ff25c`](https://github.com/Roslovets-Inc/strapi-client/commit/e8ff25c087c36e665e696db065341245fd237a80))
+
+
 ## v3.0.3 (2025-02-25)
 
 ### Bug Fixes
