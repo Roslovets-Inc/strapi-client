@@ -43,6 +43,6 @@ plugins = ["pydantic.mypy"]
 [tool.semantic_release]
 remove_dist = "false"
 branch = "main"
-version_toml = "pyproject.toml:project.version"
+version_toml = ["pyproject.toml:project.version"]
 upload_to_release = "true"
 upload_to_pypi = "true"

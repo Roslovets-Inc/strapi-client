@@ -1,4 +1,4 @@
-name: 🚀 Build and release
+name: 🚀 Build and Release
 
 on:
   push:
@@ -10,7 +10,8 @@ on:
       - .github/**
 
 jobs:
-  build_and_publish:
+  build_and_release:
+    name: 🚀 Build and Release
     runs-on: ubuntu-latest
     steps:
       - name: ⚙️ Setup Python
@@ -34,8 +35,8 @@ jobs:
         with:
           add: docs
           message: "doc: update"
-          committer_name: GitHub Actions
-          committer_email: actions@github.com
+          committer_name: "github-actions"
+          committer_email: "actions@users.noreply.github.com"
 
       - name: 📢 Semantic Release
         id: release
