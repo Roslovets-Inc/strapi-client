@@ -37,7 +37,7 @@ jobs:
           mkdir docs
           cp README.md docs/
           uv run lazydocs --validate strapi_client --overview-file README.md --output-path docs/reference
-          mkdocs gh-deploy
+          uv run mkdocs gh-deploy
 
       - name: 🔼 Semantic Release
         id: release
