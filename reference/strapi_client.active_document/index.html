@@ -3,18 +3,18 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Pavel Roslovets" /><link rel="canonical" href="https://roslovets-inc.github.io/strapi-client/reference/strapi_client.base_document/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Pavel Roslovets" /><link rel="canonical" href="https://roslovets-inc.github.io/strapi-client/reference/strapi_client.active_document/" />
       <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <title>Strapi client.base document - strapi-client</title>
+    <title>Strapi client.active document - strapi-client</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Strapi client.base document";
-        var mkdocs_page_input_path = "reference/strapi_client.base_document.md";
-        var mkdocs_page_url = "/strapi-client/reference/strapi_client.base_document/";
+        var mkdocs_page_name = "Strapi client.active document";
+        var mkdocs_page_input_path = "reference/strapi_client.active_document.md";
+        var mkdocs_page_url = "/strapi-client/reference/strapi_client.active_document/";
       </script>
     
     <!--[if lt IE 9]>
@@ -48,11 +48,11 @@
               <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="../">Index</a>
                   </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Strapi client.base document</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Strapi client.active document</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#function-documentfield">function DocumentField</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#class-basedocument">class BaseDocument</a>
+    <li class="toctree-l2"><a class="reference internal" href="#class-activedocument">class ActiveDocument</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#property-model_extra">property model_extra</a>
     </li>
@@ -110,7 +110,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
           <li class="breadcrumb-item">Reference</li>
-      <li class="breadcrumb-item active">Strapi client.base document</li>
+      <li class="breadcrumb-item active">Strapi client.active document</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -121,16 +121,16 @@
               
                 <!-- markdownlint-disable -->
 
-<p><a href="../../src/strapi_client/base_document.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
-<h1 id="module-strapi_clientbase_document"><kbd>module</kbd> <code>strapi_client.base_document</code></h1>
+<p><a href="../../src/strapi_client/active_document.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h1 id="module-strapi_clientactive_document"><kbd>module</kbd> <code>strapi_client.active_document</code></h1>
 <hr />
-<p><a href="../../src/strapi_client/base_document.py#L10"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/active_document.py#L10"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-documentfield"><kbd>function</kbd> <code>DocumentField</code></h2>
 <pre><code class="language-python">DocumentField(*args, unique: bool = False, relation: bool = False, **kwargs)
 </code></pre>
 <hr />
-<p><a href="../../src/strapi_client/base_document.py#L16"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
-<h2 id="class-basedocument"><kbd>class</kbd> <code>BaseDocument</code></h2>
+<p><a href="../../src/strapi_client/active_document.py#L16"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="class-activedocument"><kbd>class</kbd> <code>ActiveDocument</code></h2>
 <p>Experimental ORM class for Strapi document. </p>
 <hr />
 <h4 id="property-model_extra"><kbd>property</kbd> model_extra</h4>
@@ -143,19 +143,19 @@
 <p><strong>Returns:</strong>
   A set of strings representing the fields that have been set,  i.e. that were not filled from defaults. </p>
 <hr />
-<p><a href="../../src/strapi_client/base_document.py#L85"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/active_document.py#L85"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-create_document"><kbd>method</kbd> <code>create_document</code></h3>
 <pre><code class="language-python">create_document(client: StrapiClientAsync) → Self
 </code></pre>
 <p>Create new document from object. </p>
 <hr />
-<p><a href="../../src/strapi_client/base_document.py#L112"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/active_document.py#L112"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-delete_document"><kbd>method</kbd> <code>delete_document</code></h3>
 <pre><code class="language-python">delete_document(client: StrapiClientAsync) → None
 </code></pre>
 <p>Delete document attached to object. </p>
 <hr />
-<p><a href="../../src/strapi_client/base_document.py#L36"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/active_document.py#L36"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="classmethod-get_document"><kbd>classmethod</kbd> <code>get_document</code></h3>
 <pre><code class="language-python">get_document(
     client: StrapiClientAsync,
@@ -165,7 +165,7 @@
 </code></pre>
 <p>Get document by document id. </p>
 <hr />
-<p><a href="../../src/strapi_client/base_document.py#L51"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/active_document.py#L51"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="classmethod-get_documents"><kbd>classmethod</kbd> <code>get_documents</code></h3>
 <pre><code class="language-python">get_documents(
     client: StrapiClientAsync,
@@ -182,39 +182,39 @@
 </code></pre>
 <p>Get list of documents. </p>
 <hr />
-<p><a href="../../src/strapi_client/base_document.py#L168"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/active_document.py#L168"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-model_dump_variable"><kbd>method</kbd> <code>model_dump_variable</code></h3>
 <pre><code class="language-python">model_dump_variable(exclude: set[str] | None = None) → dict[str, Any]
 </code></pre>
 <hr />
-<p><a href="../../src/strapi_client/base_document.py#L176"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/active_document.py#L176"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-model_hash"><kbd>method</kbd> <code>model_hash</code></h3>
 <pre><code class="language-python">model_hash() → str
 </code></pre>
 <hr />
-<p><a href="../../src/strapi_client/base_document.py#L128"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/active_document.py#L128"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-refresh"><kbd>method</kbd> <code>refresh</code></h3>
 <pre><code class="language-python">refresh(client: StrapiClientAsync, populate_all: bool = True) → Self
 </code></pre>
 <p>Refresh object with latest data from Strapi including relations. </p>
 <hr />
-<p><a href="../../src/strapi_client/base_document.py#L121"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/active_document.py#L121"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-relations_populated"><kbd>method</kbd> <code>relations_populated</code></h3>
 <pre><code class="language-python">relations_populated() → bool
 </code></pre>
 <hr />
-<p><a href="../../src/strapi_client/base_document.py#L124"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/active_document.py#L124"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-set_relations_populated"><kbd>method</kbd> <code>set_relations_populated</code></h3>
 <pre><code class="language-python">set_relations_populated(value: bool) → Self
 </code></pre>
 <hr />
-<p><a href="../../src/strapi_client/base_document.py#L93"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/active_document.py#L93"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-update_document"><kbd>method</kbd> <code>update_document</code></h3>
 <pre><code class="language-python">update_document(client: StrapiClientAsync) → Self
 </code></pre>
 <p>Update document fields from object. </p>
 <hr />
-<p><a href="../../src/strapi_client/base_document.py#L139"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/active_document.py#L139"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-upsert_document"><kbd>method</kbd> <code>upsert_document</code></h3>
 <pre><code class="language-python">upsert_document(client: StrapiClientAsync) → Self
 </code></pre>
