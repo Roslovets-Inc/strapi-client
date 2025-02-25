@@ -13,7 +13,7 @@ def DocumentField(*args, unique: bool = False, relation: bool = False, **kwargs)
     return field_info
 
 
-class BaseDocument(BaseModel):
+class ActiveDocument(BaseModel):
     """Experimental ORM class for Strapi document."""
     __plural_api_id__: ClassVar[str]
     __managed_fields__: ClassVar[set[str]] = {

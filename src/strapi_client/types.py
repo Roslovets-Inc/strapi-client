@@ -1,6 +1,22 @@
-from typing import Any
+from typing import Any, Self
+import datetime
 from pydantic import BaseModel, Field, SecretStr
+from httpx import Response
 from .utils import stringify_parameters
+
+
+class BaseDocument(BaseModel):
+    """Strapi document with standard fields."""
+    id: int
+    document_id: str = Field(alias='documentId')
+    created_at: datetime.datetime = Field(alias='createdAt')
+    updated_at: datetime.datetime = Field(alias='updatedAt')
+    published_at: datetime.datetime = Field(alias='publishedAt')
+    locale: str | None = None
+
+    @classmethod
+    def from_response(cls, response: Response) -> Self:
+        return cls.model_validate(response.json())
 
 
 class AuthPayload(BaseModel):

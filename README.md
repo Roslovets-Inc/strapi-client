@@ -52,15 +52,15 @@ Relations and upserts are supported in experimental mode.
 
 ```python
 import asyncio
-from strapi_client import StrapiClientAsync, BaseDocument, DocumentField
+from strapi_client import StrapiClientAsync, ActiveDocument, DocumentField
 
 
-class User(BaseDocument):
+class User(ActiveDocument):
     username: str = DocumentField(unique=True)
     first_name: str
 
 
-class Session(BaseDocument):
+class Session(ActiveDocument):
     uid: str = DocumentField(unique=True)
     user: User | None = DocumentField(default=None, relation=True)
 
