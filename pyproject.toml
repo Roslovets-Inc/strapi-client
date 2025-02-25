@@ -14,7 +14,6 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-#packages = [{ include = "strapi_client", from = "src" }]
 
 dependencies = [
     "httpx>=0.23.1",
@@ -34,6 +33,9 @@ dev = [
 [project.urls]
 Homepage = "https://github.com/Roslovets-Inc/strapi-client"
 Repository = "https://github.com/Roslovets-Inc/strapi-client"
+Documentation = "https://roslovets-inc.github.io/strapi-client/"
+Issues = "https://github.com/Roslovets-Inc/strapi-client/issues"
+Changelog = "https://github.com/Roslovets-Inc/strapi-client/blob/main/CHANGELOG.md"
 
 [build-system]
 requires = ["setuptools"]

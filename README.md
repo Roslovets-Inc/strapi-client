@@ -1,5 +1,7 @@
 # Strapi Client
 
+![PyPI - Version](https://img.shields.io/pypi/v/strapi-client)
+
 Interact with Strapi from Python using the REST API
 
 ## Install
