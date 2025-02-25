@@ -34,7 +34,6 @@ jobs:
 
       - name: 📖 Generate docs
         run: |
-          mkdir docs
           cp README.md docs/
           uv run lazydocs --validate strapi_client --overview-file README.md --output-path docs/reference
           uv run mkdocs gh-deploy

@@ -10,7 +10,7 @@ pip install strapi-client
 
 ## Documentation
 
-[Full API Reference](./docs)
+[Full API Reference](https://roslovets-inc.github.io/strapi-client/reference/)
 
 ## Examples
 

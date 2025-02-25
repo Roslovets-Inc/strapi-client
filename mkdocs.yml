@@ -1,11 +1,11 @@
 site_name: strapi-client
-site_url: https://Roslovets-Inc.github.io/strapi-client
+site_url: https://roslovets-inc.github.io/strapi-client/
 site_author: Pavel Roslovets
 
 # Repository
 repo_name: strapi-client
 repo_url: https://github.com/Roslovets-Inc/strapi-client
-edit_uri: edit/main/docs
+edit_uri: ''
 docs_dir: docs
 
 plugins:
@@ -14,3 +14,4 @@ plugins:
 
 theme:
   name: readthedocs
+  logo: logo.png
