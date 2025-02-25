@@ -14,8 +14,8 @@ jobs:
     name: 🚀 Build and Release
     runs-on: ubuntu-latest
     permissions:
-      contents: read
       id-token: write
+      contents: write
     steps:
       - name: ⚙️ Setup Python
         uses: actions/setup-python@v2
