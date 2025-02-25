@@ -1,12 +1,35 @@
 # CHANGELOG
 
 
+## v3.2.0 (2025-02-25)
+
+### Documentation
+
+- Update and links
+  ([`b593fc8`](https://github.com/Roslovets-Inc/strapi-client/commit/b593fc85026731361f4c799581bef9866edf7e57))
+
+### Features
+
+- Optional Timeout settings
+  ([`55080ef`](https://github.com/Roslovets-Inc/strapi-client/commit/55080ef2a9a79cf1d50512d0ce40ac4bc4f2aec9))
+
+- Rename ORM class to ActiveDocument.
+  ([`6c5e283`](https://github.com/Roslovets-Inc/strapi-client/commit/6c5e2835151cd04656e313606836464c1eb2173e))
+
+BaseDocument is static pydantic class
+
+
 ## v3.1.0 (2025-02-25)
 
 ### Continuous Integration
 
 - Fix docs
   ([`4804a3b`](https://github.com/Roslovets-Inc/strapi-client/commit/4804a3bf2ea865ed88b6ddefe81b15bfd712e89d))
+
+### Documentation
+
+- Customize
+  ([`550bd18`](https://github.com/Roslovets-Inc/strapi-client/commit/550bd18a91d6493cf0912a427309f2a8de33dc0f))
 
 ### Features
 
