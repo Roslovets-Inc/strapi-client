@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://Roslovets-Inc.github.io/strapi-client/</loc>
+         <loc>https://roslovets-inc.github.io/strapi-client/</loc>
          <lastmod>2025-02-25</lastmod>
     </url>
     <url>
-         <loc>https://Roslovets-Inc.github.io/strapi-client/reference/</loc>
+         <loc>https://roslovets-inc.github.io/strapi-client/reference/</loc>
          <lastmod>2025-02-25</lastmod>
     </url>
     <url>
-         <loc>https://Roslovets-Inc.github.io/strapi-client/reference/strapi_client.base_document/</loc>
+         <loc>https://roslovets-inc.github.io/strapi-client/reference/strapi_client.base_document/</loc>
          <lastmod>2025-02-25</lastmod>
     </url>
     <url>
-         <loc>https://Roslovets-Inc.github.io/strapi-client/reference/strapi_client.strapi_client/</loc>
+         <loc>https://roslovets-inc.github.io/strapi-client/reference/strapi_client.strapi_client/</loc>
          <lastmod>2025-02-25</lastmod>
     </url>
     <url>
-         <loc>https://Roslovets-Inc.github.io/strapi-client/reference/strapi_client.strapi_client_async/</loc>
+         <loc>https://roslovets-inc.github.io/strapi-client/reference/strapi_client.strapi_client_async/</loc>
          <lastmod>2025-02-25</lastmod>
     </url>
     <url>
-         <loc>https://Roslovets-Inc.github.io/strapi-client/reference/strapi_client.strapi_client_base/</loc>
+         <loc>https://roslovets-inc.github.io/strapi-client/reference/strapi_client.strapi_client_base/</loc>
          <lastmod>2025-02-25</lastmod>
     </url>
     <url>
-         <loc>https://Roslovets-Inc.github.io/strapi-client/reference/strapi_client.types/</loc>
+         <loc>https://roslovets-inc.github.io/strapi-client/reference/strapi_client.types/</loc>
          <lastmod>2025-02-25</lastmod>
     </url>
     <url>
-         <loc>https://Roslovets-Inc.github.io/strapi-client/reference/strapi_client.utils/</loc>
+         <loc>https://roslovets-inc.github.io/strapi-client/reference/strapi_client.utils/</loc>
          <lastmod>2025-02-25</lastmod>
     </url>
 </urlset>
