@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.0.3 (2025-02-25)
+
+### Bug Fixes
+
+- Orm description
+  ([`3ccc874`](https://github.com/Roslovets-Inc/strapi-client/commit/3ccc874de7b8c1c7a8194e17a6574573bdd5dce5))
+
+
 ## v3.0.2 (2025-02-25)
 
 ### Bug Fixes
