@@ -1,6 +1,6 @@
 # Strapi Client
 
-![PyPI - Version](https://img.shields.io/pypi/v/strapi-client)
+[![PyPI - Version](https://img.shields.io/pypi/v/strapi-client)](https://pypi.org/project/strapi-client/)
 
 Interact with Strapi from Python using the REST API
 
