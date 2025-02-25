@@ -1,38 +1,48 @@
-[tool.poetry]
+[project]
 name = "strapi-client"
 version = "2.9.1"
 description = "Work with Strapi from Python via REST API"
-authors = ["Pavel Roslovets <p.v.roslovets@gmail.com>"]
-license = "MIT"
+authors = [
+    { name = "Pavel Roslovets", email = "p.v.roslovets@gmail.com" }
+]
+license = { text = "MIT" }
 readme = "README.md"
-homepage = "https://github.com/Roslovets-Inc/strapi-client"
-repository = "https://github.com/Roslovets-Inc/strapi-client"
+requires-python = ">=3.10"
 keywords = ["strapi", "cms", "api", "rest"]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent"
+    "Operating System :: OS Independent",
 ]
-packages = [{ include = "strapi_client", from = "src" }]
+#packages = [{ include = "strapi_client", from = "src" }]
 
-[tool.poetry.dependencies]
-python = ">=3.10,<4"
-aiohttp = "^3.8.6"
-requests = "^2.31.0"
+dependencies = [
+    "httpx>=0.23.1",
+    "pydantic>=2.0"
+]
 
-[tool.poetry.dev-dependencies]
-python-semantic-release = "9.14.0"
-lazydocs = "0.4.8"
-pydocstyle = "6.3.0"
-toml = "0.10.2"
+[dependency-groups]
+dev = [
+    "mypy==1.14.1",
+    "python-semantic-release==9.21.0",
+    "lazydocs==0.4.8",
+    "pydocstyle==6.3.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Roslovets-Inc/strapi-client"
+Repository = "https://github.com/Roslovets-Inc/strapi-client"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.mypy]
+plugins = ["pydantic.mypy"]
 
 [tool.semantic_release]
 remove_dist = "false"
 branch = "main"
-version_toml = "pyproject.toml:tool.poetry.version"
+version_toml = "pyproject.toml:project.version"
 upload_to_release = "true"
 upload_to_pypi = "true"

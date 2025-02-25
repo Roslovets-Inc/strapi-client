@@ -1,44 +1,57 @@
 name: 🚀 Build and release
 
 on:
-    push:
-        branches:
-            - main
-        paths:
-            - src/**
-            - pyproject.toml
-            - .github/**
+  push:
+    branches:
+      - main
+    paths:
+      - src/**
+      - pyproject.toml
+      - .github/**
 
 jobs:
-    build_and_publish:
-        runs-on: ubuntu-latest
-        steps:
-            - name: ⚙️ Setup Python
-              uses: actions/setup-python@v2
-              with:
-                  python-version: 3.9
+  build_and_publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⚙️ Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11
 
-            - name: 🔃 Checkout code
-              uses: actions/checkout@v2
+      - name: 🔃 Checkout code
+        uses: actions/checkout@v2
 
-            - name: 📦 Install poetry
-              run: pip install poetry
+      - name: 📦 Install uv
+        run: pip install uv
 
-            - name: 📖 Generate docs
-              run: |
-                  poetry install
-                  poetry run lazydocs --validate strapi_client --overview-file README.md
+      - name: 📖 Generate docs
+        run: |
+          uv sync
+          uv run lazydocs --validate strapi_client --overview-file README.md
 
-            - name: ⬆️ Commit generated docs
-              uses: EndBug/add-and-commit@v7
-              with:
-                  add: docs
-                  message: "doc: update"
-                  committer_name: GitHub Actions
-                  committer_email: actions@github.com
+      - name: ⬆️ Commit generated docs
+        uses: EndBug/add-and-commit@v7
+        with:
+          add: docs
+          message: "doc: update"
+          committer_name: GitHub Actions
+          committer_email: actions@github.com
 
-            - name: 📢 Semantic Release
-              uses: bjoluc/semantic-release-config-poetry@v2
-              with:
-                  pypi_token: ${{ secrets.PYPI_TOKEN }}
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: 📢 Semantic Release
+        id: release
+        uses: python-semantic-release/python-semantic-release@v9.21.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          git_committer_name: "github-actions"
+          git_committer_email: "actions@users.noreply.github.com"
+
+      - name: 📢 Upload package to PyPI
+        uses: pypa/gh-action-pypi-publish@v1
+        if: steps.release.outputs.released == 'true'
+
+      - name: 📢 Upload to GitHub Release Assets
+        uses: python-semantic-release/publish-action@v9.21.0
+        if: steps.release.outputs.released == 'true'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ steps.release.outputs.tag }}

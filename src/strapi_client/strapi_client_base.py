@@ -1,53 +1,29 @@
-from abc import ABC, abstractmethod
-from typing import Any
+from pydantic import SecretStr
+import httpx
 
 
-class StrapiClientBase(ABC):
-    """Abstract base class for Strapi clients."""
+class StrapiClientBase:
+    """Base class with common logic for Strapi clients."""
 
-    def __init__(self, base_url: str) -> None:
-        """Initialize client."""
+    base_url: str
+    _token: SecretStr | None = None
+
+    def __init__(self, base_url: str, token: str | None) -> None:
         self.base_url = base_url.rstrip('/') + '/'
+        if token:
+            self._token = SecretStr(token)
 
-    @abstractmethod
-    def authorize(
-            self,
-            identifier: str | None = None,
-            password: str | None = None,
-            token: str | None = None
-    ) -> Any:
-        pass
+    @property
+    def api_url(self) -> str:
+        return self.base_url + 'api/'
 
-    @abstractmethod
-    def get_entry(
-            self,
-            plural_api_id: str,
-            document_id: str,
-            populate: list[str] | None = None,
-            fields: list[str] | None = None
-    ) -> Any:
-        pass
+    @property
+    def _auth_header(self) -> dict[str, str]:
+        if self._token is None:
+            raise ValueError("Authorization token is not set, use authorize() method first")
+        return {"Authorization": "Bearer " + self._token.get_secret_value()}
 
-    @abstractmethod
-    def get_entries(
-            self,
-            plural_api_id: str,
-            sort: list[str] | None = None,
-            filters: dict | None = None,
-            populate: list[str] | None = None,
-            fields: list[str] | None = None,
-            pagination: dict | None = None
-    ) -> Any:
-        pass
-
-    @abstractmethod
-    def create_entry(self, plural_api_id: str, data: dict) -> Any:
-        pass
-
-    @abstractmethod
-    def update_entry(self, plural_api_id: str, document_id: str, data: dict) -> Any:
-        pass
-
-    @abstractmethod
-    def delete_entry(self, plural_api_id: str, document_id: str) -> Any:
-        pass
+    @staticmethod
+    def _check_response(res: httpx.Response, message: str) -> None:
+        if not (200 <= res.status_code < 300):
+            raise RuntimeError(f"{message} error {res.status_code}: {res.reason_phrase}")

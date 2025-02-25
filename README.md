@@ -1,6 +1,6 @@
 # Strapi Client
 
-Work with Strapi from Python via REST API
+Work with Strapi in Python via REST API
 
 ## Install
 
@@ -17,28 +17,66 @@ pip install strapi-client
 ### Quick start (sync version):
 
 ```python
-from src import StrapiClientSync
+from strapi_client import StrapiClient
 
-strapi = StrapiClientSync(YOUR_STRAPI_URL)
-strapi.authorize(token=YOUR_STRAPI_TOKEN)
-users = strapi.get_entries('users', filters={'username': {'$eq': 'Pavel'}})
-user_id = users['data'][0]['id']
-strapi.update_entry('users', user_id, data={'username': 'Mark'})
+with StrapiClient(base_url='YOUR_STRAPI_URL', token='YOUR_STRAPI_TOKEN') as client:
+    # await strapi.authorize(identifier='user_identifier', password='user_password')  # Optional
+    users = client.get_documents('users', filters={'username': {'$eq': 'Pavel'}})
+    user_id = users.data[0]['documentId']
+    client.update_document('users', user_id, data={'username': 'Mark'})
 ```
 
-Quick start (async version):
+### Quick start (async version):
 
 ```python
 import asyncio
-from src import StrapiClient
+from strapi_client import StrapiClientAsync
 
 
 async def main():
-    strapi = StrapiClient(YOUR_STRAPI_URL)
-    await strapi.authorize(token=YOUR_STRAPI_TOKEN)
-    users = await strapi.get_entries('users', filters={'username': {'$eq': 'Pavel'}})
-    user_id = users['data'][0]['id']
-    await strapi.update_entry('users', user_id, data={'username': 'Mark'})
+    async with StrapiClientAsync(base_url='YOUR_STRAPI_URL', token='YOUR_STRAPI_TOKEN') as client:
+        # await strapi.authorize(identifier='user_identifier', password='user_password')  # Optional
+        users = await client.get_documents('users', filters={'username': {'$eq': 'Pavel'}})
+        user_id = users.data[0]['documentId']
+        await client.update_document('users', user_id, data={'username': 'Mark'})
+
+
+asyncio.run(main())
+```
+
+### Quick start with ORM (experimental)
+
+Relations and upserts are supported in experimental mode.
+
+```python
+import asyncio
+from strapi_client import StrapiClientAsync, BaseDocument, DocumentField
+
+
+class User(BaseDocument):
+    username: str = DocumentField(unique=True)
+    first_name: str
+
+
+class Session(BaseDocument):
+    uid: str = DocumentField(unique=True)
+    user: User | None = DocumentField(default=None, relation=True)
+
+
+async def main():
+    async with StrapiClientAsync(base_url='YOUR_STRAPI_URL', token='YOUR_STRAPI_TOKEN') as client:
+        # Update existing document
+        user1 = await User.get_document(client, document_id='YOUR_DOCUMENT_ID')
+        user1.first_name = 'Mark'
+        await user1.update_document(client)
+
+        # Create or update document with relation
+        session1 = await Session(uid='123', user=user1).upsert_document(client)
+        await session1.refresh(client)  # populate fields from Strapi
+
+        # Create and delete document
+        user2 = await User(username='pavel', first_name='Pavel').create_document(client)
+        await user2.delete_document(client)
 
 
 asyncio.run(main())

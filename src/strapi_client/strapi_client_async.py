@@ -9,40 +9,40 @@ from .types import (
 )
 
 
-class StrapiClient(StrapiClientBase):
-    """REST API client for Strapi."""
-    _client: httpx.Client | None = None
+class StrapiClientAsync(StrapiClientBase):
+    """Async REST API client for Strapi."""
+    _client: httpx.AsyncClient | None = None
 
-    def __enter__(self):
-        self._client = httpx.Client()
+    async def __aenter__(self):
+        self._client = httpx.AsyncClient()
         return self
 
-    def __exit__(self, exc_type, exc, tb):
+    async def __aexit__(self, exc_type, exc, tb):
         if self._client is not None:
-            self._client.close()
+            await self._client.aclose()
             self._client = None
 
     @property
-    def client(self) -> httpx.Client:
+    def client(self) -> httpx.AsyncClient:
         if self._client is None:
             # Fallback to creating a client if not used in a context manager.
-            self._client = httpx.Client()
+            self._client = httpx.AsyncClient()
         return self._client
 
-    def authorize(
+    async def authorize(
             self,
             identifier: str,
             password: str,
     ) -> None:
         """Get auth token using identifier and password."""
-        res = self.send_post_request(
+        res = await self.send_post_request(
             "auth/local",
             json=AuthPayload(identifier=identifier, password=password).model_dump(),
             use_auth=False
         )
         self._token = AuthResponse.model_validate(res.json()).jwt
 
-    def get_document(
+    async def get_document(
             self,
             plural_api_id: str,
             document_id: str,
@@ -51,13 +51,13 @@ class StrapiClient(StrapiClientBase):
     ) -> DocumentResponse:
         """Get document by document id."""
         params = ApiParameters(populate=populate, fields=fields)
-        res = self.send_get_request(
+        res = await self.send_get_request(
             f"{plural_api_id}/{document_id}",
             params=params.stringify()
         )
         return DocumentResponse.model_validate(res.json())
 
-    def get_documents(
+    async def get_documents(
             self,
             plural_api_id: str,
             sort: list[str] | None = None,
@@ -84,58 +84,58 @@ class StrapiClient(StrapiClientBase):
             publication_state=publication_state,
         )
         if params.page is not None or params.start is not None:  # Get specific page/batch
-            res = self.send_get_request(plural_api_id, params=params.stringify())
+            res = await self.send_get_request(plural_api_id, params=params.stringify())
             return DocumentsResponse.model_validate(res.json())
         else:  # Get all records
             params.start = 0
             params.with_count = True
-            res = self.send_get_request(plural_api_id, params=params.stringify())
+            res = await self.send_get_request(plural_api_id, params=params.stringify())
             res_page = DocumentsResponse.model_validate(res.json())
             start_list = [i for i in range(batch_size, res_page.meta.get_total_count(), batch_size)]
             all_data = res_page
             for cur_start in start_list:
                 params.start = cur_start
                 params.with_count = with_count
-                res = self.send_get_request(plural_api_id, params=params.stringify())
+                res = await self.send_get_request(plural_api_id, params=params.stringify())
                 res_page = DocumentsResponse.model_validate(res.json())
                 all_data.data += res_page.data
                 all_data.meta = res_page.meta
             return all_data
 
-    def create_document(
+    async def create_document(
             self, plural_api_id: str, data: dict[str, Any]
     ) -> DocumentResponse:
         """Create new document."""
-        res = self.send_post_request(
+        res = await self.send_post_request(
             plural_api_id,
             json={"data": data},
         )
         return DocumentResponse.model_validate(res.json())
 
-    def update_document(
+    async def update_document(
             self, plural_api_id: str, document_id: str, data: dict[str, Any]
     ) -> DocumentResponse:
         """Update document fields."""
-        res = self.send_put_request(
+        res = await self.send_put_request(
             f"{plural_api_id}/{document_id}",
             body={"data": data},
         )
         return DocumentResponse.model_validate(res.json())
 
-    def delete_document(
+    async def delete_document(
             self, plural_api_id: str, document_id: str
     ) -> None:
         """Delete document by document id."""
-        self.send_delete_request(f"{plural_api_id}/{document_id}")
+        await self.send_delete_request(f"{plural_api_id}/{document_id}")
 
-    def send_get_request(
+    async def send_get_request(
             self,
             route: str,
             params: dict[str, Any] | None = None,
             use_auth: bool = True,
     ) -> httpx.Response:
         """Send GET request to custom endpoint."""
-        res = self.client.get(
+        res = await self.client.get(
             url=urljoin(self.api_url, route),
             params=params,
             headers=self._auth_header if use_auth else None
@@ -143,7 +143,7 @@ class StrapiClient(StrapiClientBase):
         self._check_response(res, "Unable to send GET request")
         return res
 
-    def send_put_request(
+    async def send_put_request(
             self,
             route: str,
             body: dict[str, Any] | None = None,
@@ -151,7 +151,7 @@ class StrapiClient(StrapiClientBase):
             use_auth: bool = True,
     ) -> httpx.Response:
         """Send PUT request to custom endpoint."""
-        res = self.client.put(
+        res = await self.client.put(
             url=urljoin(self.api_url, route),
             json=body,
             params=params,
@@ -160,7 +160,7 @@ class StrapiClient(StrapiClientBase):
         self._check_response(res, "Unable to send PUT request")
         return res
 
-    def send_post_request(
+    async def send_post_request(
             self,
             route: str,
             json: dict[str, Any] | None = None,
@@ -170,7 +170,7 @@ class StrapiClient(StrapiClientBase):
             use_auth: bool = True,
     ) -> httpx.Response:
         """Send POST request to custom endpoint."""
-        res = self.client.post(
+        res = await self.client.post(
             url=urljoin(self.api_url, route),
             json=json,
             params=params,
@@ -181,16 +181,16 @@ class StrapiClient(StrapiClientBase):
         self._check_response(res, "Unable to send POST request")
         return res
 
-    def send_delete_request(self, route: str, use_auth: bool = True) -> httpx.Response:
+    async def send_delete_request(self, route: str, use_auth: bool = True) -> httpx.Response:
         """Send DELETE request to custom endpoint."""
-        res = self.client.delete(
+        res = await self.client.delete(
             url=urljoin(self.api_url, route),
             headers=self._auth_header if use_auth else None
         )
         self._check_response(res, "Unable to send DELETE request")
         return res
 
-    def upload_files(
+    async def upload_files(
             self,
             files: list[Path | str],
             ref: str | None = None,
@@ -209,12 +209,12 @@ class StrapiClient(StrapiClientBase):
         data: dict[str, Any] = {}
         if ref and ref_id and field:
             data = {"ref": ref, "refId": str(ref_id), "field": field}
-        res = self.send_post_request("upload", data=data, files=files_payload)
+        res = await self.send_post_request("upload", data=data, files=files_payload)
         self._check_response(res, "Unable to send POST request")
         return res.json() or {}
 
-    def get_uploaded_files(self, filters: dict | None = None) -> list[dict[str, Any]]:
+    async def get_uploaded_files(self, filters: dict | None = None) -> list[dict[str, Any]]:
         """Get uploaded files."""
         params = ApiParameters(filters=filters)
-        res = self.send_get_request("upload/files", params=params.stringify())
+        res = await self.send_get_request("upload/files", params=params.stringify())
         return res.json()
