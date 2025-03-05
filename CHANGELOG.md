@@ -1,6 +1,16 @@
 # CHANGELOG
 
 
+## v3.3.0 (2025-03-05)
+
+### Features
+
+- Create BaseDocument from API response.
+  ([`f5c8ce8`](https://github.com/Roslovets-Inc/strapi-client/commit/f5c8ce86b0e381d3695d11b523afdea2a20d0b51))
+
+`from_scalar_response` and `from_list_response` class methods
+
+
 ## v3.2.1 (2025-02-25)
 
 ### Bug Fixes
