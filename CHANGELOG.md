@@ -1,6 +1,16 @@
 # CHANGELOG
 
 
+## v3.4.0 (2025-03-18)
+
+### Features
+
+- Work with single type documents.
+  ([`5dec0a7`](https://github.com/Roslovets-Inc/strapi-client/commit/5dec0a75e432c0f36810c2e1ef6104a9c18197b9))
+
+get_single_document(), create_or_update_single_document(), delete_single_document()
+
+
 ## v3.3.0 (2025-03-05)
 
 ### Features
