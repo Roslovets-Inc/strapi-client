@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.5.0 (2025-05-21)
+
+### Features
+
+- Mediaimagedocument type for responsive images
+  ([`5c31a4a`](https://github.com/Roslovets-Inc/strapi-client/commit/5c31a4af80df5c04997841831585d50fba9113a1))
+
+
 ## v3.4.0 (2025-03-18)
 
 ### Features
