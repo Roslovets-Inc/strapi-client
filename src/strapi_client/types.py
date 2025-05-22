@@ -117,12 +117,12 @@ class MediaImageFormats(BaseModel):
     large: MediaImageFormatVariant | None = None
 
     @property
-    def largest(self) -> MediaImageFormatVariant | None:
+    def largest(self) -> MediaImageFormatVariant:
         if self.large: return self.large
         if self.medium: return self.medium
         if self.small: return self.small
         if self.thumbnail: return self.thumbnail
-        return None
+        raise ValueError('Image has no variants')
 
 
 class MediaImageDocument(BaseDocument):
