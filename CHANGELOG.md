@@ -1,6 +1,27 @@
 # CHANGELOG
 
 
+## v3.5.1 (2025-05-22)
+
+### Bug Fixes
+
+- Mediaimageformats always has largest variant
+  ([`41f916c`](https://github.com/Roslovets-Inc/strapi-client/commit/41f916cd3aeff4f70401dab60d98815917923d23))
+
+### Chores
+
+- Bump dev deps
+  ([`94bf006`](https://github.com/Roslovets-Inc/strapi-client/commit/94bf006a2b0c8f24e10b04c2c5556fca5b7133a3))
+
+### Continuous Integration
+
+- Add check code step
+  ([`d32f3a3`](https://github.com/Roslovets-Inc/strapi-client/commit/d32f3a347b84d4cbf8b1c7d195fc65b0780fcbb1))
+
+- Fix mypy step
+  ([`b7c1c09`](https://github.com/Roslovets-Inc/strapi-client/commit/b7c1c09df80e9ac2db933d8215e188286f36f5cc))
+
+
 ## v3.5.0 (2025-05-21)
 
 ### Features
