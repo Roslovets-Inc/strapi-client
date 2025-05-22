@@ -32,6 +32,10 @@ jobs:
           pip install uv
           uv sync
 
+      - name: 🐞 Check code
+        run: |
+          mypy src
+
       - name: 📖 Generate docs
         run: |
           cp README.md docs/
