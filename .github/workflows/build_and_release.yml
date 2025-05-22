@@ -34,7 +34,7 @@ jobs:
 
       - name: 🐞 Check code
         run: |
-          mypy src
+          uv run mypy src
 
       - name: 📖 Generate docs
         run: |
