@@ -1,6 +1,16 @@
 # CHANGELOG
 
 
+## v3.6.0 (2025-05-22)
+
+### Features
+
+- First_from_list_response method of BaseDocument
+  ([`daf5447`](https://github.com/Roslovets-Inc/strapi-client/commit/daf5447e03889620dc265562ba0e7e5e495418ec))
+
+to easily get first record after search
+
+
 ## v3.5.1 (2025-05-22)
 
 ### Bug Fixes
