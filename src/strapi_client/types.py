@@ -48,6 +48,10 @@ class BaseDocument(BaseModel):
     def from_list_response(cls, response: DocumentsResponse) -> list[Self]:
         return [cls.model_validate(d) for d in response.data]
 
+    @classmethod
+    def first_from_list_response(cls, response: DocumentsResponse) -> Self | None:
+        return cls.model_validate(response.data[0]) if len(response.data) > 0 else None
+
 
 class AuthPayload(BaseModel):
     identifier: str
