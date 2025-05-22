@@ -98,6 +98,8 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#property-model_fields_set_4">property model_fields_set</a>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#classmethod-first_from_list_response">classmethod first_from_list_response</a>
+    </li>
     <li class="toctree-l3"><a class="reference internal" href="#classmethod-from_list_response">classmethod from_list_response</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#classmethod-from_scalar_response">classmethod from_scalar_response</a>
@@ -153,6 +155,8 @@
     <li class="toctree-l3"><a class="reference internal" href="#property-model_extra_10">property model_extra</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#property-model_fields_set_10">property model_fields_set</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#classmethod-first_from_list_response_1">classmethod first_from_list_response</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#classmethod-from_list_response_1">classmethod from_list_response</a>
     </li>
@@ -265,6 +269,11 @@
 <p><strong>Returns:</strong>
   A set of strings representing the fields that have been set,  i.e. that were not filled from defaults. </p>
 <hr />
+<p><a href="../../src/strapi_client/types.py#L51"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h3 id="classmethod-first_from_list_response"><kbd>classmethod</kbd> <code>first_from_list_response</code></h3>
+<pre><code class="language-python">first_from_list_response(response: DocumentsResponse) → Optional[Self]
+</code></pre>
+<hr />
 <p><a href="../../src/strapi_client/types.py#L47"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="classmethod-from_list_response"><kbd>classmethod</kbd> <code>from_list_response</code></h3>
 <pre><code class="language-python">from_list_response(response: DocumentsResponse) → list[Self]
@@ -275,7 +284,7 @@
 <pre><code class="language-python">from_scalar_response(response: DocumentResponse) → Self
 </code></pre>
 <hr />
-<p><a href="../../src/strapi_client/types.py#L52"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/types.py#L56"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="class-authpayload"><kbd>class</kbd> <code>AuthPayload</code></h2>
 <hr />
 <h4 id="property-model_extra_5"><kbd>property</kbd> model_extra</h4>
@@ -288,7 +297,7 @@
 <p><strong>Returns:</strong>
   A set of strings representing the fields that have been set,  i.e. that were not filled from defaults. </p>
 <hr />
-<p><a href="../../src/strapi_client/types.py#L57"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/types.py#L61"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="class-authresponse"><kbd>class</kbd> <code>AuthResponse</code></h2>
 <hr />
 <h4 id="property-model_extra_6"><kbd>property</kbd> model_extra</h4>
@@ -301,7 +310,7 @@
 <p><strong>Returns:</strong>
   A set of strings representing the fields that have been set,  i.e. that were not filled from defaults. </p>
 <hr />
-<p><a href="../../src/strapi_client/types.py#L61"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/types.py#L65"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="class-apiparameters"><kbd>class</kbd> <code>ApiParameters</code></h2>
 <hr />
 <h4 id="property-model_extra_7"><kbd>property</kbd> model_extra</h4>
@@ -314,12 +323,12 @@
 <p><strong>Returns:</strong>
   A set of strings representing the fields that have been set,  i.e. that were not filled from defaults. </p>
 <hr />
-<p><a href="../../src/strapi_client/types.py#L74"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/types.py#L78"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-stringify"><kbd>method</kbd> <code>stringify</code></h3>
 <pre><code class="language-python">stringify() → dict[str, Any]
 </code></pre>
 <hr />
-<p><a href="../../src/strapi_client/types.py#L100"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/types.py#L104"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="class-mediaimageformatvariant"><kbd>class</kbd> <code>MediaImageFormatVariant</code></h2>
 <hr />
 <h4 id="property-model_extra_8"><kbd>property</kbd> model_extra</h4>
@@ -332,7 +341,7 @@
 <p><strong>Returns:</strong>
   A set of strings representing the fields that have been set,  i.e. that were not filled from defaults. </p>
 <hr />
-<p><a href="../../src/strapi_client/types.py#L113"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/types.py#L117"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="class-mediaimageformats"><kbd>class</kbd> <code>MediaImageFormats</code></h2>
 <hr />
 <h4 id="property-largest"><kbd>property</kbd> largest</h4>
@@ -347,7 +356,7 @@
 <p><strong>Returns:</strong>
   A set of strings representing the fields that have been set,  i.e. that were not filled from defaults. </p>
 <hr />
-<p><a href="../../src/strapi_client/types.py#L128"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/types.py#L132"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="class-mediaimagedocument"><kbd>class</kbd> <code>MediaImageDocument</code></h2>
 <hr />
 <h4 id="property-model_extra_10"><kbd>property</kbd> model_extra</h4>
@@ -359,6 +368,11 @@
 <p>Returns the set of fields that have been explicitly set on this model instance. </p>
 <p><strong>Returns:</strong>
   A set of strings representing the fields that have been set,  i.e. that were not filled from defaults. </p>
+<hr />
+<p><a href="../../src/strapi_client/types.py#L51"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h3 id="classmethod-first_from_list_response_1"><kbd>classmethod</kbd> <code>first_from_list_response</code></h3>
+<pre><code class="language-python">first_from_list_response(response: DocumentsResponse) → Optional[Self]
+</code></pre>
 <hr />
 <p><a href="../../src/strapi_client/types.py#L47"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="classmethod-from_list_response_1"><kbd>classmethod</kbd> <code>from_list_response</code></h3>
