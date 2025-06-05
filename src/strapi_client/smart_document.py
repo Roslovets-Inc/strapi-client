@@ -47,7 +47,6 @@ class SmartDocument(BaseDocument):
     ) -> list[Self]:
         """Get list of documents."""
         fields, populate = get_model_fields_and_population(cls)
-        print(fields)
         response = await client.get_documents(
             plural_api_id=cls.__plural_api_id__,
             sort=sort,
@@ -74,7 +73,6 @@ class SmartDocument(BaseDocument):
     ) -> Self | None:
         """First documents if available."""
         fields, populate = get_model_fields_and_population(cls)
-        print(fields)
         response = await client.get_documents(
             plural_api_id=cls.__plural_api_id__,
             sort=sort,
