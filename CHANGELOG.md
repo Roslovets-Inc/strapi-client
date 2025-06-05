@@ -1,6 +1,9 @@
 # CHANGELOG
 
 
+## v3.7.1 (2025-06-05)
+
+
 ## v3.7.0 (2025-06-05)
 
 ### Bug Fixes
@@ -8,7 +11,16 @@
 - Send `locale` parameter to endpoint
   ([`363a4a1`](https://github.com/Roslovets-Inc/strapi-client/commit/363a4a11f6dd974089fc88ee3e03951ce7002872))
 
+- **media**: Add `largest_format` property
+  ([`0ff994c`](https://github.com/Roslovets-Inc/strapi-client/commit/0ff994cae1f7ab4b527772bfbae75ddc73c2836a))
+
+- **smart_document**: Remove print
+  ([`f0d6d2f`](https://github.com/Roslovets-Inc/strapi-client/commit/f0d6d2f829b6781a1e19e3255321ed5a4d16df65))
+
 ### Chores
+
+- Bump dev deps
+  ([`d38e5cf`](https://github.com/Roslovets-Inc/strapi-client/commit/d38e5cfb487798552061326cd45968bec4be9813))
 
 - Ignore test scripts
   ([`19b8da5`](https://github.com/Roslovets-Inc/strapi-client/commit/19b8da56dcba56637068a380d7b0c9432ecc46fe))
