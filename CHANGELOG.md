@@ -1,6 +1,39 @@
 # CHANGELOG
 
 
+## v3.7.0 (2025-06-05)
+
+### Bug Fixes
+
+- Send `locale` parameter to endpoint
+  ([`363a4a1`](https://github.com/Roslovets-Inc/strapi-client/commit/363a4a11f6dd974089fc88ee3e03951ce7002872))
+
+### Chores
+
+- Ignore test scripts
+  ([`19b8da5`](https://github.com/Roslovets-Inc/strapi-client/commit/19b8da56dcba56637068a380d7b0c9432ecc46fe))
+
+### Documentation
+
+- Smartdocument example
+  ([`7610c79`](https://github.com/Roslovets-Inc/strapi-client/commit/7610c79d85b1760ca81d3528c045857e6d7f31a2))
+
+### Features
+
+- `basedocumentwithlocale` model
+  ([`a8d223b`](https://github.com/Roslovets-Inc/strapi-client/commit/a8d223b2d17ca36fbf96085641420bf4b52913d2))
+
+and remove `locale` from `BaseDocument`
+
+- `populate` parameter can be dictionary
+  ([`07de12d`](https://github.com/Roslovets-Inc/strapi-client/commit/07de12d0fd8a0701f5a9e10a7e28a319815951f3))
+
+- `smartdocument` model
+  ([`3b7b02d`](https://github.com/Roslovets-Inc/strapi-client/commit/3b7b02d6c119ac253000570e7f0cc3a4102edd45))
+
+to read and parse nested documents in automated way
+
+
 ## v3.6.0 (2025-05-22)
 
 ### Features
