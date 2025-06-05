@@ -59,7 +59,7 @@ class StrapiClient(StrapiClientBase):
             self,
             plural_api_id: str,
             document_id: str,
-            populate: list[str] | str | None = None,
+            populate: list[str] | dict[str, Any] | str | None = None,
             fields: list[str] | None = None,
     ) -> DocumentResponse:
         """Get document by document id."""
@@ -75,7 +75,7 @@ class StrapiClient(StrapiClientBase):
             plural_api_id: str,
             sort: list[str] | None = None,
             filters: dict[str, Any] | None = None,
-            populate: list[str] | str | None = None,
+            populate: list[str] | dict[str, Any] | str | None = None,
             fields: list[str] | None = None,
             publication_state: str | None = None,
             locale: str | None = None,

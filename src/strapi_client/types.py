@@ -69,7 +69,7 @@ class AuthResponse(BaseModel):
 class ApiParameters(BaseModel):
     sort: list[str] | str | None = None
     filters: dict[str, Any] | None = None
-    populate: list[str] | str | None = None
+    populate: list[str] | dict[str, Any] | str | None = None
     fields: list[str] | str | None = None
     page: int | None = None
     page_size: int | None = None
