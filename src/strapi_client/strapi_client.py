@@ -95,6 +95,7 @@ class StrapiClient(StrapiClientBase):
             start=start,
             limit=batch_size,
             publication_state=publication_state,
+            locale=locale,
         )
         if params.page is not None or params.start is not None:  # Get specific page/batch
             res = self.send_get_request(plural_api_id, params=params.stringify())
