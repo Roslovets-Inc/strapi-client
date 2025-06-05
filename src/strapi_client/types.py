@@ -148,3 +148,7 @@ class MediaImageDocument(BaseDocument):
     preview_url: str | None = Field(default=None, alias='previewUrl')
     provider: str
     provider_metadata: dict[str, Any] | None = None
+
+    @property
+    def largest_format(self) -> MediaImageFormatVariant:
+        return self.formats.largest
