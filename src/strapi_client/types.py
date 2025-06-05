@@ -38,7 +38,6 @@ class BaseDocument(BaseModel):
     created_at: datetime.datetime = Field(alias='createdAt')
     updated_at: datetime.datetime = Field(alias='updatedAt')
     published_at: datetime.datetime = Field(alias='publishedAt')
-    locale: str | None = None
 
     @classmethod
     def from_scalar_response(cls, response: DocumentResponse) -> Self:
@@ -51,6 +50,11 @@ class BaseDocument(BaseModel):
     @classmethod
     def first_from_list_response(cls, response: DocumentsResponse) -> Self | None:
         return cls.model_validate(response.data[0]) if len(response.data) > 0 else None
+
+
+class BaseDocumentWithLocale(BaseDocument):
+    """Strapi document with standard fields and locale."""
+    locale: str | None = None
 
 
 class AuthPayload(BaseModel):
