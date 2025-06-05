@@ -53,7 +53,9 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#quick-start-async-version">Quick start (async version):</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#quick-start-with-orm-experimental">Quick start with ORM (experimental)</a>
+    <li class="toctree-l3"><a class="reference internal" href="#quick-start-with-smartdocument-orm">Quick start with SmartDocument ORM</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#quick-start-with-activedocument-orm-experimental">Quick start with ActiveDocument ORM (experimental)</a>
     </li>
         </ul>
     </li>
@@ -73,6 +75,10 @@
                   <li class="toctree-l1"><a class="reference internal" href="reference/">Index</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="reference/strapi_client.active_document/">Strapi client.active document</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="reference/strapi_client.model_utils/">Strapi client.model utils</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="reference/strapi_client.smart_document/">Strapi client.smart document</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="reference/strapi_client.strapi_client/">Strapi client.strapi client</a>
                   </li>
@@ -141,7 +147,42 @@ async def main():
 
 asyncio.run(main())
 </code></pre>
-<h3 id="quick-start-with-orm-experimental">Quick start with ORM (experimental)</h3>
+<h3 id="quick-start-with-smartdocument-orm">Quick start with SmartDocument ORM</h3>
+<pre><code class="language-python">import asyncio
+from strapi_client import StrapiClientAsync, SmartDocument, MediaImageDocument
+
+
+class User(SmartDocument):
+    username: str
+    first_name: str
+    photo: MediaImageDocument
+
+
+class Session(SmartDocument):
+    uid: str
+    user: User | None
+
+
+async def main():
+    async with StrapiClientAsync(base_url='YOUR_STRAPI_URL', token='YOUR_STRAPI_TOKEN') as client:
+        # Get with relations and media by ID
+        user1 = await User.get_document(client, document_id='YOUR_DOCUMENT_ID')
+        print(user1.photo)
+
+        # List documents with automatic population
+        sessions = await Session.get_documents(client, sort=['created_at'])
+        for session in sessions:
+            print(session.user.photo if session.user else 'No user')
+
+        # Find one document
+        user1 = await User.get_first_document(client, filters={'username': 'Mark'})
+        if user1:
+            print(user1)
+
+
+asyncio.run(main())
+</code></pre>
+<h3 id="quick-start-with-activedocument-orm-experimental">Quick start with ActiveDocument ORM (experimental)</h3>
 <p>Relations and upserts are supported in experimental mode.</p>
 <pre><code class="language-python">import asyncio
 from strapi_client import StrapiClientAsync, ActiveDocument, DocumentField
@@ -232,5 +273,5 @@ asyncio.run(main())
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2025-05-22 23:01:35.406281+00:00
+Build Date UTC : 2025-06-05 12:29:22.632995+00:00
 -->

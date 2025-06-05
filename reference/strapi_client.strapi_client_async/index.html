@@ -50,6 +50,10 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../strapi_client.active_document/">Strapi client.active document</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../strapi_client.model_utils/">Strapi client.model utils</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../strapi_client.smart_document/">Strapi client.smart document</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../strapi_client.strapi_client/">Strapi client.strapi client</a>
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">Strapi client.strapi client async</a>
@@ -153,13 +157,13 @@
 <pre><code class="language-python">close()
 </code></pre>
 <hr />
-<p><a href="../../src/strapi_client/strapi_client_async.py#L123"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/strapi_client_async.py#L124"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-create_document"><kbd>method</kbd> <code>create_document</code></h3>
 <pre><code class="language-python">create_document(plural_api_id: str, data: dict[str, Any]) → DocumentResponse
 </code></pre>
 <p>Create new document. </p>
 <hr />
-<p><a href="../../src/strapi_client/strapi_client_async.py#L118"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/strapi_client_async.py#L119"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-create_or_update_single_document"><kbd>method</kbd> <code>create_or_update_single_document</code></h3>
 <pre><code class="language-python">create_or_update_single_document(
     single_api_id: str,
@@ -168,13 +172,13 @@
 </code></pre>
 <p>Create or update single type document. </p>
 <hr />
-<p><a href="../../src/strapi_client/strapi_client_async.py#L147"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/strapi_client_async.py#L148"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-delete_document"><kbd>method</kbd> <code>delete_document</code></h3>
 <pre><code class="language-python">delete_document(plural_api_id: str, document_id: str) → None
 </code></pre>
 <p>Delete document by document id. </p>
 <hr />
-<p><a href="../../src/strapi_client/strapi_client_async.py#L143"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/strapi_client_async.py#L144"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-delete_single_document"><kbd>method</kbd> <code>delete_single_document</code></h3>
 <pre><code class="language-python">delete_single_document(single_api_id: str) → None
 </code></pre>
@@ -185,7 +189,7 @@
 <pre><code class="language-python">get_document(
     plural_api_id: str,
     document_id: str,
-    populate: list[str] | str | None = None,
+    populate: list[str] | dict[str, Any] | str | None = None,
     fields: list[str] | None = None
 ) → DocumentResponse
 </code></pre>
@@ -197,7 +201,7 @@
     plural_api_id: str,
     sort: list[str] | None = None,
     filters: dict[str, Any] | None = None,
-    populate: list[str] | str | None = None,
+    populate: list[str] | dict[str, Any] | str | None = None,
     fields: list[str] | None = None,
     publication_state: str | None = None,
     locale: str | None = None,
@@ -215,7 +219,7 @@
 </code></pre>
 <p>Get document of single type. </p>
 <hr />
-<p><a href="../../src/strapi_client/strapi_client_async.py#L238"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/strapi_client_async.py#L239"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-get_uploaded_files"><kbd>method</kbd> <code>get_uploaded_files</code></h3>
 <pre><code class="language-python">get_uploaded_files(filters: dict | None = None) → list[dict[str, Any]]
 </code></pre>
@@ -226,13 +230,13 @@
 <pre><code class="language-python">open() → AsyncClient
 </code></pre>
 <hr />
-<p><a href="../../src/strapi_client/strapi_client_async.py#L206"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/strapi_client_async.py#L207"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-send_delete_request"><kbd>method</kbd> <code>send_delete_request</code></h3>
 <pre><code class="language-python">send_delete_request(route: str, use_auth: bool = True) → Response
 </code></pre>
 <p>Send DELETE request to custom endpoint. </p>
 <hr />
-<p><a href="../../src/strapi_client/strapi_client_async.py#L153"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/strapi_client_async.py#L154"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-send_get_request"><kbd>method</kbd> <code>send_get_request</code></h3>
 <pre><code class="language-python">send_get_request(
     route: str,
@@ -242,7 +246,7 @@
 </code></pre>
 <p>Send GET request to custom endpoint. </p>
 <hr />
-<p><a href="../../src/strapi_client/strapi_client_async.py#L185"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/strapi_client_async.py#L186"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-send_post_request"><kbd>method</kbd> <code>send_post_request</code></h3>
 <pre><code class="language-python">send_post_request(
     route: str,
@@ -255,7 +259,7 @@
 </code></pre>
 <p>Send POST request to custom endpoint. </p>
 <hr />
-<p><a href="../../src/strapi_client/strapi_client_async.py#L168"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/strapi_client_async.py#L169"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-send_put_request"><kbd>method</kbd> <code>send_put_request</code></h3>
 <pre><code class="language-python">send_put_request(
     route: str,
@@ -266,7 +270,7 @@
 </code></pre>
 <p>Send PUT request to custom endpoint. </p>
 <hr />
-<p><a href="../../src/strapi_client/strapi_client_async.py#L133"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/strapi_client_async.py#L134"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-update_document"><kbd>method</kbd> <code>update_document</code></h3>
 <pre><code class="language-python">update_document(
     plural_api_id: str,
@@ -276,7 +280,7 @@
 </code></pre>
 <p>Update document fields. </p>
 <hr />
-<p><a href="../../src/strapi_client/strapi_client_async.py#L215"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="../../src/strapi_client/strapi_client_async.py#L216"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-upload_files"><kbd>method</kbd> <code>upload_files</code></h3>
 <pre><code class="language-python">upload_files(
     files: list[Path | str],
