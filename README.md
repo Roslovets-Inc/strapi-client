@@ -46,7 +46,45 @@ async def main():
 asyncio.run(main())
 ```
 
-### Quick start with ORM (experimental)
+### Quick start with SmartDocument ORM
+
+```python
+import asyncio
+from strapi_client import StrapiClientAsync, SmartDocument, MediaImageDocument
+
+
+class User(SmartDocument):
+    username: str
+    first_name: str
+    photo: MediaImageDocument
+
+
+class Session(SmartDocument):
+    uid: str
+    user: User | None
+
+
+async def main():
+    async with StrapiClientAsync(base_url='YOUR_STRAPI_URL', token='YOUR_STRAPI_TOKEN') as client:
+        # Get with relations and media by ID
+        user1 = await User.get_document(client, document_id='YOUR_DOCUMENT_ID')
+        print(user1.photo)
+
+        # List documents with automatic population
+        sessions = await Session.get_documents(client, sort=['created_at'])
+        for session in sessions:
+            print(session.user.photo if session.user else 'No user')
+
+        # Find one document
+        user1 = await User.get_first_document(client, filters={'username': 'Mark'})
+        if user1:
+            print(user1)
+
+
+asyncio.run(main())
+```
+
+### Quick start with ActiveDocument ORM (experimental)
 
 Relations and upserts are supported in experimental mode.
 
