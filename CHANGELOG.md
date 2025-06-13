@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.7.2 (2025-06-13)
+
+### Bug Fixes
+
+- Add missing SingleSmartDocument
+  ([`5546c95`](https://github.com/Roslovets-Inc/strapi-client/commit/5546c9530e9af462b8da74ede8bb936b667f7468))
+
+
 ## v3.7.1 (2025-06-05)
 
 
