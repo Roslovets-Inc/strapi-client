@@ -12,7 +12,7 @@ class SingleSmartDocument(BaseDocument):
     @classmethod
     def __pydantic_init_subclass__(cls, **kwargs: Any) -> None:
         super().__pydantic_init_subclass__(**kwargs)
-        if '__plural_api_id__' not in cls.__dict__:
+        if '__single_api_id__' not in cls.__dict__:
             name = re.sub(r'(?<!^)(?=[A-Z])', '-', cls.__name__).lower()
             cls.__single_api_id__ = name
 
@@ -20,10 +20,8 @@ class SingleSmartDocument(BaseDocument):
     async def get_document(
             cls,
             client: StrapiClientAsync,
-            document_id: str,
     ) -> Self:
-        """Get document by document id."""
-        fields, populate = get_model_fields_and_population(cls)
+        """Get single document by single api id."""
         response = await client.get_single_document(
             single_api_id=cls.__single_api_id__
         )
