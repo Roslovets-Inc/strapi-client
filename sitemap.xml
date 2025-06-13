@@ -2,42 +2,46 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://roslovets-inc.github.io/strapi-client/</loc>
-         <lastmod>2025-06-05</lastmod>
+         <lastmod>2025-06-13</lastmod>
     </url>
     <url>
          <loc>https://roslovets-inc.github.io/strapi-client/reference/</loc>
-         <lastmod>2025-06-05</lastmod>
+         <lastmod>2025-06-13</lastmod>
     </url>
     <url>
          <loc>https://roslovets-inc.github.io/strapi-client/reference/strapi_client.active_document/</loc>
-         <lastmod>2025-06-05</lastmod>
+         <lastmod>2025-06-13</lastmod>
     </url>
     <url>
          <loc>https://roslovets-inc.github.io/strapi-client/reference/strapi_client.model_utils/</loc>
-         <lastmod>2025-06-05</lastmod>
+         <lastmod>2025-06-13</lastmod>
+    </url>
+    <url>
+         <loc>https://roslovets-inc.github.io/strapi-client/reference/strapi_client.single_smart_document/</loc>
+         <lastmod>2025-06-13</lastmod>
     </url>
     <url>
          <loc>https://roslovets-inc.github.io/strapi-client/reference/strapi_client.smart_document/</loc>
-         <lastmod>2025-06-05</lastmod>
+         <lastmod>2025-06-13</lastmod>
     </url>
     <url>
          <loc>https://roslovets-inc.github.io/strapi-client/reference/strapi_client.strapi_client/</loc>
-         <lastmod>2025-06-05</lastmod>
+         <lastmod>2025-06-13</lastmod>
     </url>
     <url>
          <loc>https://roslovets-inc.github.io/strapi-client/reference/strapi_client.strapi_client_async/</loc>
-         <lastmod>2025-06-05</lastmod>
+         <lastmod>2025-06-13</lastmod>
     </url>
     <url>
          <loc>https://roslovets-inc.github.io/strapi-client/reference/strapi_client.strapi_client_base/</loc>
-         <lastmod>2025-06-05</lastmod>
+         <lastmod>2025-06-13</lastmod>
     </url>
     <url>
          <loc>https://roslovets-inc.github.io/strapi-client/reference/strapi_client.types/</loc>
-         <lastmod>2025-06-05</lastmod>
+         <lastmod>2025-06-13</lastmod>
     </url>
     <url>
          <loc>https://roslovets-inc.github.io/strapi-client/reference/strapi_client.utils/</loc>
-         <lastmod>2025-06-05</lastmod>
+         <lastmod>2025-06-13</lastmod>
     </url>
 </urlset>
