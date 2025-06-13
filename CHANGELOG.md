@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.7.3 (2025-06-13)
+
+### Bug Fixes
+
+- Singlesmartdocument bugs
+  ([`ecc4c41`](https://github.com/Roslovets-Inc/strapi-client/commit/ecc4c41f6f0f032a9c7c817e7451eaf427668c65))
+
+
 ## v3.7.2 (2025-06-13)
 
 ### Bug Fixes
