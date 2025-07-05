@@ -1,6 +1,9 @@
 # CHANGELOG
 
 
+## v3.8.0 (2025-07-05)
+
+
 ## v3.7.4 (2025-07-05)
 
 ### Bug Fixes
@@ -9,6 +12,18 @@
   ([`0de8648`](https://github.com/Roslovets-Inc/strapi-client/commit/0de86482fb53f2a485c371ee73c2d675d8e880c7))
 
 and 'BasePopulatable` as a root class
+
+- Replace async methods in sync client
+  ([`a15c30f`](https://github.com/Roslovets-Inc/strapi-client/commit/a15c30fd518a895025b4f619f2ae3bdea0cd05fb))
+
+### Features
+
+- Add health check methods to Strapi clients
+  ([`3aa0e28`](https://github.com/Roslovets-Inc/strapi-client/commit/3aa0e28a95252be2175603343897038fe85fb63a))
+
+Introduced check_health methods to both StrapiClient and StrapiClientAsync classes to verify Strapi
+  API availability. These methods perform a GET request to the '_health' endpoint and return a
+  boolean indicating the API's status.
 
 
 ## v3.7.3 (2025-06-13)
