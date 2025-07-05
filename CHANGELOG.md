@@ -1,6 +1,16 @@
 # CHANGELOG
 
 
+## v3.7.4 (2025-07-05)
+
+### Bug Fixes
+
+- Populate components with `BaseComponent`
+  ([`0de8648`](https://github.com/Roslovets-Inc/strapi-client/commit/0de86482fb53f2a485c371ee73c2d675d8e880c7))
+
+and 'BasePopulatable` as a root class
+
+
 ## v3.7.3 (2025-06-13)
 
 ### Bug Fixes
