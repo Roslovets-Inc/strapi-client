@@ -1,7 +1,7 @@
 from typing import Any, get_origin, get_args
 from types import UnionType
 from pydantic import BaseModel
-from .types import BaseDocument, MediaImageDocument
+from .types import MediaImageDocument, BasePopulatable
 
 
 def get_model_fields_and_population(model_class: type[BaseModel]) -> tuple[list[str], dict[str, Any]]:
@@ -59,7 +59,7 @@ class _ModelFieldProcessor:
             if self._is_scalar_type(field_type):
                 root_fields.append(actual_field_name)
             # Related documents go to the populate structure
-            elif self._is_base_document_subclass(field_type):
+            elif self._is_populatable_entry(field_type):
                 populate_dict[actual_field_name] = self._get_populate_structure(field_type)
 
         return root_fields, populate_dict
@@ -96,15 +96,15 @@ class _ModelFieldProcessor:
 
         return field_type
 
-    def _is_base_document_subclass(self, field_type: Any) -> bool:
+    def _is_populatable_entry(self, field_type: Any) -> bool:
         """
-        Check if the type is a subclass of BaseDocument.
+        Check if the type is a subclass of BasePopulatable.
         This indicates that the field represents a relation to another Strapi entity.
         """
         try:
             return (isinstance(field_type, type) and
-                    issubclass(field_type, BaseDocument) and
-                    field_type is not BaseDocument)
+                    issubclass(field_type, BasePopulatable) and
+                    field_type is not BasePopulatable)
         except (TypeError, AttributeError):
             return False
 
@@ -124,7 +124,7 @@ class _ModelFieldProcessor:
         Check if the type is scalar (string, number, boolean, etc.).
         Scalar fields don't require populate and go directly to the fields list.
         """
-        return not self._is_base_document_subclass(field_type)
+        return not self._is_populatable_entry(field_type)
 
     def _get_field_name(self, field_name: str, field_info: Any) -> str:
         """
@@ -178,7 +178,7 @@ class _ModelFieldProcessor:
 
                 if self._is_scalar_type(field_type):
                     nested_fields.append(actual_field_name)
-                elif self._is_base_document_subclass(field_type):
+                elif self._is_populatable_entry(field_type):
                     nested_populate[actual_field_name] = self._get_populate_structure(field_type)
 
             # Build the resulting structure for Strapi

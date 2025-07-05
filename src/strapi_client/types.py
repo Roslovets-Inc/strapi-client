@@ -27,11 +27,15 @@ class DocumentsResponse(BaseModel):
     meta: ResponseMeta
 
 
+class BasePopulatable(BaseModel):
+    """Strapi entry that can be populated in request."""
+
+
 class DocumentResponse(BaseModel):
     data: dict[str, Any]
 
 
-class BaseDocument(BaseModel):
+class BaseDocument(BasePopulatable):
     """Strapi document with standard fields."""
     id: int
     document_id: str = Field(alias='documentId')
@@ -55,6 +59,10 @@ class BaseDocument(BaseModel):
 class BaseDocumentWithLocale(BaseDocument):
     """Strapi document with standard fields and locale."""
     locale: str | None = None
+
+
+class BaseComponent(BasePopulatable):
+    """Strapi component."""
 
 
 class AuthPayload(BaseModel):
