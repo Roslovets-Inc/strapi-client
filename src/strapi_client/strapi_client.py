@@ -241,3 +241,13 @@ class StrapiClient(StrapiClientBase):
         params = ApiParameters(filters=filters)
         res = self.send_get_request("upload/files", params=params.stringify())
         return res.json()
+
+    def check_health(self) -> bool:
+        """Check if Strapi API is available."""
+        try:
+            with httpx.Client(timeout=5.0) as client:
+                res = client.get(urljoin(self.base_url, "_health"))
+                res.raise_for_status()
+                return True
+        except Exception:
+            return False
