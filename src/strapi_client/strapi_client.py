@@ -26,7 +26,7 @@ class StrapiClient(StrapiClientBase):
             self._client = httpx.Client(timeout=self.timeout)
         return self._client
 
-    async def close(self):
+    def close(self):
         if self._client is not None:
             self._client.close()
             self._client = None
@@ -50,7 +50,7 @@ class StrapiClient(StrapiClientBase):
         )
         self._token = AuthResponse.model_validate(res.json()).jwt
 
-    async def get_single_document(self, single_api_id: str) -> DocumentResponse:
+    def get_single_document(self, single_api_id: str) -> DocumentResponse:
         """Get document of single type."""
         res = self.send_get_request(single_api_id)
         return DocumentResponse.model_validate(res.json())
@@ -116,7 +116,7 @@ class StrapiClient(StrapiClientBase):
                 all_data.meta = res_page.meta
             return all_data
 
-    async def create_or_update_single_document(self, single_api_id: str, data: dict[str, Any]) -> DocumentResponse:
+    def create_or_update_single_document(self, single_api_id: str, data: dict[str, Any]) -> DocumentResponse:
         """Create or update single type document."""
         res = self.send_put_request(single_api_id, body={"data": data})
         return DocumentResponse.model_validate(res.json())
@@ -141,7 +141,7 @@ class StrapiClient(StrapiClientBase):
         )
         return DocumentResponse.model_validate(res.json())
 
-    async def delete_single_document(self, single_api_id: str) -> None:
+    def delete_single_document(self, single_api_id: str) -> None:
         """Delete single type document."""
         self.send_delete_request(single_api_id)
 
