@@ -202,6 +202,14 @@
     </li>
         </ul>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#class-webhookpayload">class WebhookPayload</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#property-model_extra_14">property model_extra</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#property-model_fields_set_14">property model_fields_set</a>
+    </li>
+        </ul>
+    </li>
     </ul>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../strapi_client.utils/">Strapi client.utils</a>
@@ -480,6 +488,19 @@
 <h3 id="classmethod-from_scalar_response_2"><kbd>classmethod</kbd> <code>from_scalar_response</code></h3>
 <pre><code class="language-python">from_scalar_response(response: DocumentResponse) → Self
 </code></pre>
+<hr />
+<p><a href="../../src/strapi_client/types.py#L179"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="class-webhookpayload"><kbd>class</kbd> <code>WebhookPayload</code></h2>
+<hr />
+<h4 id="property-model_extra_14"><kbd>property</kbd> model_extra</h4>
+<p>Get extra fields set during validation. </p>
+<p><strong>Returns:</strong>
+  A dictionary of extra fields, or <code>None</code> if <code>config.extra</code> is not set to <code>"allow"</code>. </p>
+<hr />
+<h4 id="property-model_fields_set_14"><kbd>property</kbd> model_fields_set</h4>
+<p>Returns the set of fields that have been explicitly set on this model instance. </p>
+<p><strong>Returns:</strong>
+  A set of strings representing the fields that have been set,  i.e. that were not filled from defaults. </p>
 <hr />
 <p><em>This file was automatically generated via <a href="https://github.com/ml-tooling/lazydocs">lazydocs</a>.</em></p>
               
