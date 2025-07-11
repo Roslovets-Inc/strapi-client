@@ -1,4 +1,4 @@
-from typing import Any, Self
+from typing import Any, Self, Literal
 import datetime
 from pydantic import BaseModel, Field, SecretStr
 from .utils import stringify_parameters
@@ -160,3 +160,24 @@ class MediaImageDocument(BaseDocument):
     @property
     def largest_format(self) -> MediaImageFormatVariant:
         return self.formats.largest
+
+
+WebhookEventName = Literal[
+    "entry.create",
+    "entry.update",
+    "entry.delete",
+    "entry.publish",
+    "entry.unpublish",
+    "media.create",
+    "media.update",
+    "media.delete",
+    "releases.publish",
+    "trigger-test",
+]
+
+
+class WebhookPayload(BaseModel):
+    event: WebhookEventName
+    created_at: datetime.datetime = Field(alias='createdAt')
+    model: str | None = None
+    entry: BaseDocument | None = None
