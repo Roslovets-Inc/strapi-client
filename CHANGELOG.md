@@ -1,6 +1,17 @@
 # CHANGELOG
 
 
+## v3.9.0 (2025-07-11)
+
+### Features
+
+- Add WebhookPayload model
+  ([`4039a72`](https://github.com/Roslovets-Inc/strapi-client/commit/4039a72d03772515bf5a578540062edfec4f43eb))
+
+Introduces the WebhookPayload model and WebhookEventName literal to support webhook event handling:
+  https://docs.strapi.io/cms/backend-customization/webhooks
+
+
 ## v3.8.0 (2025-07-05)
 
 
