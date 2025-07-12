@@ -66,6 +66,8 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#classmethod-get_documents">classmethod get_documents</a>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#classmethod-get_documents_with_meta">classmethod get_documents_with_meta</a>
+    </li>
     <li class="toctree-l3"><a class="reference internal" href="#classmethod-get_first_document">classmethod get_first_document</a>
     </li>
         </ul>
@@ -149,6 +151,22 @@
 <p>Get list of documents. </p>
 <hr />
 <p><a href="../../src/strapi_client/smart_document.py#L65"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h3 id="classmethod-get_documents_with_meta"><kbd>classmethod</kbd> <code>get_documents_with_meta</code></h3>
+<pre><code class="language-python">get_documents_with_meta(
+    client: StrapiClientAsync,
+    sort: list[str] | None = None,
+    filters: dict[str, Any] | None = None,
+    publication_state: str | None = None,
+    locale: str | None = None,
+    start: int | None = 0,
+    page: int | None = None,
+    limit: int = 25,
+    with_count: bool = True
+) → tuple[list[Self], ResponseMeta]
+</code></pre>
+<p>Get list of documents. </p>
+<hr />
+<p><a href="../../src/strapi_client/smart_document.py#L95"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="classmethod-get_first_document"><kbd>classmethod</kbd> <code>get_first_document</code></h3>
 <pre><code class="language-python">get_first_document(
     client: StrapiClientAsync,
