@@ -1,6 +1,21 @@
 # CHANGELOG
 
 
+## v3.10.0 (2025-07-12)
+
+### Bug Fixes
+
+- Optional fields population
+  ([`2ff7fbb`](https://github.com/Roslovets-Inc/strapi-client/commit/2ff7fbb578d3e15c120c881ab091d148c2aebcc6))
+
+### Features
+
+- **SmartDocument**: Add `get_documents_with_meta` method
+  ([`5c7722c`](https://github.com/Roslovets-Inc/strapi-client/commit/5c7722c5a46141497a0c5fc0eda5316a76286603))
+
+to work with pagination
+
+
 ## v3.9.0 (2025-07-11)
 
 ### Features
