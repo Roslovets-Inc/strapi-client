@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.10.1 (2025-07-12)
+
+### Bug Fixes
+
+- Remove debug logging
+  ([`8978a27`](https://github.com/Roslovets-Inc/strapi-client/commit/8978a27c372bc4aa59a73f8e6da36a4f196013a5))
+
+
 ## v3.10.0 (2025-07-12)
 
 ### Bug Fixes
