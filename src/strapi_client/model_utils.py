@@ -1,4 +1,4 @@
-from typing import Any, get_origin, get_args
+from typing import Any, Union, get_origin, get_args
 from types import UnionType
 from pydantic import BaseModel
 from .types import MediaImageDocument, BasePopulatable
@@ -72,10 +72,25 @@ class _ModelFieldProcessor:
         - Optional[str] -> str
         - List[Category] -> Category
         - Union[str, None] -> str
+        - list[Category] | None -> Category
         """
         # Handle new Union syntax (Python 3.10+): str | None
         if isinstance(field_type, UnionType):
             args = get_args(field_type)
+            # For Union types - choose the first non-None type
+            if args:
+                non_none_types = [arg for arg in args if arg is not type(None)]
+                if non_none_types:
+                    # После получения не-None типа, проверяем если это контейнер
+                    first_non_none = non_none_types[0]
+                    origin = get_origin(first_non_none)
+                    inner_args = get_args(first_non_none)
+
+                    # Handle containers: List[T], Tuple[T], Set[T] -> T
+                    if origin in (list, tuple, set) and inner_args:
+                        return inner_args[0]
+
+                    return first_non_none
         else:
             origin = get_origin(field_type)
             args = get_args(field_type)
@@ -88,11 +103,20 @@ class _ModelFieldProcessor:
             if origin in (list, tuple, set) and args:
                 return args[0]
 
-        # For Union types (including Optional) - choose the first non-None type
-        if args:
-            non_none_types = [arg for arg in args if arg is not type(None)]
-            if non_none_types:
-                return non_none_types[0]
+            # For Union types (including Optional) - choose the first non-None type
+            if origin is Union and args:
+                non_none_types = [arg for arg in args if arg is not type(None)]
+                if non_none_types:
+                    # После получения не-None типа, проверяем если это контейнер
+                    first_non_none = non_none_types[0]
+                    inner_origin = get_origin(first_non_none)
+                    inner_args = get_args(first_non_none)
+
+                    # Handle containers: List[T], Tuple[T], Set[T] -> T
+                    if inner_origin in (list, tuple, set) and inner_args:
+                        return inner_args[0]
+
+                    return first_non_none
 
         return field_type
 
@@ -167,8 +191,8 @@ class _ModelFieldProcessor:
         self._visited_classes.add(model_class)
 
         try:
-            nested_fields: list[str] = []      # Scalar fields of the nested model
-            nested_populate: dict[str, Any] = {}    # Relations of the nested model
+            nested_fields: list[str] = []  # Scalar fields of the nested model
+            nested_populate: dict[str, Any] = {}  # Relations of the nested model
 
             model_fields = getattr(model_class, 'model_fields', {})
 
