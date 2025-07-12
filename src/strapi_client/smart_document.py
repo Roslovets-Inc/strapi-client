@@ -1,7 +1,7 @@
 from typing import Self, Any, ClassVar
 import re
 from .strapi_client_async import StrapiClientAsync
-from .types import BaseDocument
+from .types import BaseDocument, ResponseMeta
 from .model_utils import get_model_fields_and_population
 
 
@@ -63,6 +63,36 @@ class SmartDocument(BaseDocument):
         return cls.from_list_response(response)
 
     @classmethod
+    async def get_documents_with_meta(
+            cls,
+            client: StrapiClientAsync,
+            sort: list[str] | None = None,
+            filters: dict[str, Any] | None = None,
+            publication_state: str | None = None,
+            locale: str | None = None,
+            start: int | None = 0,
+            page: int | None = None,
+            limit: int = 25,
+            with_count: bool = True,
+    ) -> tuple[list[Self], ResponseMeta]:
+        """Get list of documents."""
+        fields, populate = get_model_fields_and_population(cls)
+        response = await client.get_documents(
+            plural_api_id=cls.__plural_api_id__,
+            sort=sort,
+            filters=filters,
+            populate=populate,
+            fields=fields,
+            publication_state=publication_state,
+            locale=locale,
+            page=page,
+            start=start,
+            batch_size=limit,
+            with_count=with_count,
+        )
+        return cls.from_list_response(response), response.meta
+
+    @classmethod
     async def get_first_document(
             cls,
             client: StrapiClientAsync,
@@ -73,6 +103,7 @@ class SmartDocument(BaseDocument):
     ) -> Self | None:
         """First documents if available."""
         fields, populate = get_model_fields_and_population(cls)
+        print(cls.__plural_api_id__, '!!!', fields, '!!!', populate)
         response = await client.get_documents(
             plural_api_id=cls.__plural_api_id__,
             sort=sort,
