@@ -103,7 +103,6 @@ class SmartDocument(BaseDocument):
     ) -> Self | None:
         """First documents if available."""
         fields, populate = get_model_fields_and_population(cls)
-        print(cls.__plural_api_id__, '!!!', fields, '!!!', populate)
         response = await client.get_documents(
             plural_api_id=cls.__plural_api_id__,
             sort=sort,
