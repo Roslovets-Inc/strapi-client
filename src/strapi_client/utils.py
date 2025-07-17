@@ -1,5 +1,7 @@
-from typing import Any, Iterator
+from typing import Any, Iterator, Self
 import warnings
+from pathlib import Path
+from io import BytesIO
 from pydantic import BaseModel
 
 RESERVED_FIELDS: set[str] = {

@@ -17,62 +17,6 @@ def get_model_fields_and_population(model_class: type[BaseModel]) -> tuple[list[
     return _process_model(model_class, visited_classes)
 
 
-def extract_document_ids_from_document_fields(obj: BaseModel) -> dict[str, Any]:
-    """
-    Checks all object fields and extracts documentId from BaseModel type fields.
-    Handles both single objects and lists of objects.
-    Takes into account nullable fields.
-
-    Args:
-        obj: BaseModel object for analysis
-
-    Returns:
-        dict[str, Any]: Dictionary where key is field name, value is extracted documentId
-                       (string for single object, list for list of objects)
-    
-    Raises:
-        ValueError: If empty document_id is found
-    """
-    result = {}
-    model_fields = getattr(obj.__class__, 'model_fields', {})
-
-    for field_name, field_info in model_fields.items():
-        actual_field_name = _get_field_name(field_name, field_info)
-        field_value = getattr(obj, field_name, None)
-
-        # Skip None values
-        if field_value is None:
-            continue
-
-        field_type = _extract_field_type(field_info.annotation)
-
-        # Check if type is BaseModel
-        if isinstance(field_type, type) and issubclass(field_type, BaseModel):
-            # Handle list of objects
-            if isinstance(field_value, list):
-                document_ids = []
-                for item in field_value:
-                    if hasattr(item, 'document_id'):
-                        doc_id = item.document_id
-                        # Check that document_id is not empty
-                        if doc_id is None or not str(doc_id).strip():
-                            raise ValueError(
-                                f"Empty document_id in field '{field_name}' for object {type(item).__name__}")
-                        document_ids.append(doc_id)
-                if document_ids:
-                    result[actual_field_name] = document_ids
-            # Handle single object
-            elif hasattr(field_value, 'document_id'):
-                doc_id = field_value.document_id
-                # Check that document_id is not empty
-                if doc_id is None or not str(doc_id).strip():
-                    raise ValueError(
-                        f"Empty document_id in field '{field_name}' for object {type(field_value).__name__}")
-                result[actual_field_name] = doc_id
-
-    return result
-
-
 def _process_model(model_class: type[BaseModel], visited_classes: set[type]) -> tuple[list[str], dict[str, Any]]:
     """Process the root model and return fields and populate structure."""
     root_fields: list[str] = []

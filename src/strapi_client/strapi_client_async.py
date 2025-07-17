@@ -6,7 +6,10 @@ from pydantic import BaseModel
 import httpx
 from .strapi_client_base import StrapiClientBase
 from .utils import serialize_document_data
-from .types import DocumentsResponse, DocumentResponse, ApiParameters, AuthPayload, AuthResponse
+from .models.api_parameters import ApiParameters
+from .models.file_payload import FilePayload
+from .models.response import DocumentsResponse, DocumentResponse
+from .models.auth import AuthPayload, AuthResponse
 
 
 class StrapiClientAsync(StrapiClientBase):
@@ -219,26 +222,23 @@ class StrapiClientAsync(StrapiClientBase):
 
     async def upload_files(
             self,
-            files: list[Path | str],
-            ref: str | None = None,
-            ref_id: int | None = None,
+            files: list[Path | str] | dict[str, BytesIO],
+            content_type_id: str | None = None,
+            document_id: int | str | None = None,
             field: str | None = None,
-    ) -> dict[str, Any]:
-        """Upload list of files."""
-        files_payload = []
-        for path in files:
-            path = Path(path)
-            # Read file into memory.
-            with path.open("rb") as f:
-                bio = BytesIO(f.read())
-            bio.name = path.name
-            files_payload.append(("files", (path.name, bio, "application/octet-stream")))
+    ) -> list[dict[str, Any]]:
+        """Upload a list of files."""
+        file_payloads = FilePayload.list_from_files(files)
         data: dict[str, Any] = {}
-        if ref and ref_id and field:
-            data = {"ref": ref, "refId": str(ref_id), "field": field}
-        res = await self.send_post_request("upload", data=data, files=files_payload)
+        if content_type_id and document_id and field:
+            data = {"ref": content_type_id, "refId": document_id, "field": field}
+        res = await self.send_post_request(
+            "upload",
+            data=data,
+            files=[fp.to_files_tuple() for fp in file_payloads]
+        )
         self._check_response(res, "Unable to send POST request")
-        return res.json() or {}
+        return res.json() or []
 
     async def get_uploaded_files(self, filters: dict | None = None) -> list[dict[str, Any]]:
         """Get uploaded files."""

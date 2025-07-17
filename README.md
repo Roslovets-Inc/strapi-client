@@ -54,6 +54,7 @@ from strapi_client import StrapiClientAsync, SmartDocument, MediaImageDocument
 
 
 class User(SmartDocument):
+    __singular_api_id__ = 'user'
     username: str
     first_name: str
     photo: MediaImageDocument

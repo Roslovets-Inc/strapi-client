@@ -2,7 +2,7 @@ from typing import Any, Self
 import datetime
 from pydantic import Field
 from .base_populatable import BasePopulatable
-from ..types import DocumentResponse, DocumentsResponse
+from ..models.response import DocumentResponse, DocumentsResponse
 
 
 class BaseDocument(BasePopulatable):

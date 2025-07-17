@@ -1,23 +1,33 @@
 from typing import Self, Any, ClassVar
 from pydantic import BaseModel
 import re
+from pathlib import Path
+from io import BytesIO
 from ..strapi_client_async import StrapiClientAsync
 from ..utils import serialize_document_data
-from ..types import ResponseMeta
-from .smart_document_utils import get_model_fields_and_population, extract_document_ids_from_document_fields
+from .response import ResponseMeta
+from .smart_document_utils import get_model_fields_and_population
 from .base_document import BaseDocument
 
 
 class SmartDocument(BaseDocument):
     """Fully automated ORM class for Strapi documents."""
+    __singular_api_id__: ClassVar[str]
     __plural_api_id__: ClassVar[str]
+    __content_type_id__: ClassVar[str]
 
     @classmethod
     def __pydantic_init_subclass__(cls, **kwargs: Any) -> None:
         super().__pydantic_init_subclass__(**kwargs)
-        if '__plural_api_id__' not in cls.__dict__:
+        if '__singular_api_id__' not in cls.__dict__:
             name = re.sub(r'(?<!^)(?=[A-Z])', '-', cls.__name__).lower()
-            cls.__plural_api_id__ = name + 's'
+            cls.__singular_api_id__ = name
+        if '__plural_api_id__' not in cls.__dict__:
+            cls.__plural_api_id__ = cls.__singular_api_id__ + 's'
+        if '__content_type_id__' not in cls.__dict__:
+            cls.__content_type_id__ = f'api::{cls.__singular_api_id__}.{cls.__singular_api_id__}'
+        if not cls.__content_type_id__.startswith('api::'):
+            raise ValueError(f'__content_type_id__ should start with "api::" for {cls.__name__}')
 
     @classmethod
     async def get_document(
@@ -138,6 +148,52 @@ class SmartDocument(BaseDocument):
         else:
             return await cls.get_document(client, result_document.document_id)
 
+    async def update_document(
+            self,
+            client: StrapiClientAsync,
+            data: dict[str, Any] | BaseModel,
+    ) -> Self:
+        """Update existing document."""
+        response = await client.update_document(
+            plural_api_id=self.__plural_api_id__,
+            document_id=self.document_id,
+            data=serialize_document_data(data),
+        )
+        return await self.refresh_document(client)
+
+    async def update_relations(
+            self,
+            client: StrapiClientAsync,
+            field: str,
+            relations: list[BaseDocument] | None = None,
+            connect: list[BaseDocument] | None = None,
+            disconnect: list[BaseDocument] | None = None,
+    ) -> Self:
+        """Update field relations."""
+        if not relations and not connect and not disconnect:
+            raise ValueError("At least one of relations, connect or disconnect should be provided")
+        if relations and (connect or disconnect):
+            raise ValueError("relations argument does not work with connect or disconnect arguments")
+        if relations:
+            data = {
+                field: {
+                    'set': [d.document_id for d in relations]
+                }
+            }
+        else:
+            data = {
+                field: {
+                    'connect': [d.document_id for d in connect or {}],
+                    'disconnect': [d.document_id for d in disconnect or {}]
+                }
+            }
+        response = await client.update_document(
+            plural_api_id=self.__plural_api_id__,
+            document_id=self.document_id,
+            data=data,
+        )
+        return await self.refresh_document(client)
+
     async def refresh_document(self, client: StrapiClientAsync) -> Self:
         """Refresh the document with the latest data from Strapi."""
         fields, populate = get_model_fields_and_population(self.__class__)
@@ -151,19 +207,21 @@ class SmartDocument(BaseDocument):
         self.__dict__.update(document.__dict__)
         return self
 
-    def model_dump_to_create(self) -> dict[str, Any]:
-        """
-        Serializes model to dict for creating a new Strapi record via API.
-
-        Excludes documentId, createdAt, updatedAt, publishedAt fields.
-        Handles nested BasePopulatable fields by replacing nested documents with their documentId.
-        Supports nullable fields and lists of documents.
-
-        Returns:
-            dict[str, Any]: Dictionary suitable for creating a new Strapi record
-        """
-        # Get model data excluding the fields we don't want to send when creating
-        exclude_fields = {'document_id', 'created_at', 'updated_at', 'published_at', 'id'}
-        data = self.model_dump(exclude=exclude_fields, by_alias=True)
-        fields_to_replace = extract_document_ids_from_document_fields(self)
-        return data | fields_to_replace
+    async def upload_file(
+            self,
+            client: StrapiClientAsync,
+            file: Path | str | dict[str, BytesIO],
+            field: str
+    ) -> Self:
+        """Upload a file to the document's field."""
+        if isinstance(file, dict):
+            file_data: list[Path | str] | dict[str, BytesIO] = file
+        else:
+            file_data = [file]
+        response = await client.upload_files(
+            files=file_data,
+            content_type_id=self.__content_type_id__,
+            document_id=self.id,
+            field=field,
+        )
+        return await self.refresh_document(client)
