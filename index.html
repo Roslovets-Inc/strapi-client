@@ -74,24 +74,6 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="reference/">Index</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="reference/strapi_client.active_document/">Strapi client.active document</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="reference/strapi_client.model_utils/">Strapi client.model utils</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="reference/strapi_client.single_smart_document/">Strapi client.single smart document</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="reference/strapi_client.smart_document/">Strapi client.smart document</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="reference/strapi_client.strapi_client/">Strapi client.strapi client</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="reference/strapi_client.strapi_client_async/">Strapi client.strapi client async</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="reference/strapi_client.strapi_client_base/">Strapi client.strapi client base</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="reference/strapi_client.types/">Strapi client.types</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="reference/strapi_client.utils/">Strapi client.utils</a>
-                  </li>
               </ul>
       </div>
     </div>
@@ -155,6 +137,7 @@ from strapi_client import StrapiClientAsync, SmartDocument, MediaImageDocument
 
 
 class User(SmartDocument):
+    __singular_api_id__ = 'user'
     username: str
     first_name: str
     photo: MediaImageDocument
@@ -275,5 +258,5 @@ asyncio.run(main())
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2025-07-12 13:55:29.044671+00:00
+Build Date UTC : 2025-07-17 11:53:10.562601+00:00
 -->
