@@ -2,11 +2,11 @@ from typing import Any
 from pathlib import Path
 from io import BytesIO
 from urllib.parse import urljoin
+from pydantic import BaseModel
 import httpx
 from .strapi_client_base import StrapiClientBase
-from .types import (
-    DocumentsResponse, DocumentResponse, ApiParameters, AuthPayload, AuthResponse
-)
+from .utils import serialize_document_data
+from .types import DocumentsResponse, DocumentResponse, ApiParameters, AuthPayload, AuthResponse
 
 
 class StrapiClientAsync(StrapiClientBase):
@@ -116,28 +116,32 @@ class StrapiClientAsync(StrapiClientBase):
                 all_data.meta = res_page.meta
             return all_data
 
-    async def create_or_update_single_document(self, single_api_id: str, data: dict[str, Any]) -> DocumentResponse:
+    async def create_or_update_single_document(
+            self,
+            single_api_id: str,
+            data: dict[str, Any] | BaseModel
+    ) -> DocumentResponse:
         """Create or update single type document."""
-        res = await self.send_put_request(single_api_id, body={"data": data})
+        res = await self.send_put_request(single_api_id, body={"data": serialize_document_data(data)})
         return DocumentResponse.model_validate(res.json())
 
     async def create_document(
-            self, plural_api_id: str, data: dict[str, Any]
+            self, plural_api_id: str, data: dict[str, Any] | BaseModel
     ) -> DocumentResponse:
         """Create new document."""
         res = await self.send_post_request(
             plural_api_id,
-            json={"data": data},
+            json={"data": serialize_document_data(data)},
         )
         return DocumentResponse.model_validate(res.json())
 
     async def update_document(
-            self, plural_api_id: str, document_id: str, data: dict[str, Any]
+            self, plural_api_id: str, document_id: str, data: dict[str, Any] | BaseModel
     ) -> DocumentResponse:
         """Update document fields."""
         res = await self.send_put_request(
             f"{plural_api_id}/{document_id}",
-            body={"data": data},
+            body={"data": serialize_document_data(data)},
         )
         return DocumentResponse.model_validate(res.json())
 

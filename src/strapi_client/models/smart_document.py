@@ -1,8 +1,11 @@
 from typing import Self, Any, ClassVar
+from pydantic import BaseModel
 import re
-from .strapi_client_async import StrapiClientAsync
-from .types import BaseDocument, ResponseMeta
-from .model_utils import get_model_fields_and_population
+from ..strapi_client_async import StrapiClientAsync
+from ..utils import serialize_document_data
+from ..types import ResponseMeta
+from .smart_document_utils import get_model_fields_and_population, extract_document_ids_from_document_fields
+from .base_document import BaseDocument
 
 
 class SmartDocument(BaseDocument):
@@ -116,3 +119,51 @@ class SmartDocument(BaseDocument):
             with_count=False,
         )
         return cls.first_from_list_response(response)
+
+    @classmethod
+    async def create_document(
+            cls,
+            client: StrapiClientAsync,
+            data: dict[str, Any] | BaseModel,
+    ) -> Self:
+        """Create a new document."""
+        _, populate = get_model_fields_and_population(cls)
+        response = await client.create_document(
+            plural_api_id=cls.__plural_api_id__,
+            data=serialize_document_data(data),
+        )
+        result_document = cls.from_scalar_response(response)
+        if not populate:
+            return result_document
+        else:
+            return await cls.get_document(client, result_document.document_id)
+
+    async def refresh_document(self, client: StrapiClientAsync) -> Self:
+        """Refresh the document with the latest data from Strapi."""
+        fields, populate = get_model_fields_and_population(self.__class__)
+        response = await client.get_document(
+            plural_api_id=self.__plural_api_id__,
+            document_id=self.document_id,
+            fields=fields,
+            populate=populate,
+        )
+        document = self.from_scalar_response(response)
+        self.__dict__.update(document.__dict__)
+        return self
+
+    def model_dump_to_create(self) -> dict[str, Any]:
+        """
+        Serializes model to dict for creating a new Strapi record via API.
+
+        Excludes documentId, createdAt, updatedAt, publishedAt fields.
+        Handles nested BasePopulatable fields by replacing nested documents with their documentId.
+        Supports nullable fields and lists of documents.
+
+        Returns:
+            dict[str, Any]: Dictionary suitable for creating a new Strapi record
+        """
+        # Get model data excluding the fields we don't want to send when creating
+        exclude_fields = {'document_id', 'created_at', 'updated_at', 'published_at', 'id'}
+        data = self.model_dump(exclude=exclude_fields, by_alias=True)
+        fields_to_replace = extract_document_ids_from_document_fields(self)
+        return data | fields_to_replace

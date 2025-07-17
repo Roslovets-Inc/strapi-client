@@ -1,6 +1,6 @@
-from typing import Any, Self, Literal
-import datetime
+from typing import Any, Literal
 from pydantic import BaseModel, Field, SecretStr
+from .models.base_populatable import BasePopulatable
 from .utils import stringify_parameters
 
 
@@ -27,38 +27,8 @@ class DocumentsResponse(BaseModel):
     meta: ResponseMeta
 
 
-class BasePopulatable(BaseModel):
-    """Strapi entry that can be populated in request."""
-
-
 class DocumentResponse(BaseModel):
     data: dict[str, Any]
-
-
-class BaseDocument(BasePopulatable):
-    """Strapi document with standard fields."""
-    id: int
-    document_id: str = Field(alias='documentId')
-    created_at: datetime.datetime = Field(alias='createdAt')
-    updated_at: datetime.datetime = Field(alias='updatedAt')
-    published_at: datetime.datetime = Field(alias='publishedAt')
-
-    @classmethod
-    def from_scalar_response(cls, response: DocumentResponse) -> Self:
-        return cls.model_validate(response.data)
-
-    @classmethod
-    def from_list_response(cls, response: DocumentsResponse) -> list[Self]:
-        return [cls.model_validate(d) for d in response.data]
-
-    @classmethod
-    def first_from_list_response(cls, response: DocumentsResponse) -> Self | None:
-        return cls.model_validate(response.data[0]) if len(response.data) > 0 else None
-
-
-class BaseDocumentWithLocale(BaseDocument):
-    """Strapi document with standard fields and locale."""
-    locale: str | None = None
 
 
 class BaseComponent(BasePopulatable):
@@ -141,27 +111,6 @@ class MediaImageFormats(BaseModel):
         raise ValueError('Image has no variants')
 
 
-class MediaImageDocument(BaseDocument):
-    name: str
-    alternative_text: str | None = Field(default=None, alias='alternativeText')
-    caption: str | None = None
-    width: int
-    height: int
-    formats: MediaImageFormats
-    hash: str
-    ext: str
-    mime: str
-    size: float = Field(description='Size in kilobytes')
-    url: str
-    preview_url: str | None = Field(default=None, alias='previewUrl')
-    provider: str
-    provider_metadata: dict[str, Any] | None = None
-
-    @property
-    def largest_format(self) -> MediaImageFormatVariant:
-        return self.formats.largest
-
-
 WebhookEventName = Literal[
     "entry.create",
     "entry.update",
@@ -174,10 +123,3 @@ WebhookEventName = Literal[
     "releases.publish",
     "trigger-test",
 ]
-
-
-class WebhookPayload(BaseModel):
-    event: WebhookEventName
-    created_at: datetime.datetime = Field(alias='createdAt')
-    model: str | None = None
-    entry: BaseDocument | None = None
