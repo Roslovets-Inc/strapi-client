@@ -20,7 +20,7 @@ jobs:
       - name: ⚙️ Setup Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.11
+          python-version: 3.13
 
       - name: 🔃 Checkout code
         uses: actions/checkout@v4
@@ -30,11 +30,13 @@ jobs:
       - name: 📦 Install dependencies
         run: |
           pip install uv
-          uv sync
+          uv sync --frozen
 
       - name: 🐞 Check code
-        run: |
-          uv run mypy src
+        run: uv run mypy src
+
+      - name: 🐛 Run tests
+        run: uv run pytest
 
       - name: 📖 Generate docs
         run: |
