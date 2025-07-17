@@ -4,4 +4,4 @@ __pycache__
 dist
 *.egg-info
 docs
-test_script*.py
+script*.py

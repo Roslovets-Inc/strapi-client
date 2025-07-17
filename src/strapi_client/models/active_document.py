@@ -4,7 +4,7 @@ import hashlib
 import json
 import warnings
 from pydantic import BaseModel, Field, PrivateAttr
-from .strapi_client_async import StrapiClientAsync
+from ..strapi_client_async import StrapiClientAsync
 
 
 def DocumentField(*args, unique: bool = False, relation: bool = False, **kwargs):

@@ -1,8 +1,7 @@
 from typing import Self, Any, ClassVar
 import re
-from .strapi_client_async import StrapiClientAsync
-from .types import BaseDocument
-from .model_utils import get_model_fields_and_population
+from ..strapi_client_async import StrapiClientAsync
+from .base_document import BaseDocument
 
 
 class SingleSmartDocument(BaseDocument):

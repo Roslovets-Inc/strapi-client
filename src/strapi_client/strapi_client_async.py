@@ -2,11 +2,14 @@ from typing import Any
 from pathlib import Path
 from io import BytesIO
 from urllib.parse import urljoin
+from pydantic import BaseModel
 import httpx
 from .strapi_client_base import StrapiClientBase
-from .types import (
-    DocumentsResponse, DocumentResponse, ApiParameters, AuthPayload, AuthResponse
-)
+from .utils import serialize_document_data
+from .models.api_parameters import ApiParameters
+from .models.file_payload import FilePayload
+from .models.response import DocumentsResponse, DocumentResponse
+from .models.auth import AuthPayload, AuthResponse
 
 
 class StrapiClientAsync(StrapiClientBase):
@@ -116,28 +119,32 @@ class StrapiClientAsync(StrapiClientBase):
                 all_data.meta = res_page.meta
             return all_data
 
-    async def create_or_update_single_document(self, single_api_id: str, data: dict[str, Any]) -> DocumentResponse:
+    async def create_or_update_single_document(
+            self,
+            single_api_id: str,
+            data: dict[str, Any] | BaseModel
+    ) -> DocumentResponse:
         """Create or update single type document."""
-        res = await self.send_put_request(single_api_id, body={"data": data})
+        res = await self.send_put_request(single_api_id, body={"data": serialize_document_data(data)})
         return DocumentResponse.model_validate(res.json())
 
     async def create_document(
-            self, plural_api_id: str, data: dict[str, Any]
+            self, plural_api_id: str, data: dict[str, Any] | BaseModel
     ) -> DocumentResponse:
         """Create new document."""
         res = await self.send_post_request(
             plural_api_id,
-            json={"data": data},
+            json={"data": serialize_document_data(data)},
         )
         return DocumentResponse.model_validate(res.json())
 
     async def update_document(
-            self, plural_api_id: str, document_id: str, data: dict[str, Any]
+            self, plural_api_id: str, document_id: str, data: dict[str, Any] | BaseModel
     ) -> DocumentResponse:
         """Update document fields."""
         res = await self.send_put_request(
             f"{plural_api_id}/{document_id}",
-            body={"data": data},
+            body={"data": serialize_document_data(data)},
         )
         return DocumentResponse.model_validate(res.json())
 
@@ -215,26 +222,23 @@ class StrapiClientAsync(StrapiClientBase):
 
     async def upload_files(
             self,
-            files: list[Path | str],
-            ref: str | None = None,
-            ref_id: int | None = None,
+            files: list[Path | str] | dict[str, BytesIO],
+            content_type_id: str | None = None,
+            document_id: int | str | None = None,
             field: str | None = None,
-    ) -> dict[str, Any]:
-        """Upload list of files."""
-        files_payload = []
-        for path in files:
-            path = Path(path)
-            # Read file into memory.
-            with path.open("rb") as f:
-                bio = BytesIO(f.read())
-            bio.name = path.name
-            files_payload.append(("files", (path.name, bio, "application/octet-stream")))
+    ) -> list[dict[str, Any]]:
+        """Upload a list of files."""
+        file_payloads = FilePayload.list_from_files(files)
         data: dict[str, Any] = {}
-        if ref and ref_id and field:
-            data = {"ref": ref, "refId": str(ref_id), "field": field}
-        res = await self.send_post_request("upload", data=data, files=files_payload)
+        if content_type_id and document_id and field:
+            data = {"ref": content_type_id, "refId": document_id, "field": field}
+        res = await self.send_post_request(
+            "upload",
+            data=data,
+            files=[fp.to_files_tuple() for fp in file_payloads]
+        )
         self._check_response(res, "Unable to send POST request")
-        return res.json() or {}
+        return res.json() or []
 
     async def get_uploaded_files(self, filters: dict | None = None) -> list[dict[str, Any]]:
         """Get uploaded files."""
