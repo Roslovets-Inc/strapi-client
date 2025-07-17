@@ -1,6 +1,39 @@
 # CHANGELOG
 
 
+## v4.0.0 (2025-07-17)
+
+### Continuous Integration
+
+- Run tests
+  ([`10c5aaa`](https://github.com/Roslovets-Inc/strapi-client/commit/10c5aaa25072ad9661aff13e5f8eab474b55e56f))
+
+### Features
+
+- Refactor models and file upload, add new API utilities
+  ([`aafa701`](https://github.com/Roslovets-Inc/strapi-client/commit/aafa7014c1f69ae9bb612f4c8e98dc3902f3122f))
+
+Moved API parameter, response, auth, and file payload models into dedicated modules under models/.
+  Refactored file upload logic in StrapiClient and StrapiClientAsync to use the new FilePayload
+  class and support both file paths and in-memory files. Enhanced SmartDocument with update,
+  relation, and file upload methods. Removed deprecated model_dump_to_create logic and its tests.
+  Cleaned up types.py, moving most model definitions to their own files.
+
+- Refactor models structure and improve document serialization
+  ([`b4e1263`](https://github.com/Roslovets-Inc/strapi-client/commit/b4e12634860e06288566d31d67a612f63411ab63))
+
+Moved document and model classes into a new 'models' subpackage, splitting out base, media, and
+  utility logic. Removed 'model_utils.py' and replaced its logic with
+  'models/smart_document_utils.py'. Updated imports throughout the package to use the new structure.
+  Enhanced document serialization and population logic, and added tests for model serialization.
+  Updated dev dependencies and added pytest for testing.
+
+### Testing
+
+- Add Strapi client mock tests
+  ([`a6095a3`](https://github.com/Roslovets-Inc/strapi-client/commit/a6095a3b81bcfc878d2eca73e9700378b8a91479))
+
+
 ## v3.10.1 (2025-07-12)
 
 ### Bug Fixes
