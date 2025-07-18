@@ -1,6 +1,18 @@
 # CHANGELOG
 
 
+## v4.1.0 (2025-07-18)
+
+### Features
+
+- Prepare API parameters with qs-codec
+  ([`97170c3`](https://github.com/Roslovets-Inc/strapi-client/commit/97170c3277913311b8b9eaed9fb9e4d048311ab9))
+
+Replaced custom parameter stringification logic with qs-codec for Strapi API requests. Updated
+  dependencies and type hints to support URL-encoded query strings, and removed unused utility
+  functions.
+
+
 ## v4.0.0 (2025-07-17)
 
 ### Continuous Integration
