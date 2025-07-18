@@ -17,7 +17,8 @@ classifiers = [
 
 dependencies = [
     "httpx>=0.23.1",
-    "pydantic>=2.0"
+    "pydantic>=2.0",
+    "qs-codec>=1.1.5",
 ]
 
 [dependency-groups]

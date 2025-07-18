@@ -161,7 +161,7 @@ class StrapiClientAsync(StrapiClientBase):
     async def send_get_request(
             self,
             route: str,
-            params: dict[str, Any] | None = None,
+            params: dict[str, Any] | str | None = None,
             use_auth: bool = True,
     ) -> httpx.Response:
         """Send GET request to custom endpoint."""
@@ -177,7 +177,7 @@ class StrapiClientAsync(StrapiClientBase):
             self,
             route: str,
             body: dict[str, Any] | None = None,
-            params: dict[str, Any] | None = None,
+            params: dict[str, Any] | str | None = None,
             use_auth: bool = True,
     ) -> httpx.Response:
         """Send PUT request to custom endpoint."""
@@ -194,7 +194,7 @@ class StrapiClientAsync(StrapiClientBase):
             self,
             route: str,
             json: dict[str, Any] | None = None,
-            params: dict[str, Any] | None = None,
+            params: dict[str, Any] | str | None = None,
             data: dict[str, Any] | None = None,
             files: list | None = None,
             use_auth: bool = True,

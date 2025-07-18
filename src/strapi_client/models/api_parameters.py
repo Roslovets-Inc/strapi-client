@@ -1,9 +1,15 @@
 from typing import Any
 from pydantic import BaseModel
-from ..utils import stringify_parameters
+import qs_codec
 
 
 class ApiParameters(BaseModel):
+    """Parameters for Strapi API requests.
+    
+    This class represents the parameters that can be passed to Strapi API endpoints,
+    such as sorting, filtering, pagination, etc. The stringify() method converts
+    these parameters to a URL-encoded query string that can be directly passed to httpx.
+    """
     sort: list[str] | str | None = None
     filters: dict[str, Any] | None = None
     populate: list[str] | dict[str, Any] | str | None = None
@@ -16,7 +22,14 @@ class ApiParameters(BaseModel):
     publication_state: str | None = None
     locale: str | None = None
 
-    def stringify(self) -> dict[str, Any]:
+    def stringify(self) -> str:
+        """Convert API parameters to a URL-encoded query string.
+        
+        Uses qs_codec to encode parameters in a format compatible with Strapi API.
+        
+        Returns:
+            str: URL-encoded query string that can be directly passed to httpx.
+        """
         if self.page is not None and self.page_size is not None:
             pagination = {
                 'page': self.page,
@@ -31,12 +44,19 @@ class ApiParameters(BaseModel):
             }
         else:
             pagination = {}
-        return {
-            **(stringify_parameters('sort', self.sort) if self.sort else {}),
-            **(stringify_parameters('filters', self.filters) if self.filters else {}),
-            **(stringify_parameters('populate', self.populate) if self.populate else {}),
-            **(stringify_parameters('fields', self.fields) if self.fields else {}),
-            **(stringify_parameters('pagination', pagination)),
-            **(stringify_parameters('publicationState', self.publication_state) if self.publication_state else {}),
-            **(stringify_parameters('locale', self.locale) if self.locale else {}),
-        }
+        params: dict[str, Any] = {}
+        if self.sort:
+            params['sort'] = self.sort
+        if self.filters:
+            params['filters'] = self.filters
+        if self.populate:
+            params['populate'] = self.populate
+        if self.fields:
+            params['fields'] = self.fields
+        if pagination:
+            params['pagination'] = pagination
+        if self.publication_state:
+            params['publicationState'] = self.publication_state
+        if self.locale:
+            params['locale'] = self.locale
+        return qs_codec.encode(params)
