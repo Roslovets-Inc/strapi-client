@@ -53,7 +53,7 @@ class SmartDocument(BaseDocument):
             filters: dict[str, Any] | None = None,
             publication_state: str | None = None,
             locale: str | None = None,
-            start: int | None = 0,
+            start: int | None = None,
             page: int | None = None,
             limit: int = 25,
             with_count: bool = True,

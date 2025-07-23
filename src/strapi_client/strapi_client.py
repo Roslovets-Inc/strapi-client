@@ -82,7 +82,7 @@ class StrapiClient(StrapiClientBase):
             fields: list[str] | None = None,
             publication_state: str | None = None,
             locale: str | None = None,
-            start: int | None = 0,
+            start: int | None = None,
             page: int | None = None,
             batch_size: int = 25,
             with_count: bool = True,
