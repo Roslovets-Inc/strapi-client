@@ -1,6 +1,18 @@
 # CHANGELOG
 
 
+## v4.1.1 (2025-07-23)
+
+### Bug Fixes
+
+- Set default 'start' parameter to None in client methods
+  ([`0732270`](https://github.com/Roslovets-Inc/strapi-client/commit/0732270d1926a0708a424854ecc1eaa5ef264f1e))
+
+Changed the default value of the 'start' parameter from 0 to None in SmartDocument, StrapiClient,
+  and StrapiClientAsync. This allows for clearer handling of pagination when 'start' is not
+  explicitly provided.
+
+
 ## v4.1.0 (2025-07-18)
 
 ### Features
