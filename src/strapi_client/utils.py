@@ -10,7 +10,7 @@ RESERVED_FIELDS: set[str] = {
 def serialize_document_data(data: dict[str, Any] | BaseModel) -> dict[str, Any]:
     """Serialize document data to dictionary for request body."""
     if isinstance(data, BaseModel):
-        data_dict = data.model_dump(by_alias=True)
+        data_dict = data.model_dump(by_alias=True, mode='json')
     else:
         data_dict = data
     for key, value in data_dict.items():
