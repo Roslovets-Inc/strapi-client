@@ -1,6 +1,17 @@
 # CHANGELOG
 
 
+## v4.1.3 (2025-07-24)
+
+### Bug Fixes
+
+- **SmartDocument**: Add missing delete_document method
+  ([`f38e470`](https://github.com/Roslovets-Inc/strapi-client/commit/f38e47015595d33a2ab960476af961ee337c2370))
+
+Introduces an async delete_document method to the SmartDocument class, allowing documents to be
+  deleted via the provided StrapiClientAsync instance.
+
+
 ## v4.1.2 (2025-07-24)
 
 
