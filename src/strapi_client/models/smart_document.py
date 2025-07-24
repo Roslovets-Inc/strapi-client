@@ -207,6 +207,13 @@ class SmartDocument(BaseDocument):
         self.__dict__.update(document.__dict__)
         return self
 
+    async def delete_document(self, client: StrapiClientAsync) -> None:
+        """Delete the document."""
+        await client.delete_document(
+            plural_api_id=self.__plural_api_id__,
+            document_id=self.document_id,
+        )
+
     async def upload_file(
             self,
             client: StrapiClientAsync,
