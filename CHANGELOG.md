@@ -1,6 +1,9 @@
 # CHANGELOG
 
 
+## v4.1.2 (2025-07-24)
+
+
 ## v4.1.1 (2025-07-23)
 
 ### Bug Fixes
@@ -11,6 +14,11 @@
 Changed the default value of the 'start' parameter from 0 to None in SmartDocument, StrapiClient,
   and StrapiClientAsync. This allows for clearer handling of pagination when 'start' is not
   explicitly provided.
+
+- **SmartDocument**: Serialize data in json mode
+  ([`48cb21c`](https://github.com/Roslovets-Inc/strapi-client/commit/48cb21c93975437067ce665f65eff4e8af007bc6))
+
+to fix create/update
 
 
 ## v4.1.0 (2025-07-18)
