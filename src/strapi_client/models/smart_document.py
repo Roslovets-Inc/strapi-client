@@ -142,9 +142,9 @@ class SmartDocument(BaseDocument):
             plural_api_id=cls.__plural_api_id__,
             data=serialize_document_data(data),
         )
-        result_document = cls.from_scalar_response(response)
+        result_document = BaseDocument.from_scalar_response(response)
         if not populate:
-            return result_document
+            return cls.from_scalar_response(response)
         else:
             return await cls.get_document(client, result_document.document_id)
 
