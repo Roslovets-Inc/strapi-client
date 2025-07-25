@@ -1,6 +1,18 @@
 # CHANGELOG
 
 
+## v4.1.4 (2025-07-25)
+
+### Bug Fixes
+
+- **SmartDocument **: Use correct response parsing on creation
+  ([`0f937b3`](https://github.com/Roslovets-Inc/strapi-client/commit/0f937b38ff4dc5737ccd5ed2104e9f327cefcc84))
+
+Changed SmartDocument.create to use BaseDocument.from_scalar_response for initial parsing, then
+  return the correct class instance. This ensures the returned object is of the expected type when
+  populate is False.
+
+
 ## v4.1.3 (2025-07-24)
 
 ### Bug Fixes
