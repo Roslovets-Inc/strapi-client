@@ -1,6 +1,18 @@
 # CHANGELOG
 
 
+## v4.1.5 (2025-07-26)
+
+### Bug Fixes
+
+- **SmartDocument**: Default pagination and sorting
+  ([`317d08f`](https://github.com/Roslovets-Inc/strapi-client/commit/317d08fba40094acd65007f493ad82819b5d5fe1))
+
+Increased the default 'limit' from 25 to 100 and set the default 'sort' to ['id'] in SmartDocument
+  methods. Also changed the default 'start' parameter to None for consistency. These changes improve
+  API usability and provide more predictable defaults.
+
+
 ## v4.1.4 (2025-07-25)
 
 ### Bug Fixes
