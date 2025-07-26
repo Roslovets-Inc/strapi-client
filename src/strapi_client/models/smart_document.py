@@ -55,14 +55,14 @@ class SmartDocument(BaseDocument):
             locale: str | None = None,
             start: int | None = None,
             page: int | None = None,
-            limit: int = 25,
+            limit: int = 100,
             with_count: bool = True,
     ) -> list[Self]:
         """Get list of documents."""
         fields, populate = get_model_fields_and_population(cls)
         response = await client.get_documents(
             plural_api_id=cls.__plural_api_id__,
-            sort=sort,
+            sort=sort or ['id'],
             filters=filters,
             populate=populate,
             fields=fields,
@@ -83,9 +83,9 @@ class SmartDocument(BaseDocument):
             filters: dict[str, Any] | None = None,
             publication_state: str | None = None,
             locale: str | None = None,
-            start: int | None = 0,
+            start: int | None = None,
             page: int | None = None,
-            limit: int = 25,
+            limit: int = 100,
             with_count: bool = True,
     ) -> tuple[list[Self], ResponseMeta]:
         """Get list of documents."""
