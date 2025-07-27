@@ -2,6 +2,7 @@ from .strapi_client_async import StrapiClientAsync
 from .strapi_client import StrapiClient
 from .models.response import DocumentResponse, DocumentsResponse
 from .models.base_document import BaseDocument
+from .models.base_component import BaseComponent
 from .models.media_image_documents import MediaImageDocument
 from .models.webhook_payload import WebhookPayload
 from .models.smart_document import SmartDocument
@@ -14,6 +15,7 @@ __all__ = [
     'DocumentResponse',
     'DocumentsResponse',
     'BaseDocument',
+    'BaseComponent',
     'MediaImageDocument',
     'SmartDocument',
     'SingleSmartDocument',
