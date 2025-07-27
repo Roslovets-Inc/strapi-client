@@ -1,6 +1,17 @@
 # CHANGELOG
 
 
+## v4.1.6 (2025-07-27)
+
+### Bug Fixes
+
+- Export BaseComponent in package init
+  ([`8bdc253`](https://github.com/Roslovets-Inc/strapi-client/commit/8bdc2534b539221fed5cd61a78060e1bd44e767d))
+
+Added BaseComponent to the imports and __all__ list in src/strapi_client/__init__.py to make it
+  available for external use.
+
+
 ## v4.1.5 (2025-07-26)
 
 ### Bug Fixes
