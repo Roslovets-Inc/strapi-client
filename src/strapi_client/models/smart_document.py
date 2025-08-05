@@ -154,15 +154,15 @@ class SmartDocument(BaseDocument):
             data: dict[str, Any] | BaseModel,
     ) -> Self:
         """Create a new document."""
-        _, populate = get_model_fields_and_population(cls)
         response = await client.create_document(
             plural_api_id=cls.__plural_api_id__,
             data=serialize_document_data(data),
         )
-        result_document = BaseDocument.from_scalar_response(response)
+        _, populate = get_model_fields_and_population(cls)
         if not populate:
             return cls.from_scalar_response(response)
         else:
+            result_document = BaseDocument.from_scalar_response(response)
             return await cls.get_document(client, result_document.document_id)
 
     async def update_document(
@@ -176,7 +176,13 @@ class SmartDocument(BaseDocument):
             document_id=self.document_id,
             data=serialize_document_data(data),
         )
-        return await self.refresh_document(client)
+        _, populate = get_model_fields_and_population(self.__class__)
+        if not populate:
+            result_document = self.__class__.from_scalar_response(response)
+            self.__dict__.update(result_document.__dict__)
+            return self
+        else:
+            return await self.refresh_document(client)
 
     async def update_relations(
             self,
