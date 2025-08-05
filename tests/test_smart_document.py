@@ -5,6 +5,7 @@ import pytest
 import httpx
 from src.strapi_client import StrapiClientAsync, SmartDocument
 from src.strapi_client.models.base_document import BaseDocument
+from src.strapi_client.utils import hash_model
 
 
 # Simple SmartDocument subclass for testing
@@ -208,3 +209,90 @@ def test_model_dump_data_nested():
     assert data_excluded["title"] == "Parent Document"
     assert data_excluded["nested"] == 2
     assert data_excluded["nested_list"] == [2, 3]
+
+
+def test_hash_basic():
+    """Test the basic functionality of the hash_model function with SmartDocument."""
+    # Create a simple TodoItem
+    todo = TodoItem(
+        id=1,
+        documentId="1",
+        createdAt=datetime.datetime(2024, 1, 1),
+        updatedAt=datetime.datetime(2024, 1, 1),
+        publishedAt=datetime.datetime(2024, 1, 1),
+        name="Test Todo"
+    )
+    
+    # Test that hash_model returns a non-empty string
+    hash_value = hash_model(todo)
+    assert isinstance(hash_value, str)
+    assert len(hash_value) > 0
+    
+    # Test reproducibility - same document should produce same hash
+    assert hash_model(todo) == hash_model(todo)
+    
+    # Test that different documents produce different hashes
+    todo2 = TodoItem(
+        id=2,
+        documentId="2",
+        createdAt=datetime.datetime(2024, 1, 1),
+        updatedAt=datetime.datetime(2024, 1, 1),
+        publishedAt=datetime.datetime(2024, 1, 1),
+        name="Another Todo"
+    )
+    assert hash_model(todo) != hash_model(todo2)
+
+
+def test_hash_nested():
+    """Test the hash_model function with nested documents."""
+    # Create nested documents
+    nested1 = NestedDocument(
+        id=2,
+        documentId="2",
+        createdAt=datetime.datetime(2024, 1, 1),
+        updatedAt=datetime.datetime(2024, 1, 1),
+        publishedAt=datetime.datetime(2024, 1, 1),
+        title="Nested Document 1"
+    )
+    
+    nested2 = NestedDocument(
+        id=3,
+        documentId="3",
+        createdAt=datetime.datetime(2024, 1, 1),
+        updatedAt=datetime.datetime(2024, 1, 1),
+        publishedAt=datetime.datetime(2024, 1, 1),
+        title="Nested Document 2"
+    )
+    
+    # Create parent document with nested documents
+    parent = ParentDocument(
+        id=1,
+        documentId="1",
+        createdAt=datetime.datetime(2024, 1, 1),
+        updatedAt=datetime.datetime(2024, 1, 1),
+        publishedAt=datetime.datetime(2024, 1, 1),
+        title="Parent Document",
+        nested=nested1,
+        nested_list=[nested1, nested2]
+    )
+    
+    # Test that hash_model returns a non-empty string
+    hash_value = hash_model(parent)
+    assert isinstance(hash_value, str)
+    assert len(hash_value) > 0
+    
+    # Test reproducibility - same document should produce same hash
+    assert hash_model(parent) == hash_model(parent)
+    
+    # Test that changing a nested document changes the hash
+    parent2 = ParentDocument(
+        id=1,
+        documentId="1",
+        createdAt=datetime.datetime(2024, 1, 1),
+        updatedAt=datetime.datetime(2024, 1, 1),
+        publishedAt=datetime.datetime(2024, 1, 1),
+        title="Parent Document",
+        nested=nested2,  # Different nested document
+        nested_list=[nested1, nested2]
+    )
+    assert hash_model(parent) != hash_model(parent2)
