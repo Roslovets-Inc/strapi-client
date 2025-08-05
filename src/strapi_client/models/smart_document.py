@@ -4,8 +4,8 @@ import re
 from pathlib import Path
 from io import BytesIO
 from ..strapi_client_async import StrapiClientAsync
-from ..utils import serialize_document_data
-from .response import ResponseMeta
+from ..utils import serialize_document_data, hash_model
+from .response import ResponseMeta, DocumentResponse
 from .smart_document_utils import get_model_fields_and_population, get_model_data
 from .base_document import BaseDocument
 
@@ -183,6 +183,27 @@ class SmartDocument(BaseDocument):
             return self
         else:
             return await self.refresh_document(client)
+
+    async def patch_document(
+            self,
+            client: StrapiClientAsync,
+            data: dict[str, Any] | BaseModel,
+            lazy: bool = True,
+    ) -> DocumentResponse | None:
+        """Lazy update existing document fields without record synchronization."""
+        if lazy:
+            data_dict = data.model_dump(by_alias=True) if isinstance(data, BaseModel) else data
+            record_dict = {
+                k: v for k, v in self.model_dump_data(exclude_managed_fields=True).items()
+                if k in data_dict
+            }
+            if hash_model(record_dict) == hash_model(data_dict):
+                return None
+        return await client.update_document(
+            plural_api_id=self.__plural_api_id__,
+            document_id=self.document_id,
+            data=serialize_document_data(data),
+        )
 
     async def update_relations(
             self,
