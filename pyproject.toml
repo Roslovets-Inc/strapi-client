@@ -23,13 +23,14 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "mypy==1.17.0",
-    "python-semantic-release==10.2.0",
+    "mypy==1.17.1",
+    "python-semantic-release==10.3.0",
     "lazydocs==0.4.8",
     "pydocstyle==6.3.0",
     "mkdocs==1.6.1",
     "mkdocs-awesome-nav==3.1.2",
     "pytest==8.4.1",
+    "pytest-cov==6.2.1",
 ]
 [project.urls]
 Homepage = "https://github.com/Roslovets-Inc/strapi-client"
@@ -52,6 +53,10 @@ plugins = ["pydantic.mypy"]
 init_forbid_extra = true
 init_typed = true
 warn_required_dynamic_aliases = true
+
+[tool.pytest.ini_options]
+addopts = "--cov=src --cov-report=term-missing --cov-report=html"
+testpaths = ["tests"]
 
 [tool.semantic_release]
 remove_dist = "false"

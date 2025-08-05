@@ -5,3 +5,5 @@ dist
 *.egg-info
 docs
 script*.py
+.coverage
+htmlcov

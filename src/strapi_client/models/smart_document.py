@@ -6,7 +6,7 @@ from io import BytesIO
 from ..strapi_client_async import StrapiClientAsync
 from ..utils import serialize_document_data
 from .response import ResponseMeta
-from .smart_document_utils import get_model_fields_and_population
+from .smart_document_utils import get_model_fields_and_population, get_model_data
 from .base_document import BaseDocument
 
 
@@ -15,6 +15,23 @@ class SmartDocument(BaseDocument):
     __singular_api_id__: ClassVar[str]
     __plural_api_id__: ClassVar[str]
     __content_type_id__: ClassVar[str]
+    __managed_fields__: ClassVar[set[str]] = {
+        'id', 'document_id', 'created_at', 'updated_at', 'published_at',
+        '__singular_api_id__', '__plural_api_id__', '__content_type_id__', '__managed_fields__'
+    }
+
+    def model_dump_data(self, exclude_managed_fields: bool = False) -> dict[str, Any]:
+        """
+        Create a dictionary representation of the document.
+        
+        Args:
+            exclude_managed_fields: If True, exclude fields listed in __managed_fields__
+            
+        Returns:
+            Dictionary representation of the document with nested BaseDocument instances
+            replaced with their IDs
+        """
+        return get_model_data(self, exclude_managed_fields=exclude_managed_fields)
 
     @classmethod
     def __pydantic_init_subclass__(cls, **kwargs: Any) -> None:
