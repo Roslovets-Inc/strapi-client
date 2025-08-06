@@ -1,6 +1,29 @@
 # CHANGELOG
 
 
+## v4.2.0 (2025-08-06)
+
+### Bug Fixes
+
+- **SmartDocument**: Optimize `update_document` method
+  ([`7c66125`](https://github.com/Roslovets-Inc/strapi-client/commit/7c66125c3be60ff63404516c8580bb28a742d3e5))
+
+### Features
+
+- **SmartDocument**: `model_dump_data` method
+  ([`2575f51`](https://github.com/Roslovets-Inc/strapi-client/commit/2575f51e624d749bc26d7e0e10482ccff78a2cc5))
+
+to get plain data patch as a dictionary
+
+- **SmartDocument**: `patch_document` method
+  ([`965419a`](https://github.com/Roslovets-Inc/strapi-client/commit/965419aa3db182e56826811a677b0a9b54955ebc))
+
+for quick one-way data udpating
+
+- **util**: `hash_model` method
+  ([`fda56a4`](https://github.com/Roslovets-Inc/strapi-client/commit/fda56a4532ab088f0e5175e6f5439ab3637695db))
+
+
 ## v4.1.6 (2025-07-27)
 
 ### Bug Fixes
