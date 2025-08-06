@@ -188,11 +188,14 @@ class SmartDocument(BaseDocument):
             self,
             client: StrapiClientAsync,
             data: dict[str, Any] | BaseModel,
-            lazy: bool = True,
+            force: bool = False,
+            exclude_fields_from_comparison: list[str] | None = None,
     ) -> DocumentResponse | None:
         """Lazy update existing document fields without record synchronization."""
-        if lazy:
+        if not force:
             data_dict = data.model_dump(by_alias=True) if isinstance(data, BaseModel) else data
+            if exclude_fields_from_comparison:
+                data_dict = {k: v for k, v in data_dict.items() if k not in exclude_fields_from_comparison}
             record_dict = {
                 k: v for k, v in self.model_dump_data(exclude_managed_fields=True).items()
                 if k in data_dict

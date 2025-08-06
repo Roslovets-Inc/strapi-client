@@ -381,7 +381,7 @@ def test_patch_document_lazy_with_changes(async_client):
         )
         
         # Patch with dict data that is different from the current data
-        response = await item.patch_document(async_client, {"name": "Updated"}, lazy=True)
+        response = await item.patch_document(async_client, {"name": "Updated"}, force=True)
         assert response is not None
         assert response.data["name"] == "Updated"
         
@@ -402,7 +402,7 @@ def test_patch_document_lazy_no_changes(async_client):
         )
         
         # Patch with dict data that is the same as the current data
-        response = await item.patch_document(async_client, {"name": "First"}, lazy=True)
+        response = await item.patch_document(async_client, {"name": "First"}, force=False)
         assert response is None  # No update should be performed
         
     asyncio.run(main())
@@ -498,7 +498,7 @@ def test_patch_document_lazy_with_changes_mocked_client():
         )
         
         # Patch with dict data that is different from the current data
-        await item.patch_document(mock_client, {"name": "Updated"}, lazy=True)
+        await item.patch_document(mock_client, {"name": "Updated"}, force=True)
         
         # Verify that update_document was called with the correct parameters
         mock_client.update_document.assert_called_once()
@@ -530,7 +530,7 @@ def test_patch_document_lazy_no_changes_mocked_client():
         )
         
         # Patch with dict data that is the same as the current data
-        response = await item.patch_document(mock_client, {"name": "First"}, lazy=True)
+        response = await item.patch_document(mock_client, {"name": "First"}, force=False)
         
         # Verify that update_document was not called
         mock_client.update_document.assert_not_called()
@@ -709,7 +709,7 @@ def test_patch_document_with_basemodel_lazy(async_client):
         )
         
         # Patch with model data and lazy=True
-        response = await item.patch_document(async_client, update_data, lazy=True)
+        response = await item.patch_document(async_client, update_data, force=True)
         assert response is not None
         assert response.data["name"] == "Updated"
         
