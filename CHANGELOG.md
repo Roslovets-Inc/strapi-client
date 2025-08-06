@@ -1,6 +1,18 @@
 # CHANGELOG
 
 
+## v4.2.1 (2025-08-06)
+
+### Bug Fixes
+
+- **SmartDocument**: `patch_document` is lazy by default
+  ([`6aae4d8`](https://github.com/Roslovets-Inc/strapi-client/commit/6aae4d8c16cf47d59365e0fa924ae5986891e073))
+
+Replaces the 'lazy' parameter with 'force' in SmartDocument.patch_document for clarity. Adds an
+  option to exclude specific fields from comparison during updates. Updates all relevant tests to
+  use the new 'force' parameter.
+
+
 ## v4.2.0 (2025-08-06)
 
 ### Bug Fixes
