@@ -1,6 +1,6 @@
 from .strapi_client_async import StrapiClientAsync
 from .strapi_client import StrapiClient
-from .models.response import DocumentResponse, DocumentsResponse
+from .models.response import DocumentResponse, DocumentsResponse, ResponseMeta
 from .models.base_document import BaseDocument
 from .models.base_component import BaseComponent
 from .models.media_image_documents import MediaImageDocument
@@ -14,6 +14,7 @@ __all__ = [
     'StrapiClient',
     'DocumentResponse',
     'DocumentsResponse',
+    'ResponseMeta',
     'BaseDocument',
     'BaseComponent',
     'MediaImageDocument',
