@@ -6,6 +6,7 @@ from pydantic import BaseModel
 import httpx
 from .strapi_client_base import StrapiClientBase
 from .utils import serialize_document_data
+from .models.media_image_document import MediaImageDocument
 from .models.api_parameters import ApiParameters
 from .models.file_payload import FilePayload
 from .models.response import DocumentsResponse, DocumentResponse
@@ -225,7 +226,7 @@ class StrapiClient(StrapiClientBase):
             content_type_id: str | None = None,
             document_id: int | str | None = None,
             field: str | None = None,
-    ) -> list[dict[str, Any]]:
+    ) -> list[MediaImageDocument]:
         """Upload a list of files."""
         file_payloads = FilePayload.list_from_files(files)
         data: dict[str, Any] = {}
@@ -237,7 +238,7 @@ class StrapiClient(StrapiClientBase):
             files=[fp.to_files_tuple() for fp in file_payloads]
         )
         self._check_response(res, "Unable to send POST request")
-        return res.json() or []
+        return [MediaImageDocument.model_validate(d) for d in (res.json() or [])]
 
     def get_uploaded_files(self, filters: dict | None = None) -> list[dict[str, Any]]:
         """Get uploaded files."""

@@ -11,7 +11,7 @@ from typing import Any, Union, get_origin, get_args, TypeVar, Optional, List, Se
 from types import UnionType
 from pydantic import BaseModel
 from .base_populatable import BasePopulatable, is_populatable_model
-from .media_image_documents import MediaImageDocument
+from .media_image_document import MediaImageDocument
 from .base_document import BaseDocument
 from .base_component import BaseComponent
 
