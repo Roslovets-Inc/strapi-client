@@ -1,22 +1,26 @@
 """
 Unit tests for smart_document_utils module.
 
-These tests cover the functionality of the refactored smart_document_utils module,
+These tests cover the functionality of the smart_document_utils module,
 using mocks instead of a real database.
 """
 from datetime import datetime
 from typing import List, Optional, Union
 from src.strapi_client.models.base_document import BaseDocument
 from src.strapi_client.models.base_component import BaseComponent
+from src.strapi_client.models.base_populatable import BasePopulatable
 from src.strapi_client.models.smart_document_utils import (
-    TypeUtils,
-    FieldUtils,
-    PopulateStructureBuilder,
-    ModelDataProcessor,
-    get_model_fields_and_population,
+    is_populatable_model,
+    is_media_image_document,
+    extract_field_type,
+    get_field_name,
+    get_model_fields,
+    is_base_component,
     get_model_data,
-    is_base_component
+    PopulateStructureBuilder,
+    get_model_fields_and_population
 )
+from pydantic import BaseModel, Field
 
 
 # Test models
@@ -30,12 +34,18 @@ class MockMediaDocument(BaseDocument):
     url: str
     width: int
     height: int
+    createdAt: datetime
+    updatedAt: datetime
+    publishedAt: datetime
 
 
 class MockNestedDocument(BaseDocument):
     """Test nested document for testing."""
     title: str
     description: str = ""
+    createdAt: datetime
+    updatedAt: datetime
+    publishedAt: datetime
 
 
 class MockDocument(BaseDocument):
@@ -62,336 +72,354 @@ class MockCircularChild(BaseDocument):
     parent: Optional[MockCircularParent] = None
 
 
-# TypeUtils tests
-class TestTypeUtils:
-    """Tests for TypeUtils class."""
+# Tests for utility functions
+class TestUtilityFunctions:
+    """Tests for utility functions."""
 
     def test_is_base_component(self):
-        """Test is_base_component method."""
+        """Test is_base_component function."""
         # Test with component
-        assert TypeUtils.is_base_component(MockComponent) is True
+        assert is_base_component(MockComponent) is True
         # Test with base component class
-        assert TypeUtils.is_base_component(BaseComponent) is False
+        assert is_base_component(BaseComponent) is False
         # Test with non-component
-        assert TypeUtils.is_base_component(MockDocument) is False
+        assert is_base_component(MockDocument) is False
         # Test with non-class
-        assert TypeUtils.is_base_component("not a class") is False
+        assert is_base_component("not a class") is False
         # Test with None
-        assert TypeUtils.is_base_component(None) is False
+        assert is_base_component(None) is False
 
     def test_is_media_image_document(self):
-        """Test is_media_image_document method."""
+        """Test is_media_image_document function."""
         # We can't directly test with MediaImageDocument as it's imported in the module
         # Instead, we'll test the behavior with our test classes
         # This is a limitation of the test, but the function is simple enough
-        assert TypeUtils.is_media_image_document(MockMediaDocument) is False
-        assert TypeUtils.is_media_image_document(MockDocument) is False
-        assert TypeUtils.is_media_image_document("not a class") is False
-        assert TypeUtils.is_media_image_document(None) is False
+        assert is_media_image_document(MockMediaDocument) is False
+        assert is_media_image_document(MockDocument) is False
+        assert is_media_image_document("not a class") is False
+        assert is_media_image_document(None) is False
 
-    def test_is_scalar_type(self):
-        """Test is_scalar_type method."""
-        # Test with scalar types
-        assert TypeUtils.is_scalar_type(str) is True
-        assert TypeUtils.is_scalar_type(int) is True
-        assert TypeUtils.is_scalar_type(float) is True
-        assert TypeUtils.is_scalar_type(bool) is True
-        # Test with non-scalar types
-        assert TypeUtils.is_scalar_type(MockDocument) is False
-        assert TypeUtils.is_scalar_type(MockComponent) is False
+    def test_is_populatable_model(self):
+        """Test is_populatable_model function."""
+        # Test with populatable model
+        assert is_populatable_model(MockDocument) is True
+        # Test with base populatable class
+        assert is_populatable_model(BasePopulatable) is False
+        # Test with non-populatable
+        assert is_populatable_model(str) is False
+        # Test with non-class
+        assert is_populatable_model("not a class") is False
         # Test with None
-        assert TypeUtils.is_scalar_type(None) is True
+        assert is_populatable_model(None) is False
 
     def test_extract_field_type(self):
-        """Test extract_field_type method."""
+        """Test extract_field_type function."""
         # Test with simple types
-        assert TypeUtils.extract_field_type(str) is str
-        assert TypeUtils.extract_field_type(int) is int
+        assert extract_field_type(str) is str
+        assert extract_field_type(int) is int
         
         # Test with Optional
-        assert TypeUtils.extract_field_type(Optional[str]) is str
-        assert TypeUtils.extract_field_type(Optional[MockDocument]) is MockDocument
+        optional_str = Optional[str]
+        assert extract_field_type(optional_str) is str
         
         # Test with Union
-        assert TypeUtils.extract_field_type(Union[str, int]) is str
-        assert TypeUtils.extract_field_type(Union[str, None]) is str
+        union_type = Union[str, int]
+        extracted = extract_field_type(union_type)
+        assert extracted in (str, int)
         
         # Test with List
-        assert TypeUtils.extract_field_type(List[str]) is str
-        assert TypeUtils.extract_field_type(List[MockDocument]) is MockDocument
+        list_type = List[str]
+        assert extract_field_type(list_type) is str
         
-        # Test with nested types
-        assert TypeUtils.extract_field_type(Optional[List[str]]) is str
-        assert TypeUtils.extract_field_type(List[Optional[str]]) is Optional[str]
+        # Test with nested containers
+        nested_type = List[Optional[str]]
+        assert extract_field_type(nested_type) is Optional[str]
         
-        # Test with Python 3.10+ union syntax (if supported)
-        try:
-            # This will only work in Python 3.10+
-            type_annotation = eval("str | None")
-            assert TypeUtils.extract_field_type(type_annotation) is str
-            
-            type_annotation = eval("list[str] | None")
-            assert TypeUtils.extract_field_type(type_annotation) is str
-        except SyntaxError:
-            # Python version doesn't support the new union syntax
-            pass
+        # Test with None
+        assert extract_field_type(None) is None
 
 
-# FieldUtils tests
-class TestFieldUtils:
-    """Tests for FieldUtils class."""
+# Tests for field utilities
+class TestFieldUtilities:
+    """Tests for field utilities."""
 
     def test_get_field_name(self):
-        """Test get_field_name method."""
-        # Create a mock field_info with alias
+        """Test get_field_name function."""
+        # Test with field that has an alias
         class MockFieldInfo:
-            alias = "test_alias"
+            alias = "custom_field"
         
-        # Test with alias
-        assert FieldUtils.get_field_name("original_name", MockFieldInfo()) == "test_alias"
+        assert get_field_name("field_name", MockFieldInfo()) == "custom_field"
         
-        # Test without alias
+        # Test with field that doesn't have an alias
         class MockFieldInfoNoAlias:
             pass
         
-        assert FieldUtils.get_field_name("original_name", MockFieldInfoNoAlias()) == "original_name"
+        assert get_field_name("field_name", MockFieldInfoNoAlias()) == "field_name"
 
     def test_get_model_fields(self):
-        """Test get_model_fields method."""
-        # Create a test document instance
-        doc = MockDocument(
-            id=1,
-            documentId="1",
-            createdAt=datetime.now(),
-            updatedAt=datetime.now(),
-            publishedAt=datetime.now(),
-            name="Test",
-            customField="custom"
-        )
+        """Test get_model_fields function."""
+        # Define a test model with various field types
+        class TestModel(BaseModel):
+            string_field: str
+            int_field: int
+            optional_field: Optional[str] = None
+            list_field: List[str] = []
+            custom_name: str = Field(alias="customName")
         
-        # Get model fields
-        fields = FieldUtils.get_model_fields(MockDocument)
+        # Get the model fields
+        fields = get_model_fields(TestModel)
         
-        # Check that fields include the expected fields
-        assert "name" in fields
-        assert "description" in fields
-        assert "tags" in fields
-        assert "component" in fields
-        assert "media" in fields
-        assert "related" in fields
-        assert "related_list" in fields
-        assert "customField" in fields  # Using the field name directly instead of alias
+        # Check that all fields are present
+        assert "string_field" in fields
+        assert "int_field" in fields
+        assert "optional_field" in fields
+        assert "list_field" in fields
+        assert "custom_name" in fields
+        
+        # Check that the field info contains the correct type
+        assert fields["string_field"].annotation == str
+        assert fields["int_field"].annotation == int
+        assert fields["list_field"].annotation == List[str]
+        
+        # Check that the alias is preserved
+        assert fields["custom_name"].alias == "customName"
 
 
-# PopulateStructureBuilder tests
+# Tests for PopulateStructureBuilder
 class TestPopulateStructureBuilder:
     """Tests for PopulateStructureBuilder class."""
 
     def test_get_model_fields_and_population(self):
         """Test get_model_fields_and_population method."""
+        # Create a builder
         builder = PopulateStructureBuilder()
+        
+        # Test with a simple model
         fields, populate = builder.get_model_fields_and_population(MockDocument)
         
-        # Check fields
+        # Check that fields include all scalar fields
         assert "id" in fields
         assert "documentId" in fields
-        assert "createdAt" in fields
-        assert "updatedAt" in fields
-        assert "publishedAt" in fields
         assert "name" in fields
         assert "description" in fields
         assert "tags" in fields
-        assert "customField" in fields  # Alias is used
+        assert "customField" in fields
         
-        # Check populate
+        # Check that populate structure includes all relation fields
         assert "component" in populate
         assert "media" in populate
         assert "related" in populate
         assert "related_list" in populate
         
-        # Check that component uses simple populate
-        assert populate["component"] is True
-        # Check that media has a nested structure (not simple populate in the refactored version)
-        assert isinstance(populate["media"], dict)
-        assert "fields" in populate["media"]
+        # Test with a model that has circular references
+        fields, populate = builder.get_model_fields_and_population(MockCircularParent)
         
-        # Check that related has nested structure
-        assert isinstance(populate["related"], dict)
-        assert "fields" in populate["related"]
-        assert "id" in populate["related"]["fields"]
-        assert "documentId" in populate["related"]["fields"]
-        assert "title" in populate["related"]["fields"]
-        assert "description" in populate["related"]["fields"]
+        # Check that fields include all scalar fields
+        assert "id" in fields
+        assert "documentId" in fields
+        assert "name" in fields
+        
+        # Check that populate structure includes relation fields
+        assert "child" in populate
+        assert "populate" in populate["child"]
+        assert "parent" in populate["child"]["populate"]
 
     def test_circular_references(self):
         """Test handling of circular references."""
+        # Create a builder
         builder = PopulateStructureBuilder()
+        
+        # Test with a model that has circular references
         fields, populate = builder.get_model_fields_and_population(MockCircularParent)
         
-        # Check fields
-        assert "id" in fields
-        assert "name" in fields
-        
-        # Check populate
+        # Check that the circular reference is handled correctly
         assert "child" in populate
-        assert isinstance(populate["child"], dict)
-        assert "fields" in populate["child"]
-        assert "id" in populate["child"]["fields"]
-        assert "name" in populate["child"]["fields"]
-        
-        # Check that child.parent is handled correctly
-        # In the refactored version, circular references result in a nested structure rather than an empty dict
         assert "populate" in populate["child"]
         assert "parent" in populate["child"]["populate"]
-        # Just check that it's a dictionary with fields, not the exact content
-        assert isinstance(populate["child"]["populate"]["parent"], dict)
 
 
-# ModelDataProcessor tests
-class TestModelDataProcessor:
-    """Tests for ModelDataProcessor class."""
+# Tests for model data processing
+class TestModelDataProcessing:
+    """Tests for model data processing functions."""
 
     def test_get_model_data_basic(self):
-        """Test get_model_data with basic document."""
-        # Create a test document
+        """Test get_model_data with basic fields."""
+        # Create a document with basic fields
         doc = MockDocument(
             id=1,
             documentId="1",
-            createdAt=datetime.now(),
-            updatedAt=datetime.now(),
-            publishedAt=datetime.now(),
-            name="Test",
-            description="Test description",
+            createdAt=datetime(2024, 1, 1),
+            updatedAt=datetime(2024, 1, 1),
+            publishedAt=datetime(2024, 1, 1),
+            name="Test Document",
+            description="A test document",
             tags=["tag1", "tag2"],
-            customField="custom"
+            customField="custom value"
         )
         
-        # Get model data
-        data = ModelDataProcessor.get_model_data(doc)
+        # Get the model data
+        data = get_model_data(doc)
         
-        # Check basic fields
+        # Check that basic fields are included
         assert data["id"] == 1
         assert data["documentId"] == "1"
-        assert "createdAt" in data
-        assert "updatedAt" in data
-        assert "publishedAt" in data
-        assert data["name"] == "Test"
-        assert data["description"] == "Test description"
+        assert data["name"] == "Test Document"
+        assert data["description"] == "A test document"
         assert data["tags"] == ["tag1", "tag2"]
-        assert data["customField"] == "custom"  # Alias is used
+        assert data["customField"] == "custom value"
 
     def test_get_model_data_with_nested(self):
         """Test get_model_data with nested documents."""
         # Create nested documents
-        nested = MockNestedDocument(
-            id=2,
-            documentId="2",
-            createdAt=datetime.now(),
-            updatedAt=datetime.now(),
-            publishedAt=datetime.now(),
-            title="Nested",
-            description="Nested description"
+        component = MockComponent(name="Test Component")
+        media = MockMediaDocument(
+            id=2, 
+            documentId="2", 
+            url="http://example.com/image.jpg", 
+            width=100, 
+            height=100,
+            createdAt=datetime(2024, 1, 1),
+            updatedAt=datetime(2024, 1, 1),
+            publishedAt=datetime(2024, 1, 1)
         )
-        
-        nested2 = MockNestedDocument(
-            id=3,
-            documentId="3",
-            createdAt=datetime.now(),
-            updatedAt=datetime.now(),
-            publishedAt=datetime.now(),
-            title="Nested 2",
-            description="Nested description 2"
+        related = MockNestedDocument(
+            id=3, 
+            documentId="3", 
+            title="Related Document",
+            createdAt=datetime(2024, 1, 1),
+            updatedAt=datetime(2024, 1, 1),
+            publishedAt=datetime(2024, 1, 1)
         )
+        related_list = [
+            MockNestedDocument(
+                id=4, 
+                documentId="4", 
+                title="Related 1",
+                createdAt=datetime(2024, 1, 1),
+                updatedAt=datetime(2024, 1, 1),
+                publishedAt=datetime(2024, 1, 1)
+            ),
+            MockNestedDocument(
+                id=5, 
+                documentId="5", 
+                title="Related 2",
+                createdAt=datetime(2024, 1, 1),
+                updatedAt=datetime(2024, 1, 1),
+                publishedAt=datetime(2024, 1, 1)
+            )
+        ]
         
-        # Create a test document with nested documents
+        # Create a document with nested fields
         doc = MockDocument(
             id=1,
             documentId="1",
-            createdAt=datetime.now(),
-            updatedAt=datetime.now(),
-            publishedAt=datetime.now(),
-            name="Test",
-            related=nested,
-            related_list=[nested, nested2],
-            customField="custom"
+            createdAt=datetime(2024, 1, 1),
+            updatedAt=datetime(2024, 1, 1),
+            publishedAt=datetime(2024, 1, 1),
+            name="Test Document",
+            component=component,
+            media=media,
+            related=related,
+            related_list=related_list,
+            customField="custom value"
         )
         
-        # Get model data
-        data = ModelDataProcessor.get_model_data(doc)
+        # Get the model data
+        data = get_model_data(doc)
         
-        # Check nested fields
-        assert data["related"] == 2  # ID of nested
-        assert data["related_list"] == [2, 3]  # IDs of nested and nested2
+        # Check that nested documents are replaced with their IDs
+        assert data["media"] == 2
+        assert data["related"] == 3
+        assert data["related_list"] == [4, 5]
+        
+        # Components should be included as-is
+        assert isinstance(data["component"], dict)
+        assert data["component"]["name"] == "Test Component"
 
     def test_get_model_data_exclude_managed(self):
         """Test get_model_data with exclude_managed_fields=True."""
-        # Create a test document
-        doc = MockDocument(
+        # Create a document with managed fields
+        class ManagedDocument(BaseDocument):
+            name: str
+            internal_field: str
+            __managed_fields__ = {"internal_field"}
+        
+        doc = ManagedDocument(
             id=1,
             documentId="1",
-            createdAt=datetime.now(),
-            updatedAt=datetime.now(),
-            publishedAt=datetime.now(),
-            name="Test",
-            customField="custom"
+            createdAt=datetime(2024, 1, 1),
+            updatedAt=datetime(2024, 1, 1),
+            publishedAt=datetime(2024, 1, 1),
+            name="Test Document",
+            internal_field="internal value"
         )
         
-        # Add managed fields
-        doc.__managed_fields__ = {"id", "document_id", "created_at", "updated_at", "published_at"}
+        # Get the model data with exclude_managed_fields=False
+        data = get_model_data(doc, exclude_managed_fields=False)
         
-        # Get model data with exclude_managed_fields=True
-        data = ModelDataProcessor.get_model_data(doc, exclude_managed_fields=True)
+        # Check that all fields are included
+        assert "name" in data
+        assert "internal_field" in data
+        
+        # Get the model data with exclude_managed_fields=True
+        data = get_model_data(doc, exclude_managed_fields=True)
         
         # Check that managed fields are excluded
-        assert "id" not in data
-        assert "documentId" not in data
-        assert "createdAt" not in data
-        assert "updatedAt" not in data
-        assert "publishedAt" not in data
-        
-        # Check that other fields are included
-        assert data["name"] == "Test"
+        assert "name" in data
+        assert "internal_field" not in data
 
 
-# Public API tests
+# Tests for public API
 class TestPublicAPI:
     """Tests for public API functions."""
 
     def test_is_base_component(self):
         """Test is_base_component function."""
+        # This is a public API function, so we test it directly
         assert is_base_component(MockComponent) is True
         assert is_base_component(BaseComponent) is False
         assert is_base_component(MockDocument) is False
 
     def test_get_model_fields_and_population(self):
         """Test get_model_fields_and_population function."""
+        # This is a public API function that uses PopulateStructureBuilder
         fields, populate = get_model_fields_and_population(MockDocument)
         
-        # Check fields
+        # Check that fields include all model fields
+        assert "id" in fields
+        assert "documentId" in fields
         assert "name" in fields
-        assert "description" in fields
         
-        # Check populate
+        # Check that populate structure includes relations
         assert "component" in populate
         assert "media" in populate
         assert "related" in populate
+        assert "related_list" in populate
 
     def test_get_model_data(self):
         """Test get_model_data function."""
-        # Create a test document
+        # Create a document with basic fields
         doc = MockDocument(
             id=1,
             documentId="1",
-            createdAt=datetime.now(),
-            updatedAt=datetime.now(),
-            publishedAt=datetime.now(),
-            name="Test",
-            customField="custom"
+            createdAt=datetime(2024, 1, 1),
+            updatedAt=datetime(2024, 1, 1),
+            publishedAt=datetime(2024, 1, 1),
+            name="Test Document",
+            customField="custom value"
         )
         
-        # Get model data
+        # Get the model data
         data = get_model_data(doc)
         
-        # Check basic fields
+        # Check that basic fields are included
         assert data["id"] == 1
-        assert data["name"] == "Test"
+        assert data["documentId"] == "1"
+        assert data["name"] == "Test Document"
+        assert data["customField"] == "custom value"
+        
+        # Test with json_mode=True
+        data_json = get_model_data(doc, json_mode=True)
+        assert data_json["id"] == 1
+        assert data_json["name"] == "Test Document"

@@ -3,6 +3,7 @@ import pytest
 import httpx
 from src.strapi_client import StrapiClient
 from src.strapi_client.strapi_client_base import StrapiClientBase
+from strapi_client import MediaImageDocument
 
 
 # Mock Strapi REST API handler
@@ -21,7 +22,7 @@ def mock_strapi_handler(request: httpx.Request) -> httpx.Response:
     if request.url.path == '/api/items/2' and request.method == 'DELETE':
         return httpx.Response(204)
     if request.url.path == '/api/upload' and request.method == 'POST':
-        return httpx.Response(200, json={'result': 'ok'})
+        return httpx.Response(200, json=[])
     if request.url.path == '/api/upload/files' and request.method == 'GET':
         return httpx.Response(200, json=[{'id': 1}, {'id': 2}])
     if request.url.path == '/_health' and request.method == 'GET':
@@ -85,7 +86,7 @@ def test_create_update_delete_document(client):
 def test_upload_and_list_files(client, tmp_path):
     f = tmp_path / 'file.txt'
     f.write_text('content')
-    assert client.upload_files([f]) == {'result': 'ok'}
+    assert isinstance(client.upload_files([f]), list)
     files = client.get_uploaded_files()
     assert isinstance(files, list) and files[0]['id'] == 1
 

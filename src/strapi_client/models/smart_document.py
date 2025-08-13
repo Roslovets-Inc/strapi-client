@@ -1,6 +1,7 @@
 from typing import Self, Any, ClassVar
 from pydantic import BaseModel
 import re
+import warnings
 from pathlib import Path
 from io import BytesIO
 from ..strapi_client_async import StrapiClientAsync
@@ -19,19 +20,6 @@ class SmartDocument(BaseDocument):
         'id', 'document_id', 'created_at', 'updated_at', 'published_at',
         '__singular_api_id__', '__plural_api_id__', '__content_type_id__', '__managed_fields__'
     }
-
-    def model_dump_data(self, exclude_managed_fields: bool = False) -> dict[str, Any]:
-        """
-        Create a dictionary representation of the document.
-        
-        Args:
-            exclude_managed_fields: If True, exclude fields listed in __managed_fields__
-            
-        Returns:
-            Dictionary representation of the document with nested BaseDocument instances
-            replaced with their IDs
-        """
-        return get_model_data(self, exclude_managed_fields=exclude_managed_fields)
 
     @classmethod
     def __pydantic_init_subclass__(cls, **kwargs: Any) -> None:
@@ -165,18 +153,55 @@ class SmartDocument(BaseDocument):
             result_document = BaseDocument.from_scalar_response(response)
             return await cls.get_document(client, result_document.document_id)
 
+    def model_dump_data(self, exclude_managed_fields: bool = False, json_mode: bool = False) -> dict[str, Any]:
+        """
+        Create a dictionary representation of the document.
+
+        Args:
+            exclude_managed_fields: If True, exclude fields listed in __managed_fields__
+            json_mode: If True, serialize fields to JSON compatible types
+
+        Returns:
+            Dictionary representation of the document with nested BaseDocument instances
+            replaced with their IDs
+        """
+        return get_model_data(self, exclude_managed_fields=exclude_managed_fields, json_mode=json_mode)
+
+    def model_identical(
+            self,
+            data: dict[str, Any] | BaseModel,
+            exclude_fields: list[str] | None = None
+    ) -> bool:
+        data_dict = data.model_dump(by_alias=True) if isinstance(data, BaseModel) else data
+        data_dict_filtered = {
+            k: v for k, v in data_dict.items() if k not in (exclude_fields or [])
+        }
+        record_dict = self.model_dump_data(exclude_managed_fields=True)
+        record_dict_filtered = {
+            k: v for k, v in record_dict.items() if k in data_dict_filtered
+        }
+        return hash_model(record_dict_filtered) == hash_model(data_dict_filtered)
+
     async def update_document(
             self,
             client: StrapiClientAsync,
             data: dict[str, Any] | BaseModel,
+            lazy_mode: bool = False,
+            do_not_compare_fields: list[str] | None = None,
     ) -> Self:
         """Update existing document."""
+        _, populate = get_model_fields_and_population(self.__class__)
+        if not lazy_mode and do_not_compare_fields:
+            warnings.warn('do_not_compare_fields argument works only in lazy mode')
+        if lazy_mode and populate:
+            warnings.warn('Lazy mode with populated fields is not supported')
+        elif lazy_mode and self.model_identical(data=data, exclude_fields=do_not_compare_fields):
+            return self
         response = await client.update_document(
             plural_api_id=self.__plural_api_id__,
             document_id=self.document_id,
             data=serialize_document_data(data),
         )
-        _, populate = get_model_fields_and_population(self.__class__)
         if not populate:
             result_document = self.__class__.from_scalar_response(response)
             self.__dict__.update(result_document.__dict__)
@@ -184,29 +209,22 @@ class SmartDocument(BaseDocument):
         else:
             return await self.refresh_document(client)
 
-    async def patch_document(
+    async def lazy_update_document(
             self,
             client: StrapiClientAsync,
             data: dict[str, Any] | BaseModel,
-            force: bool = False,
-            exclude_fields_from_comparison: list[str] | None = None,
-    ) -> DocumentResponse | None:
+            do_not_compare_fields: list[str] | None = None,
+    ) -> bool:
         """Lazy update existing document fields without record synchronization."""
-        if not force:
-            data_dict = data.model_dump(by_alias=True) if isinstance(data, BaseModel) else data
-            if exclude_fields_from_comparison:
-                data_dict = {k: v for k, v in data_dict.items() if k not in exclude_fields_from_comparison}
-            record_dict = {
-                k: v for k, v in self.model_dump_data(exclude_managed_fields=True).items()
-                if k in data_dict
-            }
-            if hash_model(record_dict) == hash_model(data_dict):
-                return None
-        return await client.update_document(
-            plural_api_id=self.__plural_api_id__,
-            document_id=self.document_id,
-            data=serialize_document_data(data),
-        )
+        if self.model_identical(data=data, exclude_fields=do_not_compare_fields):
+            return False
+        else:
+            await client.update_document(
+                plural_api_id=self.__plural_api_id__,
+                document_id=self.document_id,
+                data=serialize_document_data(data),
+            )
+            return True
 
     async def update_relations(
             self,
@@ -264,12 +282,12 @@ class SmartDocument(BaseDocument):
     async def upload_file(
             self,
             client: StrapiClientAsync,
-            file: Path | str | dict[str, BytesIO],
+            file: Path | str | dict[str, BytesIO | bytes | bytearray | memoryview],
             field: str
     ) -> Self:
         """Upload a file to the document's field."""
         if isinstance(file, dict):
-            file_data: list[Path | str] | dict[str, BytesIO] = file
+            file_data: list[Path | str] | dict[str, BytesIO | bytes | bytearray | memoryview] = file
         else:
             file_data = [file]
         response = await client.upload_files(

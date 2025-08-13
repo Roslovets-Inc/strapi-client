@@ -16,12 +16,16 @@ class FilePayload(BaseModel, arbitrary_types_allowed=True):
         return cls(name=fp.name, file=BytesIO(fp.read_bytes()), mimetype=cls._get_mimetype(fp.name))
 
     @classmethod
-    def from_bytes(cls, file_name: str, file_bytes: BytesIO) -> Self:
-        file_bytes.seek(0)
-        return cls(name=file_name, file=file_bytes, mimetype=cls._get_mimetype(file_name))
+    def from_bytes(cls, file_name: str, file_bytes: BytesIO | bytes | bytearray | memoryview) -> Self:
+        file_bytesio = file_bytes if isinstance(file_bytes, BytesIO) else BytesIO(file_bytes)
+        file_bytesio.seek(0)
+        return cls(name=file_name, file=file_bytesio, mimetype=cls._get_mimetype(file_name))
 
     @classmethod
-    def list_from_files(cls, files: list[Path | str] | dict[str, BytesIO]) -> list[Self]:
+    def list_from_files(
+            cls,
+            files: list[Path | str] | dict[str, BytesIO | bytes | bytearray | memoryview]
+    ) -> list[Self]:
         file_payloads: list[Self] = []
         if isinstance(files, list):
             for file_path in files:

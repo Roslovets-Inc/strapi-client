@@ -223,7 +223,7 @@ class StrapiClientAsync(StrapiClientBase):
 
     async def upload_files(
             self,
-            files: list[Path | str] | dict[str, BytesIO],
+            files: list[Path | str] | dict[str, BytesIO | bytes | bytearray | memoryview],
             content_type_id: str | None = None,
             document_id: int | str | None = None,
             field: str | None = None,
@@ -240,6 +240,30 @@ class StrapiClientAsync(StrapiClientBase):
         )
         self._check_response(res, "Unable to send POST request")
         return [MediaImageDocument.model_validate(d) for d in (res.json() or [])]
+
+    async def upload_file(
+            self,
+            file: Path | str | dict[str, BytesIO | bytes | bytearray | memoryview],
+            content_type_id: str | None = None,
+            document_id: int | str | None = None,
+            field: str | None = None,
+    ) -> MediaImageDocument:
+        """Upload a list of files."""
+        if isinstance(file, dict):
+            if len(file) > 1:
+                raise ValueError('One file must be provided in binary dict')
+            files: list[Path | str] | dict[str, BytesIO | bytes | bytearray | memoryview] = file
+        else:
+            files = [file]
+        result = await self.upload_files(
+            files=files,
+            content_type_id=content_type_id,
+            document_id=document_id,
+            field=field,
+        )
+        if not result or len(result) != 1:
+            raise ValueError('One and only one result is expected after operation')
+        return result[0]
 
     async def get_uploaded_files(self, filters: dict | None = None) -> list[dict[str, Any]]:
         """Get uploaded files."""
