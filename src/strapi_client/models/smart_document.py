@@ -193,8 +193,6 @@ class SmartDocument(BaseDocument):
         _, populate = get_model_fields_and_population(self.__class__)
         if not lazy_mode and do_not_compare_fields:
             warnings.warn('do_not_compare_fields argument works only in lazy mode')
-        if lazy_mode and populate:
-            warnings.warn('Lazy mode with populated fields is not supported')
         elif lazy_mode and self.model_identical(data=data, exclude_fields=do_not_compare_fields):
             return self
         response = await client.update_document(
