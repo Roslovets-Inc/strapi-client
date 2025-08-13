@@ -1,6 +1,34 @@
 # CHANGELOG
 
 
+## v5.0.0 (2025-08-13)
+
+### Bug Fixes
+
+- Export ResponseMeta model
+  ([`e48a106`](https://github.com/Roslovets-Inc/strapi-client/commit/e48a10614059b60e3b1337ff236cc26468dd21b5))
+
+Added ResponseMeta to the list of exports in __init__.py to make it available for import from the
+  package.
+
+- **client**: Upload_files returns list of MediaImageDocument
+  ([`efb5286`](https://github.com/Roslovets-Inc/strapi-client/commit/efb5286e9430d8a585eb5a84e2832641a3485def))
+
+Renamed the file and imports from media_image_documents.py to media_image_document.py for
+  consistency. Updated all references and changed the return type of file upload methods to return a
+  list of MediaImageDocument instances instead of raw dicts.
+
+### Features
+
+- Update SmartDocument update and file upload logic
+  ([`3dec1b7`](https://github.com/Roslovets-Inc/strapi-client/commit/3dec1b756ab64e7a2545403fbad05e75cc973195))
+
+Refactored SmartDocument to split update_document and lazy_update_document, improving clarity and
+  testability. Enhanced file upload methods to support more binary types and added single-file
+  upload helpers to both sync and async clients. Moved is_populatable_model and related utilities to
+  smart_document_utils, and updated tests to match the new method names and behaviors.
+
+
 ## v4.2.1 (2025-08-06)
 
 ### Bug Fixes
