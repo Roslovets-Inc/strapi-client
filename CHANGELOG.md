@@ -1,6 +1,17 @@
 # CHANGELOG
 
 
+## v5.0.1 (2025-08-14)
+
+### Bug Fixes
+
+- **SmartDocument**: Remove warning for lazy mode
+  ([`8555f34`](https://github.com/Roslovets-Inc/strapi-client/commit/8555f34d9d514bc8ad9d05b306eeb6e3c9a675b0))
+
+Eliminated the warning that indicated lazy mode with populated fields is not supported. This
+  simplifies the logic and avoids unnecessary warnings when using lazy mode.
+
+
 ## v5.0.0 (2025-08-13)
 
 ### Bug Fixes
