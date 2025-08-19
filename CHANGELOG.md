@@ -1,7 +1,22 @@
 # CHANGELOG
 
 
-## v5.0.1 (2025-08-14)
+## v5.0.2 (2025-08-19)
+
+### Bug Fixes
+
+- **SmartDocument**: Inherit definitive fields
+  ([`070d9bc`](https://github.com/Roslovets-Inc/strapi-client/commit/070d9bce59c6fddbbea5743d368bc256da638b7a))
+
+by fixing ClassVar propagation
+
+### Continuous Integration
+
+- Trigger on tests
+  ([`eeac3d6`](https://github.com/Roslovets-Inc/strapi-client/commit/eeac3d6a2543ea4585794dfb7c78d7c2accc5f86))
+
+
+## v5.0.1 (2025-08-19)
 
 ### Bug Fixes
 
