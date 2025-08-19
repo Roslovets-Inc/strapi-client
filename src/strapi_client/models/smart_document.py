@@ -6,7 +6,7 @@ from pathlib import Path
 from io import BytesIO
 from ..strapi_client_async import StrapiClientAsync
 from ..utils import serialize_document_data, hash_model
-from .response import ResponseMeta, DocumentResponse
+from .response import ResponseMeta
 from .smart_document_utils import get_model_fields_and_population, get_model_data
 from .base_document import BaseDocument
 
@@ -24,15 +24,15 @@ class SmartDocument(BaseDocument):
     @classmethod
     def __pydantic_init_subclass__(cls, **kwargs: Any) -> None:
         super().__pydantic_init_subclass__(**kwargs)
-        if '__singular_api_id__' not in cls.__dict__:
-            name = re.sub(r'(?<!^)(?=[A-Z])', '-', cls.__name__).lower()
-            cls.__singular_api_id__ = name
-        if '__plural_api_id__' not in cls.__dict__:
-            cls.__plural_api_id__ = cls.__singular_api_id__ + 's'
-        if '__content_type_id__' not in cls.__dict__:
-            cls.__content_type_id__ = f'api::{cls.__singular_api_id__}.{cls.__singular_api_id__}'
-        if not cls.__content_type_id__.startswith('api::'):
-            raise ValueError(f'__content_type_id__ should start with "api::" for {cls.__name__}')
+        if not hasattr(cls, '__singular_api_id__'):
+            setattr(cls, '__singular_api_id__', re.sub(r'(?<!^)(?=[A-Z])', '-', cls.__name__).lower())
+        if not hasattr(cls, '__plural_api_id__'):
+            setattr(cls, '__plural_api_id__', f"{getattr(cls, '__singular_api_id__')}s")
+        if not hasattr(cls, '__content_type_id__'):
+            setattr(
+                cls, '__content_type_id__',
+                f"api::{getattr(cls, '__singular_api_id__')}.{getattr(cls, '__singular_api_id__')}"
+            )
 
     @classmethod
     async def get_document(
