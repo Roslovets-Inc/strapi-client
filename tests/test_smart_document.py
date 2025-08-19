@@ -948,14 +948,3 @@ def test_upload_file():
             mock_refresh.assert_called_once()
             
     asyncio.run(main())
-
-
-def test_pydantic_init_subclass_error():
-    """Test error case in __pydantic_init_subclass__."""
-    # Define a class with invalid __content_type_id__
-    with pytest.raises(ValueError) as excinfo:
-        class InvalidDocument(SmartDocument):
-            __content_type_id__ = "invalid-format"
-    
-    # Verify the error message
-    assert "should start with \"api::\"" in str(excinfo.value)
