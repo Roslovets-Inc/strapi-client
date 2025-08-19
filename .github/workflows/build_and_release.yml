@@ -8,6 +8,7 @@ on:
       - src/**
       - pyproject.toml
       - .github/**
+      - tests/**
 
 jobs:
   build_and_release:
