@@ -37,7 +37,7 @@ class MediaImageDocument(BaseDocument):
     caption: str | None = None
     width: int
     height: int
-    formats: MediaImageFormats
+    formats: MediaImageFormats | None = None
     hash: str
     ext: str
     mime: str
@@ -48,8 +48,8 @@ class MediaImageDocument(BaseDocument):
     provider_metadata: dict[str, Any] | None = None
 
     @property
-    def largest_format(self) -> MediaImageFormatVariant:
-        return self.formats.largest
+    def largest_format(self) -> MediaImageFormatVariant | None:
+        return self.formats.largest if self.formats else None
 
 
 def is_media_image_document(field_type: Any) -> bool:
