@@ -35,9 +35,9 @@ class MediaImageDocument(BaseDocument):
     name: str
     alternative_text: str | None = Field(default=None, alias='alternativeText')
     caption: str | None = None
-    width: int
-    height: int
-    formats: MediaImageFormats | None = None
+    width: int | None
+    height: int | None
+    formats: MediaImageFormats | None
     hash: str
     ext: str
     mime: str
