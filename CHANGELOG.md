@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v5.0.4 (2025-10-24)
+
+### Bug Fixes
+
+- **media**: Optional width, height
+  ([`94b19c0`](https://github.com/Roslovets-Inc/strapi-client/commit/94b19c00d4a59bb3cb0052181dbb52d18e409504))
+
+
 ## v5.0.3 (2025-10-24)
 
 ### Bug Fixes
