@@ -1,6 +1,6 @@
 [project]
 name = "strapi-client"
-version = "5.0.2"
+version = "5.0.3"
 description = "Interact with Strapi from Python using the REST API"
 authors = [
     { name = "Pavel Roslovets", email = "p.v.roslovets@gmail.com" }

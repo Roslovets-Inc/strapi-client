@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v5.0.3 (2025-10-24)
+
+### Bug Fixes
+
+- **media**: Formats field is optional
+  ([`52420c5`](https://github.com/Roslovets-Inc/strapi-client/commit/52420c553d7df94f3dd9aa05f3114f01f3ed175e))
+
+
 ## v5.0.2 (2025-08-19)
 
 ### Bug Fixes
