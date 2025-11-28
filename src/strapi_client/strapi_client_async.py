@@ -65,9 +65,10 @@ class StrapiClientAsync(StrapiClientBase):
             document_id: str,
             populate: list[str] | dict[str, Any] | str | None = None,
             fields: list[str] | None = None,
+            locale: str | None = None
     ) -> DocumentResponse:
         """Get document by document id."""
-        params = ApiParameters(populate=populate, fields=fields)
+        params = ApiParameters(populate=populate, fields=fields, locale=locale)
         res = await self.send_get_request(
             f"{plural_api_id}/{document_id}",
             params=params.stringify()
