@@ -23,8 +23,7 @@ class FilePayload(BaseModel, arbitrary_types_allowed=True):
 
     @classmethod
     def list_from_files(
-            cls,
-            files: list[Path | str] | dict[str, BytesIO | bytes | bytearray | memoryview]
+        cls, files: list[Path | str] | dict[str, BytesIO | bytes | bytearray | memoryview]
     ) -> list[Self]:
         file_payloads: list[Self] = []
         if isinstance(files, list):

@@ -7,11 +7,12 @@ from strapi_client.models.response import DocumentResponse, DocumentsResponse
 
 class BaseDocument(BasePopulatable):
     """Strapi document with standard fields."""
+
     id: int
-    document_id: str = Field(alias='documentId')
-    created_at: datetime.datetime = Field(alias='createdAt')
-    updated_at: datetime.datetime = Field(alias='updatedAt')
-    published_at: datetime.datetime = Field(alias='publishedAt')
+    document_id: str = Field(alias="documentId")
+    created_at: datetime.datetime = Field(alias="createdAt")
+    updated_at: datetime.datetime = Field(alias="updatedAt")
+    published_at: datetime.datetime = Field(alias="publishedAt")
 
     @classmethod
     def from_scalar_response(cls, response: DocumentResponse) -> Self:
@@ -28,4 +29,5 @@ class BaseDocument(BasePopulatable):
 
 class BaseDocumentWithLocale(BaseDocument):
     """Strapi document with standard fields and locale."""
+
     locale: str | None = None

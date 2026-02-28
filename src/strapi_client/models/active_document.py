@@ -10,36 +10,42 @@ from strapi_client.strapi_client_async import StrapiClientAsync
 
 def DocumentField(*args, unique: bool = False, relation: bool = False, **kwargs):
     field_info = Field(*args, **kwargs)
-    field_info.metadata.append({'unique': unique, 'relation': relation})
+    field_info.metadata.append({"unique": unique, "relation": relation})
     return field_info
 
 
 class ActiveDocument(BaseModel):
     """Experimental ORM class for Strapi document."""
+
     __plural_api_id__: ClassVar[str]
     __managed_fields__: ClassVar[set[str]] = {
-        'id', 'document_id', 'created_at', 'updated_at', 'published_at', '__plural_api_id__',
-        '__managed_fields__'
+        "id",
+        "document_id",
+        "created_at",
+        "updated_at",
+        "published_at",
+        "__plural_api_id__",
+        "__managed_fields__",
     }
     _relations_populated: bool = PrivateAttr(default=False)
     id: int | None = DocumentField(default=None, unique=True)
-    document_id: str | None = DocumentField(default=None, alias='documentId', unique=True)
-    created_at: datetime.datetime | None = Field(default=None, alias='createdAt')
-    updated_at: datetime.datetime | None = Field(default=None, alias='updatedAt')
-    published_at: datetime.datetime | None = Field(default=None, alias='publishedAt')
+    document_id: str | None = DocumentField(default=None, alias="documentId", unique=True)
+    created_at: datetime.datetime | None = Field(default=None, alias="createdAt")
+    updated_at: datetime.datetime | None = Field(default=None, alias="updatedAt")
+    published_at: datetime.datetime | None = Field(default=None, alias="publishedAt")
 
     @classmethod
     def __pydantic_init_subclass__(cls, **kwargs: Any) -> None:
         super().__pydantic_init_subclass__(**kwargs)
-        if '__plural_api_id__' not in cls.__dict__:
-            cls.__plural_api_id__ = cls.__name__.lower() + 's'
+        if "__plural_api_id__" not in cls.__dict__:
+            cls.__plural_api_id__ = cls.__name__.lower() + "s"
 
     @classmethod
     async def get_document(
-            cls,
-            client: StrapiClientAsync,
-            document_id: str,
-            populate_all: bool = True,
+        cls,
+        client: StrapiClientAsync,
+        document_id: str,
+        populate_all: bool = True,
     ) -> Self:
         """Get document by document id."""
         response = await client.get_document(
@@ -51,17 +57,17 @@ class ActiveDocument(BaseModel):
 
     @classmethod
     async def get_documents(
-            cls,
-            client: StrapiClientAsync,
-            populate_all: bool = True,
-            sort: list[str] | None = None,
-            filters: dict[str, Any] | None = None,
-            publication_state: str | None = None,
-            locale: str | None = None,
-            start: int | None = 0,
-            page: int | None = None,
-            limit: int = 25,
-            with_count: bool = True,
+        cls,
+        client: StrapiClientAsync,
+        populate_all: bool = True,
+        sort: list[str] | None = None,
+        filters: dict[str, Any] | None = None,
+        publication_state: str | None = None,
+        locale: str | None = None,
+        start: int | None = 0,
+        page: int | None = None,
+        limit: int = 25,
+        with_count: bool = True,
     ) -> list[Self]:
         """Get list of documents."""
         response = await client.get_documents(
@@ -85,10 +91,7 @@ class ActiveDocument(BaseModel):
 
     async def create_document(self, client: StrapiClientAsync) -> Self:
         """Create new document from object."""
-        response = await client.create_document(
-            plural_api_id=self.__plural_api_id__,
-            data=self.model_dump_variable()
-        )
+        response = await client.create_document(plural_api_id=self.__plural_api_id__, data=self.model_dump_variable())
         return self.model_validate(response.data)
 
     async def update_document(self, client: StrapiClientAsync) -> Self:
@@ -97,16 +100,14 @@ class ActiveDocument(BaseModel):
             raise RuntimeError("Document ID cannot be empty to update document")
         if not self.relations_populated():
             warnings.warn(
-                'Some relations are not populated, so all relations will not be updated. Use refresh() method to populate relations.'
+                "Some relations are not populated, so all relations will not be updated. Use refresh() method to populate relations."
             )
             # TODO: relations: set, connect, disconnect. Preserve hashing. Check warning
             data = self.model_dump_variable(exclude=self._get_relation_fields())
         else:
             data = self.model_dump_variable()
         response = await client.update_document(
-            plural_api_id=self.__plural_api_id__,
-            document_id=self.document_id,
-            data=data
+            plural_api_id=self.__plural_api_id__, document_id=self.document_id, data=data
         )
         return self.model_validate(response.data)
 
@@ -114,10 +115,7 @@ class ActiveDocument(BaseModel):
         """Delete document attached to object."""
         if not self.document_id:
             raise RuntimeError("Document ID cannot be empty to delete document")
-        await client.delete_document(
-            plural_api_id=self.__plural_api_id__,
-            document_id=self.document_id
-        )
+        await client.delete_document(plural_api_id=self.__plural_api_id__, document_id=self.document_id)
 
     def relations_populated(self) -> bool:
         return self._relations_populated or not self._get_relation_fields()
@@ -171,26 +169,23 @@ class ActiveDocument(BaseModel):
         model_dict = self.model_dump(by_alias=True, exclude=self.__managed_fields__ | exclude)
         for rel in self._get_relation_fields():
             if model_dict.get(rel):
-                model_dict[rel] = {'set': model_dict[rel]['documentId']}
+                model_dict[rel] = {"set": model_dict[rel]["documentId"]}
         return model_dict
 
     def model_hash(self) -> str:
         dumped_str = json.dumps(self.model_dump_variable(), sort_keys=True, default=str)
-        return hashlib.sha256(dumped_str.encode('utf-8')).hexdigest()
+        return hashlib.sha256(dumped_str.encode("utf-8")).hexdigest()
 
     @property
     def _unique_fields(self) -> set[str]:
-        return {
-            f for f, info in self.model_fields.items()
-            if any(m.get('unique', False) for m in info.metadata)
-        }
+        return {f for f, info in self.model_fields.items() if any(m.get("unique", False) for m in info.metadata)}
 
     @classmethod
     def _get_document_fields(cls, with_relations: bool = True) -> set[str]:
         return {
             info.alias or f
             for f, info in cls.__pydantic_fields__.items()
-            if with_relations or not any(m.get('relation', False) for m in info.metadata)
+            if with_relations or not any(m.get("relation", False) for m in info.metadata)
         }
 
     @classmethod
@@ -198,5 +193,5 @@ class ActiveDocument(BaseModel):
         return {
             info.alias or f
             for f, info in cls.__pydantic_fields__.items()
-            if any(m.get('relation', False) for m in info.metadata)
+            if any(m.get("relation", False) for m in info.metadata)
         }

@@ -7,6 +7,7 @@ This module provides functions for:
 3. Building populate structures for Strapi API requests
 4. Processing model data for API requests
 """
+
 from typing import Any, Union, get_origin, get_args, TypeVar, List, Set, Tuple, cast
 from types import UnionType
 from pydantic import BaseModel
@@ -16,8 +17,8 @@ from strapi_client.models.base_document import BaseDocument
 from strapi_client.models.base_component import BaseComponent
 
 # Type variables for better type hints
-T = TypeVar('T')
-ModelType = TypeVar('ModelType', bound=BaseModel)
+T = TypeVar("T")
+ModelType = TypeVar("ModelType", bound=BaseModel)
 
 
 def is_populatable_model(field_type: Any) -> bool:
@@ -26,9 +27,11 @@ def is_populatable_model(field_type: Any) -> bool:
     This indicates that the field represents a relation to another Strapi entity.
     """
     try:
-        return (isinstance(field_type, type) and
-                issubclass(field_type, BasePopulatable) and
-                field_type is not BasePopulatable)
+        return (
+            isinstance(field_type, type)
+            and issubclass(field_type, BasePopulatable)
+            and field_type is not BasePopulatable
+        )
     except (TypeError, AttributeError):
         return False
 
@@ -46,8 +49,7 @@ def is_media_image_document(field_type: Any) -> bool:
         bool: True if the type is a subclass of MediaImageDocument
     """
     try:
-        return (isinstance(field_type, type) and
-                issubclass(field_type, MediaImageDocument))
+        return isinstance(field_type, type) and issubclass(field_type, MediaImageDocument)
     except (TypeError, AttributeError):
         return False
 
@@ -137,7 +139,7 @@ def get_field_name(field_name: str, field_info: Any) -> str:
     Returns:
         str: The field name to use for Strapi API
     """
-    return getattr(field_info, 'alias', None) or field_name
+    return getattr(field_info, "alias", None) or field_name
 
 
 def get_model_fields(model_class: type[BaseModel]) -> dict:
@@ -150,7 +152,7 @@ def get_model_fields(model_class: type[BaseModel]) -> dict:
     Returns:
         dict: The model fields
     """
-    return getattr(model_class, 'model_fields', {})
+    return getattr(model_class, "model_fields", {})
 
 
 def is_base_component(field_type: Any) -> bool:
@@ -166,36 +168,34 @@ def is_base_component(field_type: Any) -> bool:
         bool: True if the type is a subclass of BaseComponent (but not BaseComponent itself)
     """
     try:
-        return (isinstance(field_type, type) and
-                issubclass(field_type, BaseComponent) and
-                field_type is not BaseComponent)
+        return (
+            isinstance(field_type, type) and issubclass(field_type, BaseComponent) and field_type is not BaseComponent
+        )
     except (TypeError, AttributeError):
         return False
 
 
 def get_model_data(
-        document: BaseModel,
-        exclude_managed_fields: bool = False,
-        json_mode: bool = False
+    document: BaseModel, exclude_managed_fields: bool = False, json_mode: bool = False
 ) -> dict[str, Any]:
     """
-        Process a document to create a dictionary representation with nested BaseDocument instances
-        replaced with their IDs.
+    Process a document to create a dictionary representation with nested BaseDocument instances
+    replaced with their IDs.
 
-        Args:
-            document: The document to process
-            exclude_managed_fields: If True, exclude fields listed in managed_fields
-            json_mode: If True, serialize fields to JSON compatible types
+    Args:
+        document: The document to process
+        exclude_managed_fields: If True, exclude fields listed in managed_fields
+        json_mode: If True, serialize fields to JSON compatible types
 
-        Returns:
-            Dictionary representation of the document with nested BaseDocument instances
-            replaced with their IDs
-        """
+    Returns:
+        Dictionary representation of the document with nested BaseDocument instances
+        replaced with their IDs
+    """
     # Get the model data as a dictionary with aliases
-    data = document.model_dump(by_alias=True, mode='json' if json_mode else 'python')
+    data = document.model_dump(by_alias=True, mode="json" if json_mode else "python")
 
     # Get managed fields if provided or available on the document
-    if exclude_managed_fields and hasattr(document, '__managed_fields__'):
+    if exclude_managed_fields and hasattr(document, "__managed_fields__"):
         fields_to_exclude: set[str] = cast(set[str], document.__managed_fields__)
     else:
         fields_to_exclude = set()
@@ -241,6 +241,7 @@ def get_model_data(
 
 class PopulateStructureBuilder:
     """Builder for Strapi API populate structures."""
+
     visited_classes: set[type]
 
     def __init__(self):
@@ -358,9 +359,9 @@ class PopulateStructureBuilder:
             # Build the resulting structure for Strapi
             result: dict[str, Any] = {}
             if nested_fields:
-                result['fields'] = nested_fields
+                result["fields"] = nested_fields
             if nested_populate:
-                result['populate'] = nested_populate
+                result["populate"] = nested_populate
 
             return result
 

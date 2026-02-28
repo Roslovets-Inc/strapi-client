@@ -9,20 +9,15 @@ class StrapiClientBase:
     timeout: httpx.Timeout | None = None
     _token: SecretStr | None = None
 
-    def __init__(
-            self,
-            base_url: str,
-            token: str | None = None,
-            timeout: httpx.Timeout | None = None
-    ) -> None:
-        self.base_url = base_url.rstrip('/') + '/'
+    def __init__(self, base_url: str, token: str | None = None, timeout: httpx.Timeout | None = None) -> None:
+        self.base_url = base_url.rstrip("/") + "/"
         if token:
             self._token = SecretStr(token)
         self.timeout = timeout
 
     @property
     def api_url(self) -> str:
-        return self.base_url + 'api/'
+        return self.base_url + "api/"
 
     @property
     def _auth_header(self) -> dict[str, str]:

@@ -6,14 +6,21 @@ import datetime
 from pydantic import BaseModel
 
 RESERVED_FIELDS: set[str] = {
-    "id", "documentId", "createdAt", "updatedAt", "publishedAt", "createdBy", "updatedBy", "publishedBy"
+    "id",
+    "documentId",
+    "createdAt",
+    "updatedAt",
+    "publishedAt",
+    "createdBy",
+    "updatedBy",
+    "publishedBy",
 }
 
 
 def serialize_document_data(data: dict[str, Any] | BaseModel) -> dict[str, Any]:
     """Serialize document data to dictionary for request body."""
     if isinstance(data, BaseModel):
-        data_dict = data.model_dump(by_alias=True, mode='json')
+        data_dict = data.model_dump(by_alias=True, mode="json")
     else:
         # Create a copy of the dictionary to avoid modifying the original
         data_dict = data.copy()
@@ -32,21 +39,21 @@ def serialize_document_data(data: dict[str, Any] | BaseModel) -> dict[str, Any]:
 def hash_model(data: BaseModel | dict[str, Any]) -> str:
     """
     Calculate a deterministic hash of a dictionary or BaseModel.
-    
+
     The hash is calculated by:
     1. If input is a BaseModel, converting it to a dictionary
     2. Converting the dictionary to a JSON string with sorted keys
     3. Computing a SHA-256 hash of the JSON string
-    
+
     Args:
         data: A dictionary or BaseModel to hash
-        
+
     Returns:
         A hexadecimal string representation of the hash
     """
     # If data is a BaseModel, convert it to a dictionary
     if isinstance(data, BaseModel):
-        data_dict = data.model_dump(by_alias=True, mode='json')
+        data_dict = data.model_dump(by_alias=True, mode="json")
     else:
         data_dict = data
 
@@ -60,6 +67,6 @@ def hash_model(data: BaseModel | dict[str, Any]) -> str:
     # Convert the dictionary to a JSON string with sorted keys for deterministic output
     json_str = json.dumps(data_dict, sort_keys=True, cls=DateTimeEncoder)
     # Compute the SHA-256 hash of the JSON string
-    hash_obj = hashlib.sha256(json_str.encode('utf-8'))
+    hash_obj = hashlib.sha256(json_str.encode("utf-8"))
     # Return the hash as a hexadecimal string
     return hash_obj.hexdigest()
