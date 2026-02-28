@@ -1,6 +1,44 @@
 # CHANGELOG
 
 
+## v5.0.6 (2026-02-28)
+
+### Bug Fixes
+
+- Python 3.10 support
+  ([`588b419`](https://github.com/Roslovets-Inc/strapi-client/commit/588b41932cbd990b4caa4256f5711e8f2f3706b1))
+
+- Remove redundant init file
+  ([`669159c`](https://github.com/Roslovets-Inc/strapi-client/commit/669159c5362d478598ac600d410277663c032f51))
+
+- Upgrade documentation
+  ([`d038f4d`](https://github.com/Roslovets-Inc/strapi-client/commit/d038f4d61e7f1389b5e1524821d5a451546f1731))
+
+and replace lazydocs with mkdocstrings
+
+### Code Style
+
+- Reformat code with ruff
+  ([`5dc1aa7`](https://github.com/Roslovets-Inc/strapi-client/commit/5dc1aa77c839defb0b37625449971ac332ac10ad))
+
+### Continuous Integration
+
+- Update docs publication command
+  ([`b2bce1c`](https://github.com/Roslovets-Inc/strapi-client/commit/b2bce1ca2f31813dd0fd8562f676d67ede2eb73d))
+
+### Documentation
+
+- Add requirements and uv installation
+  ([`ca90676`](https://github.com/Roslovets-Inc/strapi-client/commit/ca9067674168db626a9aa555d438568e6700c10b))
+
+### Refactoring
+
+- Use absolute imports in src
+  ([`d89f241`](https://github.com/Roslovets-Inc/strapi-client/commit/d89f2414fd4619f15708f4ee78d65b71101cb7f9))
+
+and uv builder
+
+
 ## v5.0.5 (2026-02-28)
 
 ### Bug Fixes
