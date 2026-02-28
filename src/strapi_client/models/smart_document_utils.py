@@ -7,7 +7,7 @@ This module provides functions for:
 3. Building populate structures for Strapi API requests
 4. Processing model data for API requests
 """
-from typing import Any, Union, get_origin, get_args, TypeVar, List, Set, Tuple, Dict
+from typing import Any, Union, get_origin, get_args, TypeVar, List, Set, Tuple, cast
 from types import UnionType
 from pydantic import BaseModel
 from .base_populatable import BasePopulatable
@@ -196,7 +196,7 @@ def get_model_data(
 
     # Get managed fields if provided or available on the document
     if exclude_managed_fields and hasattr(document, '__managed_fields__'):
-        fields_to_exclude: set[str] = document.__managed_fields__
+        fields_to_exclude: set[str] = cast(set[str], document.__managed_fields__)
     else:
         fields_to_exclude = set()
 
@@ -208,11 +208,9 @@ def get_model_data(
     for key, value in data.items():
         # Find the original field name and info
         original_field_name = None
-        field_info = None
         for orig_name, info in model_fields.items():
             if get_field_name(orig_name, info) == key:
                 original_field_name = orig_name
-                field_info = info
                 break
 
         # Skip managed fields if exclude_managed_fields is True

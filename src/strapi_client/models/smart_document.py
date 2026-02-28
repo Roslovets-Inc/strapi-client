@@ -1,4 +1,5 @@
-from typing import Self, Any, ClassVar
+from typing import Any, ClassVar
+from typing_extensions import Self
 from pydantic import BaseModel
 import re
 import warnings
@@ -250,7 +251,7 @@ class SmartDocument(BaseDocument):
                     'disconnect': [d.document_id for d in disconnect or {}]
                 }
             }
-        response = await client.update_document(
+        await client.update_document(
             plural_api_id=self.__plural_api_id__,
             document_id=self.document_id,
             data=data,
@@ -288,7 +289,7 @@ class SmartDocument(BaseDocument):
             file_data: list[Path | str] | dict[str, BytesIO | bytes | bytearray | memoryview] = file
         else:
             file_data = [file]
-        response = await client.upload_files(
+        await client.upload_files(
             files=file_data,
             content_type_id=self.__content_type_id__,
             document_id=self.id,

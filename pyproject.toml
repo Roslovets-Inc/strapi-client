@@ -23,14 +23,16 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "mypy==1.18.2",
-    "python-semantic-release==10.4.1",
+    "python-semantic-release==10.5.3",
     "lazydocs==0.4.8",
     "pydocstyle==6.3.0",
     "mkdocs==1.6.1",
-    "mkdocs-awesome-nav==3.2.0",
-    "pytest==8.4.2",
+    "mkdocs-awesome-nav==3.3.0",
+    "pytest==9.0.2",
     "pytest-cov==7.0.0",
+    "mypy==1.19.1",
+    "ty==0.0.19",
+    "ruff==0.15.4",
 ]
 [project.urls]
 Homepage = "https://github.com/Roslovets-Inc/strapi-client"
@@ -47,6 +49,7 @@ build-backend = "setuptools.build_meta"
 "pkgname" = ["py.typed"]
 
 [tool.mypy]
+files = "src"
 plugins = ["pydantic.mypy"]
 
 [tool.pydantic-mypy]
@@ -64,3 +67,14 @@ branch = "main"
 version_toml = ["pyproject.toml:project.version"]
 upload_to_release = "true"
 upload_to_pypi = "true"
+
+[tool.ty.terminal]
+output-format = "concise"
+
+[tool.ty.src]
+include = ["src"]
+
+[tool.ruff]
+line-length = 120
+output-format = "concise"
+exclude = ["tests"]

@@ -3,7 +3,8 @@ __pycache__
 .idea
 dist
 *.egg-info
-docs
+docs/*
+!docs/logo.png
 script*.py
 .coverage
 htmlcov

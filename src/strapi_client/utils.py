@@ -52,10 +52,10 @@ def hash_model(data: BaseModel | dict[str, Any]) -> str:
 
     # Define a custom JSON encoder to handle datetime objects
     class DateTimeEncoder(json.JSONEncoder):
-        def default(self, obj):
-            if isinstance(obj, datetime.datetime):
-                return obj.isoformat()
-            return super().default(obj)
+        def default(self, o: Any):
+            if isinstance(o, datetime.datetime):
+                return o.isoformat()
+            return super().default(o)
 
     # Convert the dictionary to a JSON string with sorted keys for deterministic output
     json_str = json.dumps(data_dict, sort_keys=True, cls=DateTimeEncoder)

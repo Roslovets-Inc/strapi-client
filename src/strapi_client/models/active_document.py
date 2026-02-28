@@ -1,4 +1,5 @@
-from typing import Self, Any, ClassVar
+from typing import Any, ClassVar
+from typing_extensions import Self
 import datetime
 import hashlib
 import json

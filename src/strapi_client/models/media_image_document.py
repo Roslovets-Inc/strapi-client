@@ -24,10 +24,14 @@ class MediaImageFormats(BaseModel):
 
     @property
     def largest(self) -> MediaImageFormatVariant:
-        if self.large: return self.large
-        if self.medium: return self.medium
-        if self.small: return self.small
-        if self.thumbnail: return self.thumbnail
+        if self.large:
+            return self.large
+        if self.medium:
+            return self.medium
+        if self.small:
+            return self.small
+        if self.thumbnail:
+            return self.thumbnail
         raise ValueError('Image has no variants')
 
 

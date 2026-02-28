@@ -1,4 +1,5 @@
-from typing import Self, Any, ClassVar
+from typing import Any, ClassVar
+from typing_extensions import Self
 import re
 from ..strapi_client_async import StrapiClientAsync
 from .base_document import BaseDocument

@@ -1,4 +1,4 @@
-from typing import Any, Self
+from typing_extensions import Self
 import datetime
 from pydantic import Field
 from .base_populatable import BasePopulatable
