@@ -9,11 +9,12 @@
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="assets/_mkdocstrings.css" rel="stylesheet" />
     
       <script>
         // Current page data
         var mkdocs_page_name = "Strapi Client";
-        var mkdocs_page_input_path = "README.md";
+        var mkdocs_page_input_path = "index.md";
         var mkdocs_page_url = "/strapi-client/";
       </script>
     
@@ -31,7 +32,7 @@
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
           <a href=".">
-          <img src="logo.png" class="logo" alt="Logo"/>
+          <img src="img/logo.png" class="logo" alt="Logo"/>
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -43,7 +44,9 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="#">Strapi Client</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#install">Install</a>
+    <li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a>
     </li>
@@ -70,10 +73,9 @@
     </ul>
                 </li>
               </ul>
-              <p class="caption"><span class="caption-text">Reference</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="reference/">Index</a>
-                  </li>
+                <li class="toctree-l1"><a class="reference internal" href="reference/">API Reference</a>
+                </li>
               </ul>
       </div>
     </div>
@@ -99,10 +101,22 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="strapi-client">Strapi Client</h1>
-<p><a href="https://pypi.org/project/strapi-client/"><img alt="PyPI - Version" src="https://img.shields.io/pypi/v/strapi-client" /></a></p>
+<p><a href="https://pypi.org/project/strapi-client/"><img alt="PyPI" src="https://img.shields.io/pypi/v/strapi-client?logo=pypi" /></a><br />
+<a href="https://www.python.org/"><img alt="Python" src="https://img.shields.io/badge/python-%3E%3D3.10-blue?logo=python" /></a><br />
+<a href="https://github.com/Roslovets-Inc/strapi-client/actions/workflows/build_and_release.yml"><img alt="CI" src="https://github.com/Roslovets-Inc/strapi-client/actions/workflows/build_and_release.yml/badge.svg" /></a><br />
+<a href="https://roslovets-inc.github.io/strapi-client/"><img alt="Docs" src="https://img.shields.io/badge/docs-online-brightgreen" /></a></p>
 <p>Interact with Strapi from Python using the REST API</p>
-<h2 id="install">Install</h2>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>Python 3.10+</li>
+<li>A running Strapi instance (public or self-hosted)</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<p>From PyPI:</p>
 <pre><code class="language-bash">pip install strapi-client
+</code></pre>
+<p>or</p>
+<pre><code class="language-bash">uv add strapi-client
 </code></pre>
 <h2 id="documentation">Documentation</h2>
 <p><a href="https://roslovets-inc.github.io/strapi-client/reference/">Full API Reference</a></p>
@@ -210,7 +224,7 @@ asyncio.run(main())
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="reference/" class="btn btn-neutral float-right" title="Index">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="reference/" class="btn btn-neutral float-right" title="API Reference">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -258,5 +272,5 @@ asyncio.run(main())
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2026-02-28 17:30:11.473931+00:00
+Build Date UTC : 2026-02-28 18:33:05.220971+00:00
 -->
