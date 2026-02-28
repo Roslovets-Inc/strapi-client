@@ -1,9 +1,8 @@
 import json
 import pytest
 import httpx
-from src.strapi_client import StrapiClient
-from src.strapi_client.strapi_client_base import StrapiClientBase
-from strapi_client import MediaImageDocument
+from strapi_client import StrapiClient
+from strapi_client.strapi_client_base import StrapiClientBase
 
 
 # Mock Strapi REST API handler

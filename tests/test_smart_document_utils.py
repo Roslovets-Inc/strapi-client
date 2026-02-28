@@ -6,10 +6,10 @@ using mocks instead of a real database.
 """
 from datetime import datetime
 from typing import List, Optional, Union
-from src.strapi_client.models.base_document import BaseDocument
-from src.strapi_client.models.base_component import BaseComponent
-from src.strapi_client.models.base_populatable import BasePopulatable
-from src.strapi_client.models.smart_document_utils import (
+from strapi_client.models.base_document import BaseDocument
+from strapi_client.models.base_component import BaseComponent
+from strapi_client.models.base_populatable import BasePopulatable
+from strapi_client.models.smart_document_utils import (
     is_populatable_model,
     is_media_image_document,
     extract_field_type,

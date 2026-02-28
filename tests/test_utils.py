@@ -1,8 +1,7 @@
 import datetime
-import pytest
 from pydantic import BaseModel
-from src.strapi_client.utils import serialize_document_data, hash_model
-from src.strapi_client.models.base_document import BaseDocument
+from strapi_client.utils import serialize_document_data, hash_model
+from strapi_client.models.base_document import BaseDocument
 
 
 class SimpleModel(BaseModel):

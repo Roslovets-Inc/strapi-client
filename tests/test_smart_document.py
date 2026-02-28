@@ -6,9 +6,9 @@ import httpx
 from pathlib import Path
 from io import BytesIO
 from unittest.mock import patch, AsyncMock, MagicMock
-from src.strapi_client import StrapiClientAsync, SmartDocument
-from src.strapi_client.models.base_document import BaseDocument
-from src.strapi_client.utils import hash_model
+from strapi_client import StrapiClientAsync, SmartDocument
+from strapi_client.models.base_document import BaseDocument
+from strapi_client.utils import hash_model
 
 
 # Simple SmartDocument subclass for testing
@@ -623,7 +623,7 @@ def test_create_document_with_populate(async_client):
     """Test create_document with populate=True path."""
     async def main():
         # Mock the get_model_fields_and_population to return a non-empty populate
-        with patch('src.strapi_client.models.smart_document.get_model_fields_and_population') as mock_get:
+        with patch('strapi_client.models.smart_document.get_model_fields_and_population') as mock_get:
             # First call for create_document, second for get_document
             mock_get.side_effect = [
                 (None, {"nested": True}),  # Return non-empty populate
@@ -657,7 +657,7 @@ def test_update_document(async_client):
         )
         
         # Test update without populate
-        with patch('src.strapi_client.models.smart_document.get_model_fields_and_population') as mock_get:
+        with patch('strapi_client.models.smart_document.get_model_fields_and_population') as mock_get:
             mock_get.return_value = (None, None)  # Empty populate
             
             # Mock the response to include the updated name
@@ -680,11 +680,11 @@ def test_update_document(async_client):
                 assert updated.name == "Updated"
         
         # Test update with populate
-        with patch('src.strapi_client.models.smart_document.get_model_fields_and_population') as mock_get:
+        with patch('strapi_client.models.smart_document.get_model_fields_and_population') as mock_get:
             mock_get.return_value = (None, {"nested": True})  # Non-empty populate
             
             # Mock refresh_document on the SmartDocument class
-            with patch('src.strapi_client.models.smart_document.SmartDocument.refresh_document') as mock_refresh:
+            with patch('strapi_client.models.smart_document.SmartDocument.refresh_document') as mock_refresh:
                 # Create a copy of the item with updated name
                 item_copy = TodoItem(
                     id=1,
@@ -794,7 +794,7 @@ def test_update_relations():
         
         # Create a mock for the refresh_document method
         # We need to patch the actual method on the SmartDocument class
-        with patch('src.strapi_client.models.smart_document.SmartDocument.refresh_document') as mock_refresh:
+        with patch('strapi_client.models.smart_document.SmartDocument.refresh_document') as mock_refresh:
             mock_refresh.return_value = item
             
             # Test with relations
@@ -890,7 +890,7 @@ def test_upload_file():
         mock_client.upload_files = AsyncMock(return_value=MagicMock())
         
         # Mock refresh_document to return self
-        with patch('src.strapi_client.models.smart_document.SmartDocument.refresh_document') as mock_refresh:
+        with patch('strapi_client.models.smart_document.SmartDocument.refresh_document') as mock_refresh:
             mock_refresh.return_value = item
             
             # Test with Path
