@@ -1,8 +1,8 @@
 from typing_extensions import Self
 import datetime
 from pydantic import Field
-from .base_populatable import BasePopulatable
-from ..models.response import DocumentResponse, DocumentsResponse
+from strapi_client.models.base_populatable import BasePopulatable
+from strapi_client.models.response import DocumentResponse, DocumentsResponse
 
 
 class BaseDocument(BasePopulatable):

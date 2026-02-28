@@ -4,13 +4,13 @@ from io import BytesIO
 from urllib.parse import urljoin
 from pydantic import BaseModel
 import httpx
-from .strapi_client_base import StrapiClientBase
-from .utils import serialize_document_data
-from .models.media_image_document import MediaImageDocument
-from .models.api_parameters import ApiParameters
-from .models.file_payload import FilePayload
-from .models.response import DocumentsResponse, DocumentResponse
-from .models.auth import AuthPayload, AuthResponse
+from strapi_client.strapi_client_base import StrapiClientBase
+from strapi_client.utils import serialize_document_data
+from strapi_client.models.media_image_document import MediaImageDocument
+from strapi_client.models.api_parameters import ApiParameters
+from strapi_client.models.file_payload import FilePayload
+from strapi_client.models.response import DocumentsResponse, DocumentResponse
+from strapi_client.models.auth import AuthPayload, AuthResponse
 
 
 class StrapiClient(StrapiClientBase):

@@ -5,11 +5,11 @@ import re
 import warnings
 from pathlib import Path
 from io import BytesIO
-from ..strapi_client_async import StrapiClientAsync
-from ..utils import serialize_document_data, hash_model
-from .response import ResponseMeta
-from .smart_document_utils import get_model_fields_and_population, get_model_data
-from .base_document import BaseDocument
+from strapi_client.strapi_client_async import StrapiClientAsync
+from strapi_client.utils import serialize_document_data, hash_model
+from strapi_client.models.response import ResponseMeta
+from strapi_client.models.smart_document_utils import get_model_fields_and_population, get_model_data
+from strapi_client.models.base_document import BaseDocument
 
 
 class SmartDocument(BaseDocument):

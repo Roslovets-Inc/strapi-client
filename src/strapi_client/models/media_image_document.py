@@ -1,6 +1,6 @@
 from typing import Any
 from pydantic import BaseModel, Field
-from .base_document import BaseDocument
+from strapi_client.models.base_document import BaseDocument
 
 
 class MediaImageFormatVariant(BaseModel):

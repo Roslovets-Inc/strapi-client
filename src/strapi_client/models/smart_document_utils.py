@@ -10,10 +10,10 @@ This module provides functions for:
 from typing import Any, Union, get_origin, get_args, TypeVar, List, Set, Tuple, cast
 from types import UnionType
 from pydantic import BaseModel
-from .base_populatable import BasePopulatable
-from .media_image_document import MediaImageDocument
-from .base_document import BaseDocument
-from .base_component import BaseComponent
+from strapi_client.models.base_populatable import BasePopulatable
+from strapi_client.models.media_image_document import MediaImageDocument
+from strapi_client.models.base_document import BaseDocument
+from strapi_client.models.base_component import BaseComponent
 
 # Type variables for better type hints
 T = TypeVar('T')
