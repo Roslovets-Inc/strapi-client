@@ -1,6 +1,16 @@
 # CHANGELOG
 
 
+## v5.0.5 (2026-02-28)
+
+### Bug Fixes
+
+- Add missing locale parameter
+  ([`12a4de1`](https://github.com/Roslovets-Inc/strapi-client/commit/12a4de153148073496e993ced68390b428835d54))
+
+to get_document methods
+
+
 ## v5.0.4 (2025-10-24)
 
 ### Bug Fixes
