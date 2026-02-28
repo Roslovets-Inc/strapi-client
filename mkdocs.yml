@@ -5,13 +5,32 @@ site_author: Pavel Roslovets
 # Repository
 repo_name: strapi-client
 repo_url: https://github.com/Roslovets-Inc/strapi-client
-edit_uri: ''
 docs_dir: docs
+edit_uri: ""
+site_dir: .site
+
+theme:
+  name: readthedocs
+  logo: img/logo.png
+  locale: en
 
 plugins:
   - search
   - awesome-nav
+  - include-markdown
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_root_heading: true
+            show_root_full_path: false
+            show_object_full_path: false
+            separate_signature: true
+            members_order: source
+            inherited_members: true
+            extensions:
+              - griffe_pydantic
 
-theme:
-  name: readthedocs
-  logo: logo.png
+markdown_extensions:
+  - nl2br

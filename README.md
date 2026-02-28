@@ -1,6 +1,9 @@
 # Strapi Client
 
-[![PyPI - Version](https://img.shields.io/pypi/v/strapi-client)](https://pypi.org/project/strapi-client/)
+[![PyPI](https://img.shields.io/pypi/v/strapi-client?logo=pypi)](https://pypi.org/project/strapi-client/)
+[![Python](https://img.shields.io/badge/python-%3E%3D3.10-blue?logo=python)](https://www.python.org/)
+[![CI](https://github.com/Roslovets-Inc/strapi-client/actions/workflows/build_and_release.yml/badge.svg)](https://github.com/Roslovets-Inc/strapi-client/actions/workflows/build_and_release.yml)
+[![Docs](https://img.shields.io/badge/docs-online-brightgreen)](https://roslovets-inc.github.io/strapi-client/)
 
 Interact with Strapi from Python using the REST API
 
