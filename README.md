@@ -7,10 +7,23 @@
 
 Interact with Strapi from Python using the REST API
 
-## Install
+## Requirements
+
+- Python 3.10+
+- A running Strapi instance (public or self-hosted)
+
+## Installation
+
+From PyPI:
 
 ```bash
 pip install strapi-client
+```
+
+or
+
+```bash
+uv add strapi-client
 ```
 
 ## Documentation
