@@ -39,11 +39,8 @@ jobs:
       - name: 🐛 Run tests
         run: uv run pytest
 
-      - name: 📖 Generate docs
-        run: |
-          cp README.md docs/
-          uv run lazydocs --validate strapi_client --overview-file README.md --output-path docs/reference
-          uv run mkdocs gh-deploy
+      - name: 📖 Deploy docs
+        run: uv run mkdocs gh-deploy
 
       - name: 🔼 Semantic Release
         id: release
