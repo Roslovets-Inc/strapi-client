@@ -1,9 +1,9 @@
 import mimetypes
 from io import BytesIO
 from pathlib import Path
+from typing import Self
 
 from pydantic import BaseModel
-from typing_extensions import Self
 
 
 class FilePayload(BaseModel, arbitrary_types_allowed=True):

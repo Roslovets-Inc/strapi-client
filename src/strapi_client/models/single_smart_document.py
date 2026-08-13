@@ -1,7 +1,5 @@
 import re
-from typing import Any, ClassVar
-
-from typing_extensions import Self
+from typing import Any, ClassVar, Self
 
 from strapi_client.models.base_document import BaseDocument
 from strapi_client.strapi_client_async import StrapiClientAsync

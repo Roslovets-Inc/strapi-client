@@ -9,7 +9,7 @@ Interact with Strapi from Python using the REST API
 
 ## Requirements
 
-- Python 3.10+
+- Python 3.11+
 - A running Strapi instance (public or self-hosted)
 
 ## Installation

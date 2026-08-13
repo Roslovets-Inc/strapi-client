@@ -2,10 +2,9 @@ import re
 import warnings
 from io import BytesIO
 from pathlib import Path
-from typing import Any, ClassVar
+from typing import Any, ClassVar, Self
 
 from pydantic import BaseModel
-from typing_extensions import Self
 
 from strapi_client.models.base_document import BaseDocument
 from strapi_client.models.response import ResponseMeta
