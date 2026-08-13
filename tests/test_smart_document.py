@@ -2,7 +2,7 @@ import asyncio
 import datetime
 import json
 import pytest
-import httpx
+import httpx2
 from pathlib import Path
 from io import BytesIO
 from unittest.mock import patch, AsyncMock, MagicMock
@@ -28,9 +28,9 @@ class ParentDocument(SmartDocument):
 NOW = datetime.datetime(2024, 1, 1).isoformat()
 
 
-async def mock_strapi_handler(request: httpx.Request) -> httpx.Response:
+async def mock_strapi_handler(request: httpx2.Request) -> httpx2.Response:
     if request.url.path == '/api/todo-items/1' and request.method == 'GET':
-        return httpx.Response(200, json={
+        return httpx2.Response(200, json={
             'data': {
                 'id': 1,
                 'documentId': '1',
@@ -41,7 +41,7 @@ async def mock_strapi_handler(request: httpx.Request) -> httpx.Response:
             }
         })
     if request.url.path == '/api/todo-items/2' and request.method == 'GET':
-        return httpx.Response(200, json={
+        return httpx2.Response(200, json={
             'data': {
                 'id': 2,
                 'documentId': '2',
@@ -52,7 +52,7 @@ async def mock_strapi_handler(request: httpx.Request) -> httpx.Response:
             }
         })
     if request.url.path == '/api/todo-items' and request.method == 'GET':
-        return httpx.Response(200, json={
+        return httpx2.Response(200, json={
             'data': [{
                 'id': 1,
                 'documentId': '1',
@@ -69,7 +69,7 @@ async def mock_strapi_handler(request: httpx.Request) -> httpx.Response:
         })
     if request.url.path == '/api/todo-items' and request.method == 'POST':
         body = json.loads(request.content.decode()) if request.content else {}
-        return httpx.Response(200, json={
+        return httpx2.Response(200, json={
             'data': {
                 'id': 2,
                 'documentId': '2',
@@ -81,7 +81,7 @@ async def mock_strapi_handler(request: httpx.Request) -> httpx.Response:
         })
     if request.url.path == '/api/todo-items/1' and request.method == 'PUT':
         body = json.loads(request.content.decode()) if request.content else {}
-        return httpx.Response(200, json={
+        return httpx2.Response(200, json={
             'data': {
                 'id': 1,
                 'documentId': '1',
@@ -93,7 +93,7 @@ async def mock_strapi_handler(request: httpx.Request) -> httpx.Response:
         })
     if request.url.path == '/api/todo-items/2' and request.method == 'PUT':
         body = json.loads(request.content.decode()) if request.content else {}
-        return httpx.Response(200, json={
+        return httpx2.Response(200, json={
             'data': {
                 'id': 2,
                 'documentId': '2',
@@ -104,15 +104,15 @@ async def mock_strapi_handler(request: httpx.Request) -> httpx.Response:
             }
         })
     if request.url.path == '/api/todo-items/error' and request.method == 'PUT':
-        return httpx.Response(500, json={'error': 'server error'})
-    return httpx.Response(404, json={'error': 'not found'})
+        return httpx2.Response(500, json={'error': 'server error'})
+    return httpx2.Response(404, json={'error': 'not found'})
 
 
 @pytest.fixture
 def async_client():
-    transport = httpx.MockTransport(mock_strapi_handler)
+    transport = httpx2.MockTransport(mock_strapi_handler)
     client = StrapiClientAsync(base_url='http://test', token='token')
-    client._client = httpx.AsyncClient(transport=transport)
+    client._client = httpx2.AsyncClient(transport=transport)
     yield client
     asyncio.run(client.close())
 

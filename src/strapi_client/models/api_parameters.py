@@ -8,7 +8,7 @@ class ApiParameters(BaseModel):
 
     This class represents the parameters that can be passed to Strapi API endpoints,
     such as sorting, filtering, pagination, etc. The stringify() method converts
-    these parameters to a URL-encoded query string that can be directly passed to httpx.
+    these parameters to a URL-encoded query string that can be directly passed to httpx2.
     """
 
     sort: list[str] | str | None = None
@@ -29,7 +29,7 @@ class ApiParameters(BaseModel):
         Uses qs_codec to encode parameters in a format compatible with Strapi API.
 
         Returns:
-            str: URL-encoded query string that can be directly passed to httpx.
+            str: URL-encoded query string that can be directly passed to httpx2.
         """
         if self.page is not None and self.page_size is not None:
             pagination = {

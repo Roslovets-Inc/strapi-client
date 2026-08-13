@@ -3,7 +3,7 @@ from pathlib import Path
 from io import BytesIO
 from urllib.parse import urljoin
 from pydantic import BaseModel
-import httpx
+import httpx2
 from strapi_client.strapi_client_base import StrapiClientBase
 from strapi_client.utils import serialize_document_data
 from strapi_client.models.media_image_document import MediaImageDocument
@@ -16,7 +16,7 @@ from strapi_client.models.auth import AuthPayload, AuthResponse
 class StrapiClient(StrapiClientBase):
     """REST API client for Strapi."""
 
-    _client: httpx.Client | None = None
+    _client: httpx2.Client | None = None
 
     def __enter__(self):
         self.open()
@@ -25,10 +25,10 @@ class StrapiClient(StrapiClientBase):
     def __exit__(self, exc_type, exc, tb):
         self.close()
 
-    def open(self) -> httpx.Client:
+    def open(self) -> httpx2.Client:
         # Fallback to creating a client if not used in a context manager.
         if self._client is None:
-            self._client = httpx.Client(timeout=self.timeout)
+            self._client = httpx2.Client(timeout=self.timeout)
         return self._client
 
     def close(self):
@@ -37,7 +37,7 @@ class StrapiClient(StrapiClientBase):
             self._client = None
 
     @property
-    def client(self) -> httpx.Client:
+    def client(self) -> httpx2.Client:
         if not self._client:
             raise RuntimeError("Client is not initialized.")
         return self._client
@@ -155,7 +155,7 @@ class StrapiClient(StrapiClientBase):
         route: str,
         params: dict[str, Any] | str | None = None,
         use_auth: bool = True,
-    ) -> httpx.Response:
+    ) -> httpx2.Response:
         """Send GET request to custom endpoint."""
         res = self.client.get(
             url=urljoin(self.api_url, route), params=params, headers=self._auth_header if use_auth else None
@@ -169,7 +169,7 @@ class StrapiClient(StrapiClientBase):
         body: dict[str, Any] | None = None,
         params: dict[str, Any] | str | None = None,
         use_auth: bool = True,
-    ) -> httpx.Response:
+    ) -> httpx2.Response:
         """Send PUT request to custom endpoint."""
         res = self.client.put(
             url=urljoin(self.api_url, route), json=body, params=params, headers=self._auth_header if use_auth else None
@@ -185,7 +185,7 @@ class StrapiClient(StrapiClientBase):
         data: dict[str, Any] | None = None,
         files: list | None = None,
         use_auth: bool = True,
-    ) -> httpx.Response:
+    ) -> httpx2.Response:
         """Send POST request to custom endpoint."""
         res = self.client.post(
             url=urljoin(self.api_url, route),
@@ -198,7 +198,7 @@ class StrapiClient(StrapiClientBase):
         self._check_response(res, "Unable to send POST request")
         return res
 
-    def send_delete_request(self, route: str, use_auth: bool = True) -> httpx.Response:
+    def send_delete_request(self, route: str, use_auth: bool = True) -> httpx2.Response:
         """Send DELETE request to custom endpoint."""
         res = self.client.delete(url=urljoin(self.api_url, route), headers=self._auth_header if use_auth else None)
         self._check_response(res, "Unable to send DELETE request")
@@ -253,7 +253,7 @@ class StrapiClient(StrapiClientBase):
     def check_health(self) -> bool:
         """Check if Strapi API is available."""
         try:
-            with httpx.Client(timeout=5.0) as client:
+            with httpx2.Client(timeout=5.0) as client:
                 res = client.get(urljoin(self.base_url, "_health"))
                 res.raise_for_status()
                 return True

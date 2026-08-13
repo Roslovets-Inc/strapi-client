@@ -1,15 +1,15 @@
 from pydantic import SecretStr
-import httpx
+import httpx2
 
 
 class StrapiClientBase:
     """Base class with common logic for Strapi clients."""
 
     base_url: str
-    timeout: httpx.Timeout | None = None
+    timeout: httpx2.Timeout | None = None
     _token: SecretStr | None = None
 
-    def __init__(self, base_url: str, token: str | None = None, timeout: httpx.Timeout | None = None) -> None:
+    def __init__(self, base_url: str, token: str | None = None, timeout: httpx2.Timeout | None = None) -> None:
         self.base_url = base_url.rstrip("/") + "/"
         if token:
             self._token = SecretStr(token)
@@ -26,6 +26,6 @@ class StrapiClientBase:
         return {"Authorization": "Bearer " + self._token.get_secret_value()}
 
     @staticmethod
-    def _check_response(res: httpx.Response, message: str) -> None:
+    def _check_response(res: httpx2.Response, message: str) -> None:
         if not (200 <= res.status_code < 300):
             raise RuntimeError(f"{message} error {res.status_code}: {res.reason_phrase}")
