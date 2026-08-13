@@ -1,7 +1,9 @@
+import asyncio
 import json
 import pytest
 import httpx2
-from strapi_client import StrapiClient
+from strapi_client import StrapiClient, StrapiClientAsync
+from strapi_client.models.file_payload import FilePayload
 from strapi_client.strapi_client_base import StrapiClientBase
 
 
@@ -100,6 +102,59 @@ def test_check_health(monkeypatch, mock_transport):
     monkeypatch.setattr(httpx2, 'Client', create_client)
     c = StrapiClient(base_url='http://test')
     assert c.check_health() is True
+
+
+def test_file_payload_rejects_invalid_files_type():
+    with pytest.raises(TypeError, match="Files must be a list of paths or a dict"):
+        FilePayload.list_from_files(42)
+
+
+def test_check_health_returns_false_on_http_error(monkeypatch):
+    transport = httpx2.MockTransport(lambda request: httpx2.Response(503))
+    original_client = httpx2.Client
+
+    def create_client(*args, **kwargs):
+        kwargs['transport'] = transport
+        return original_client(*args, **kwargs)
+
+    monkeypatch.setattr(httpx2, 'Client', create_client)
+
+    assert StrapiClient(base_url='http://test').check_health() is False
+
+
+def test_check_health_does_not_hide_unexpected_errors(monkeypatch):
+    def create_client(*args, **kwargs):
+        raise RuntimeError("unexpected client failure")
+
+    monkeypatch.setattr(httpx2, 'Client', create_client)
+
+    with pytest.raises(RuntimeError, match="unexpected client failure"):
+        StrapiClient(base_url='http://test').check_health()
+
+
+def test_async_check_health_returns_false_on_http_error(monkeypatch):
+    transport = httpx2.MockTransport(lambda request: httpx2.Response(503))
+    original_client = httpx2.AsyncClient
+
+    def create_client(*args, **kwargs):
+        kwargs['transport'] = transport
+        return original_client(*args, **kwargs)
+
+    monkeypatch.setattr(httpx2, 'AsyncClient', create_client)
+
+    result = asyncio.run(StrapiClientAsync(base_url='http://test').check_health())
+
+    assert result is False
+
+
+def test_async_check_health_does_not_hide_unexpected_errors(monkeypatch):
+    def create_client(*args, **kwargs):
+        raise RuntimeError("unexpected async client failure")
+
+    monkeypatch.setattr(httpx2, 'AsyncClient', create_client)
+
+    with pytest.raises(RuntimeError, match="unexpected async client failure"):
+        asyncio.run(StrapiClientAsync(base_url='http://test').check_health())
 
 
 

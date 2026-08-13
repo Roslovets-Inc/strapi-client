@@ -1,5 +1,7 @@
 from typing import Any
+
 from pydantic import BaseModel, Field
+
 from strapi_client.models.base_document import BaseDocument
 
 

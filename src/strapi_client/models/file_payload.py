@@ -1,8 +1,9 @@
-from typing_extensions import Self
-from pathlib import Path
-from io import BytesIO
 import mimetypes
+from io import BytesIO
+from pathlib import Path
+
 from pydantic import BaseModel
+from typing_extensions import Self
 
 
 class FilePayload(BaseModel, arbitrary_types_allowed=True):
@@ -33,7 +34,7 @@ class FilePayload(BaseModel, arbitrary_types_allowed=True):
             for file_name, file_bytes in files.items():
                 file_payloads.append(cls.from_bytes(file_name=file_name, file_bytes=file_bytes))
         else:
-            raise ValueError("Files must be a list of paths or a dict of file name and file data.")
+            raise TypeError("Files must be a list of paths or a dict of file name and file data.")
         return file_payloads
 
     def to_files_tuple(self) -> tuple[str, tuple[str, BytesIO, str]]:

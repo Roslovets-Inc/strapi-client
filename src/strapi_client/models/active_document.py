@@ -1,10 +1,12 @@
-from typing import Any, ClassVar
-from typing_extensions import Self
 import datetime
 import hashlib
 import json
 import warnings
+from typing import Any, ClassVar
+
 from pydantic import BaseModel, Field, PrivateAttr
+from typing_extensions import Self
+
 from strapi_client.strapi_client_async import StrapiClientAsync
 
 

@@ -1,15 +1,17 @@
-from typing import Any, ClassVar
-from typing_extensions import Self
-from pydantic import BaseModel
 import re
 import warnings
-from pathlib import Path
 from io import BytesIO
-from strapi_client.strapi_client_async import StrapiClientAsync
-from strapi_client.utils import serialize_document_data, hash_model
-from strapi_client.models.response import ResponseMeta
-from strapi_client.models.smart_document_utils import get_model_fields_and_population, get_model_data
+from pathlib import Path
+from typing import Any, ClassVar
+
+from pydantic import BaseModel
+from typing_extensions import Self
+
 from strapi_client.models.base_document import BaseDocument
+from strapi_client.models.response import ResponseMeta
+from strapi_client.models.smart_document_utils import get_model_data, get_model_fields_and_population
+from strapi_client.strapi_client_async import StrapiClientAsync
+from strapi_client.utils import hash_model, serialize_document_data
 
 
 class SmartDocument(BaseDocument):
@@ -34,15 +36,11 @@ class SmartDocument(BaseDocument):
     def __pydantic_init_subclass__(cls, **kwargs: Any) -> None:
         super().__pydantic_init_subclass__(**kwargs)
         if not hasattr(cls, "__singular_api_id__"):
-            setattr(cls, "__singular_api_id__", re.sub(r"(?<!^)(?=[A-Z])", "-", cls.__name__).lower())
+            cls.__singular_api_id__ = re.sub(r"(?<!^)(?=[A-Z])", "-", cls.__name__).lower()
         if not hasattr(cls, "__plural_api_id__"):
-            setattr(cls, "__plural_api_id__", f"{getattr(cls, '__singular_api_id__')}s")
+            cls.__plural_api_id__ = f"{cls.__singular_api_id__}s"
         if not hasattr(cls, "__content_type_id__"):
-            setattr(
-                cls,
-                "__content_type_id__",
-                f"api::{getattr(cls, '__singular_api_id__')}.{getattr(cls, '__singular_api_id__')}",
-            )
+            cls.__content_type_id__ = f"api::{cls.__singular_api_id__}.{cls.__singular_api_id__}"
 
     @classmethod
     async def get_document(

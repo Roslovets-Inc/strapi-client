@@ -1,6 +1,7 @@
 from typing import Any
-from pydantic import BaseModel
+
 import qs_codec
+from pydantic import BaseModel
 
 
 class ApiParameters(BaseModel):

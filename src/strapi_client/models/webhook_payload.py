@@ -1,7 +1,9 @@
 import datetime
+
 from pydantic import BaseModel, Field
-from strapi_client.types import WebhookEventName
+
 from strapi_client.models.base_document import BaseDocument
+from strapi_client.types import WebhookEventName
 
 
 class WebhookPayload(BaseModel):

@@ -1,5 +1,5 @@
-from pydantic import SecretStr
 import httpx2
+from pydantic import SecretStr
 
 
 class StrapiClientBase:

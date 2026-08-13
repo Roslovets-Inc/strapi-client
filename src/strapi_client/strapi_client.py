@@ -1,16 +1,18 @@
-from typing import Any
-from pathlib import Path
 from io import BytesIO
+from pathlib import Path
+from typing import Any
 from urllib.parse import urljoin
-from pydantic import BaseModel
+
 import httpx2
+from pydantic import BaseModel
+
+from strapi_client.models.api_parameters import ApiParameters
+from strapi_client.models.auth import AuthPayload, AuthResponse
+from strapi_client.models.file_payload import FilePayload
+from strapi_client.models.media_image_document import MediaImageDocument
+from strapi_client.models.response import DocumentResponse, DocumentsResponse
 from strapi_client.strapi_client_base import StrapiClientBase
 from strapi_client.utils import serialize_document_data
-from strapi_client.models.media_image_document import MediaImageDocument
-from strapi_client.models.api_parameters import ApiParameters
-from strapi_client.models.file_payload import FilePayload
-from strapi_client.models.response import DocumentsResponse, DocumentResponse
-from strapi_client.models.auth import AuthPayload, AuthResponse
 
 
 class StrapiClient(StrapiClientBase):
@@ -257,5 +259,5 @@ class StrapiClient(StrapiClientBase):
                 res = client.get(urljoin(self.base_url, "_health"))
                 res.raise_for_status()
                 return True
-        except Exception:
+        except httpx2.HTTPError:
             return False

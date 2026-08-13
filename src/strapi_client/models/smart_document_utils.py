@@ -8,13 +8,15 @@ This module provides functions for:
 4. Processing model data for API requests
 """
 
-from typing import Any, Union, get_origin, get_args, TypeVar, List, Set, Tuple, cast
 from types import UnionType
+from typing import Any, TypeVar, Union, cast, get_args, get_origin
+
 from pydantic import BaseModel
+
+from strapi_client.models.base_component import BaseComponent
+from strapi_client.models.base_document import BaseDocument
 from strapi_client.models.base_populatable import BasePopulatable
 from strapi_client.models.media_image_document import MediaImageDocument
-from strapi_client.models.base_document import BaseDocument
-from strapi_client.models.base_component import BaseComponent
 
 # Type variables for better type hints
 T = TypeVar("T")
@@ -84,7 +86,7 @@ def extract_field_type(field_type: Any) -> Any:
         args = get_args(type_obj)
 
         # Handle containers: List[T], Tuple[T], Set[T] -> T
-        if origin in (list, List, tuple, Tuple, set, Set) and args:
+        if origin in (list, list, tuple, tuple, set, set) and args:
             return args[0]
         return type_obj
 
@@ -113,7 +115,7 @@ def extract_field_type(field_type: Any) -> Any:
         return field_type
 
     # Handle containers directly: List[T], Tuple[T], Set[T] -> T
-    if origin in (list, List, tuple, Tuple, set, Set) and args:
+    if origin in (list, list, tuple, tuple, set, set) and args:
         return args[0]
 
     # For Union types (including Optional) - choose the first non-None type
