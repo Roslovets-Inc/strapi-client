@@ -108,7 +108,7 @@
 <p>Interact with Strapi from Python using the REST API</p>
 <h2 id="requirements">Requirements</h2>
 <ul>
-<li>Python 3.10+</li>
+<li>Python 3.11+</li>
 <li>A running Strapi instance (public or self-hosted)</li>
 </ul>
 <h2 id="installation">Installation</h2>
@@ -124,11 +124,11 @@
 <h3 id="quick-start-sync-version">Quick start (sync version):</h3>
 <pre><code class="language-python">from strapi_client import StrapiClient
 
-with StrapiClient(base_url='YOUR_STRAPI_URL', token='YOUR_STRAPI_TOKEN') as client:
+with StrapiClient(base_url=&quot;YOUR_STRAPI_URL&quot;, token=&quot;YOUR_STRAPI_TOKEN&quot;) as client:
     # await strapi.authorize(identifier='user_identifier', password='user_password')  # Optional
-    users = client.get_documents('users', filters={'username': {'$eq': 'Pavel'}})
-    user_id = users.data[0]['documentId']
-    client.update_document('users', user_id, data={'username': 'Mark'})
+    users = client.get_documents(&quot;users&quot;, filters={&quot;username&quot;: {&quot;$eq&quot;: &quot;Pavel&quot;}})
+    user_id = users.data[0][&quot;documentId&quot;]
+    client.update_document(&quot;users&quot;, user_id, data={&quot;username&quot;: &quot;Mark&quot;})
 </code></pre>
 <h3 id="quick-start-async-version">Quick start (async version):</h3>
 <pre><code class="language-python">import asyncio
@@ -136,11 +136,11 @@ from strapi_client import StrapiClientAsync
 
 
 async def main():
-    async with StrapiClientAsync(base_url='YOUR_STRAPI_URL', token='YOUR_STRAPI_TOKEN') as client:
+    async with StrapiClientAsync(base_url=&quot;YOUR_STRAPI_URL&quot;, token=&quot;YOUR_STRAPI_TOKEN&quot;) as client:
         # await strapi.authorize(identifier='user_identifier', password='user_password')  # Optional
-        users = await client.get_documents('users', filters={'username': {'$eq': 'Pavel'}})
-        user_id = users.data[0]['documentId']
-        await client.update_document('users', user_id, data={'username': 'Mark'})
+        users = await client.get_documents(&quot;users&quot;, filters={&quot;username&quot;: {&quot;$eq&quot;: &quot;Pavel&quot;}})
+        user_id = users.data[0][&quot;documentId&quot;]
+        await client.update_document(&quot;users&quot;, user_id, data={&quot;username&quot;: &quot;Mark&quot;})
 
 
 asyncio.run(main())
@@ -151,7 +151,7 @@ from strapi_client import StrapiClientAsync, SmartDocument, MediaImageDocument
 
 
 class User(SmartDocument):
-    __singular_api_id__ = 'user'
+    __singular_api_id__ = &quot;user&quot;
     username: str
     first_name: str
     photo: MediaImageDocument
@@ -163,18 +163,18 @@ class Session(SmartDocument):
 
 
 async def main():
-    async with StrapiClientAsync(base_url='YOUR_STRAPI_URL', token='YOUR_STRAPI_TOKEN') as client:
+    async with StrapiClientAsync(base_url=&quot;YOUR_STRAPI_URL&quot;, token=&quot;YOUR_STRAPI_TOKEN&quot;) as client:
         # Get with relations and media by ID
-        user1 = await User.get_document(client, document_id='YOUR_DOCUMENT_ID')
+        user1 = await User.get_document(client, document_id=&quot;YOUR_DOCUMENT_ID&quot;)
         print(user1.photo)
 
         # List documents with automatic population
-        sessions = await Session.get_documents(client, sort=['created_at'])
+        sessions = await Session.get_documents(client, sort=[&quot;created_at&quot;])
         for session in sessions:
-            print(session.user.photo if session.user else 'No user')
+            print(session.user.photo if session.user else &quot;No user&quot;)
 
         # Find one document
-        user1 = await User.get_first_document(client, filters={'username': 'Mark'})
+        user1 = await User.get_first_document(client, filters={&quot;username&quot;: &quot;Mark&quot;})
         if user1:
             print(user1)
 
@@ -198,18 +198,18 @@ class Session(ActiveDocument):
 
 
 async def main():
-    async with StrapiClientAsync(base_url='YOUR_STRAPI_URL', token='YOUR_STRAPI_TOKEN') as client:
+    async with StrapiClientAsync(base_url=&quot;YOUR_STRAPI_URL&quot;, token=&quot;YOUR_STRAPI_TOKEN&quot;) as client:
         # Update existing document
-        user1 = await User.get_document(client, document_id='YOUR_DOCUMENT_ID')
-        user1.first_name = 'Mark'
+        user1 = await User.get_document(client, document_id=&quot;YOUR_DOCUMENT_ID&quot;)
+        user1.first_name = &quot;Mark&quot;
         await user1.update_document(client)
 
         # Create or update document with relation
-        session1 = await Session(uid='123', user=user1).upsert_document(client)
+        session1 = await Session(uid=&quot;123&quot;, user=user1).upsert_document(client)
         await session1.refresh(client)  # populate fields from Strapi
 
         # Create and delete document
-        user2 = await User(username='pavel', first_name='Pavel').create_document(client)
+        user2 = await User(username=&quot;pavel&quot;, first_name=&quot;Pavel&quot;).create_document(client)
         await user2.delete_document(client)
 
 
@@ -272,5 +272,5 @@ asyncio.run(main())
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2026-02-28 18:33:05.220971+00:00
+Build Date UTC : 2026-08-13 23:36:23.634447+00:00
 -->
