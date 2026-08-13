@@ -1,6 +1,22 @@
 # CHANGELOG
 
 
+## v5.1.0 (2026-08-13)
+
+### Bug Fixes
+
+- Reformat code, update exceptions
+  ([`f216ac5`](https://github.com/Roslovets-Inc/strapi-client/commit/f216ac5f41995d38eca1a41c5b16ab1294b8eb3a))
+
+### Features
+
+- Deprecate python 3.10
+  ([`66ceaf7`](https://github.com/Roslovets-Inc/strapi-client/commit/66ceaf7511be7980c67b0cde30f80d320b3978c2))
+
+- Migrate to httpx2
+  ([`8d87c1d`](https://github.com/Roslovets-Inc/strapi-client/commit/8d87c1d6c4efd948cebafae8e1058f49356af38f))
+
+
 ## v5.0.6 (2026-02-28)
 
 ### Bug Fixes
