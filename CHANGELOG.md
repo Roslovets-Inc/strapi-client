@@ -1,6 +1,16 @@
 # CHANGELOG
 
 
+## v5.2.0 (2026-08-30)
+
+### Features
+
+- Locale parameter
+  ([`c6b308e`](https://github.com/Roslovets-Inc/strapi-client/commit/c6b308ec4938663ab7ef4639ed89316cba4b6584))
+
+and LocalizedSmartDocument
+
+
 ## v5.1.0 (2026-08-13)
 
 ### Bug Fixes
