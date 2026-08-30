@@ -55,9 +55,9 @@ class StrapiClient(StrapiClientBase):
         )
         self._token = AuthResponse.model_validate(res.json()).jwt
 
-    def get_single_document(self, single_api_id: str) -> DocumentResponse:
+    def get_single_document(self, single_api_id: str, locale: str | None = None) -> DocumentResponse:
         """Get document of single type."""
-        res = self.send_get_request(single_api_id)
+        res = self.send_get_request(single_api_id, params=ApiParameters(locale=locale).stringify())
         return DocumentResponse.model_validate(res.json())
 
     def get_document(
@@ -69,8 +69,10 @@ class StrapiClient(StrapiClientBase):
         locale: str | None = None,
     ) -> DocumentResponse:
         """Get document by document id."""
-        params = ApiParameters(populate=populate, fields=fields, locale=locale)
-        res = self.send_get_request(f"{plural_api_id}/{document_id}", params=params.stringify())
+        res = self.send_get_request(
+            f"{plural_api_id}/{document_id}",
+            params=ApiParameters(populate=populate, fields=fields, locale=locale).stringify(),
+        )
         return DocumentResponse.model_validate(res.json())
 
     def get_documents(
@@ -120,37 +122,52 @@ class StrapiClient(StrapiClientBase):
             return all_data
 
     def create_or_update_single_document(
-        self, single_api_id: str, data: dict[str, Any] | BaseModel
+        self, single_api_id: str, data: dict[str, Any] | BaseModel, locale: str | None = None
     ) -> DocumentResponse:
         """Create or update single type document."""
-        res = self.send_put_request(single_api_id, body={"data": serialize_document_data(data)})
+        res = self.send_put_request(
+            single_api_id,
+            body={"data": serialize_document_data(data)},
+            params=ApiParameters(locale=locale).stringify(),
+        )
         return DocumentResponse.model_validate(res.json())
 
-    def create_document(self, plural_api_id: str, data: dict[str, Any] | BaseModel) -> DocumentResponse:
+    def create_document(
+        self,
+        plural_api_id: str,
+        data: dict[str, Any] | BaseModel,
+        locale: str | None = None,
+    ) -> DocumentResponse:
         """Create new document."""
         res = self.send_post_request(
             plural_api_id,
             json={"data": serialize_document_data(data)},
+            params=ApiParameters(locale=locale).stringify(),
         )
         return DocumentResponse.model_validate(res.json())
 
     def update_document(
-        self, plural_api_id: str, document_id: str, data: dict[str, Any] | BaseModel
+        self,
+        plural_api_id: str,
+        document_id: str,
+        data: dict[str, Any] | BaseModel,
+        locale: str | None = None,
     ) -> DocumentResponse:
         """Update document fields."""
         res = self.send_put_request(
             f"{plural_api_id}/{document_id}",
             body={"data": serialize_document_data(data)},
+            params=ApiParameters(locale=locale).stringify(),
         )
         return DocumentResponse.model_validate(res.json())
 
-    def delete_single_document(self, single_api_id: str) -> None:
+    def delete_single_document(self, single_api_id: str, locale: str | None = None) -> None:
         """Delete single type document."""
-        self.send_delete_request(single_api_id)
+        self.send_delete_request(single_api_id, params=ApiParameters(locale=locale).stringify())
 
-    def delete_document(self, plural_api_id: str, document_id: str) -> None:
+    def delete_document(self, plural_api_id: str, document_id: str, locale: str | None = None) -> None:
         """Delete document by document id."""
-        self.send_delete_request(f"{plural_api_id}/{document_id}")
+        self.send_delete_request(f"{plural_api_id}/{document_id}", params=ApiParameters(locale=locale).stringify())
 
     def send_get_request(
         self,
@@ -200,9 +217,18 @@ class StrapiClient(StrapiClientBase):
         self._check_response(res, "Unable to send POST request")
         return res
 
-    def send_delete_request(self, route: str, use_auth: bool = True) -> httpx2.Response:
+    def send_delete_request(
+        self,
+        route: str,
+        params: dict[str, Any] | str | None = None,
+        use_auth: bool = True,
+    ) -> httpx2.Response:
         """Send DELETE request to custom endpoint."""
-        res = self.client.delete(url=urljoin(self.api_url, route), headers=self._auth_header if use_auth else None)
+        res = self.client.delete(
+            url=urljoin(self.api_url, route),
+            params=params,
+            headers=self._auth_header if use_auth else None,
+        )
         self._check_response(res, "Unable to send DELETE request")
         return res
 
@@ -248,8 +274,7 @@ class StrapiClient(StrapiClientBase):
 
     def get_uploaded_files(self, filters: dict | None = None) -> list[dict[str, Any]]:
         """Get uploaded files."""
-        params = ApiParameters(filters=filters)
-        res = self.send_get_request("upload/files", params=params.stringify())
+        res = self.send_get_request("upload/files", params=ApiParameters(filters=filters).stringify())
         return res.json()
 
     def check_health(self) -> bool:

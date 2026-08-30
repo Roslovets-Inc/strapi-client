@@ -55,9 +55,9 @@ class StrapiClientAsync(StrapiClientBase):
         )
         self._token = AuthResponse.model_validate(res.json()).jwt
 
-    async def get_single_document(self, single_api_id: str) -> DocumentResponse:
+    async def get_single_document(self, single_api_id: str, locale: str | None = None) -> DocumentResponse:
         """Get document of single type."""
-        res = await self.send_get_request(single_api_id)
+        res = await self.send_get_request(single_api_id, params=ApiParameters(locale=locale).stringify())
         return DocumentResponse.model_validate(res.json())
 
     async def get_document(
@@ -69,8 +69,10 @@ class StrapiClientAsync(StrapiClientBase):
         locale: str | None = None,
     ) -> DocumentResponse:
         """Get document by document id."""
-        params = ApiParameters(populate=populate, fields=fields, locale=locale)
-        res = await self.send_get_request(f"{plural_api_id}/{document_id}", params=params.stringify())
+        res = await self.send_get_request(
+            f"{plural_api_id}/{document_id}",
+            params=ApiParameters(populate=populate, fields=fields, locale=locale).stringify(),
+        )
         return DocumentResponse.model_validate(res.json())
 
     async def get_documents(
@@ -120,37 +122,54 @@ class StrapiClientAsync(StrapiClientBase):
             return all_data
 
     async def create_or_update_single_document(
-        self, single_api_id: str, data: dict[str, Any] | BaseModel
+        self, single_api_id: str, data: dict[str, Any] | BaseModel, locale: str | None = None
     ) -> DocumentResponse:
         """Create or update single type document."""
-        res = await self.send_put_request(single_api_id, body={"data": serialize_document_data(data)})
+        res = await self.send_put_request(
+            single_api_id,
+            body={"data": serialize_document_data(data)},
+            params=ApiParameters(locale=locale).stringify(),
+        )
         return DocumentResponse.model_validate(res.json())
 
-    async def create_document(self, plural_api_id: str, data: dict[str, Any] | BaseModel) -> DocumentResponse:
+    async def create_document(
+        self,
+        plural_api_id: str,
+        data: dict[str, Any] | BaseModel,
+        locale: str | None = None,
+    ) -> DocumentResponse:
         """Create new document."""
         res = await self.send_post_request(
             plural_api_id,
             json={"data": serialize_document_data(data)},
+            params=ApiParameters(locale=locale).stringify(),
         )
         return DocumentResponse.model_validate(res.json())
 
     async def update_document(
-        self, plural_api_id: str, document_id: str, data: dict[str, Any] | BaseModel
+        self,
+        plural_api_id: str,
+        document_id: str,
+        data: dict[str, Any] | BaseModel,
+        locale: str | None = None,
     ) -> DocumentResponse:
         """Update document fields."""
         res = await self.send_put_request(
             f"{plural_api_id}/{document_id}",
             body={"data": serialize_document_data(data)},
+            params=ApiParameters(locale=locale).stringify(),
         )
         return DocumentResponse.model_validate(res.json())
 
-    async def delete_single_document(self, single_api_id: str) -> None:
+    async def delete_single_document(self, single_api_id: str, locale: str | None = None) -> None:
         """Delete single type document."""
-        await self.send_delete_request(single_api_id)
+        await self.send_delete_request(single_api_id, params=ApiParameters(locale=locale).stringify())
 
-    async def delete_document(self, plural_api_id: str, document_id: str) -> None:
+    async def delete_document(self, plural_api_id: str, document_id: str, locale: str | None = None) -> None:
         """Delete document by document id."""
-        await self.send_delete_request(f"{plural_api_id}/{document_id}")
+        await self.send_delete_request(
+            f"{plural_api_id}/{document_id}", params=ApiParameters(locale=locale).stringify()
+        )
 
     async def send_get_request(
         self,
@@ -200,10 +219,17 @@ class StrapiClientAsync(StrapiClientBase):
         self._check_response(res, "Unable to send POST request")
         return res
 
-    async def send_delete_request(self, route: str, use_auth: bool = True) -> httpx2.Response:
+    async def send_delete_request(
+        self,
+        route: str,
+        params: dict[str, Any] | str | None = None,
+        use_auth: bool = True,
+    ) -> httpx2.Response:
         """Send DELETE request to custom endpoint."""
         res = await self.client.delete(
-            url=urljoin(self.api_url, route), headers=self._auth_header if use_auth else None
+            url=urljoin(self.api_url, route),
+            params=params,
+            headers=self._auth_header if use_auth else None,
         )
         self._check_response(res, "Unable to send DELETE request")
         return res
@@ -250,8 +276,7 @@ class StrapiClientAsync(StrapiClientBase):
 
     async def get_uploaded_files(self, filters: dict | None = None) -> list[dict[str, Any]]:
         """Get uploaded files."""
-        params = ApiParameters(filters=filters)
-        res = await self.send_get_request("upload/files", params=params.stringify())
+        res = await self.send_get_request("upload/files", params=ApiParameters(filters=filters).stringify())
         return res.json()
 
     async def check_health(self) -> bool:

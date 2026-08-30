@@ -12,6 +12,7 @@ RESERVED_FIELDS: set[str] = {
     "createdAt",
     "updatedAt",
     "publishedAt",
+    "locale",
     "createdBy",
     "updatedBy",
     "publishedBy",

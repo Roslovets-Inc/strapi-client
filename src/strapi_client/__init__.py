@@ -1,6 +1,7 @@
 from strapi_client.models.active_document import ActiveDocument, DocumentField
 from strapi_client.models.base_component import BaseComponent
 from strapi_client.models.base_document import BaseDocument
+from strapi_client.models.localized_smart_document import LocalizedSmartDocument
 from strapi_client.models.media_image_document import MediaImageDocument
 from strapi_client.models.response import DocumentResponse, DocumentsResponse, ResponseMeta
 from strapi_client.models.single_smart_document import SingleSmartDocument
@@ -16,6 +17,7 @@ __all__ = [
     "DocumentField",
     "DocumentResponse",
     "DocumentsResponse",
+    "LocalizedSmartDocument",
     "MediaImageDocument",
     "ResponseMeta",
     "SingleSmartDocument",

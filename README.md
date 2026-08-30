@@ -66,7 +66,7 @@ asyncio.run(main())
 
 ```python
 import asyncio
-from strapi_client import StrapiClientAsync, SmartDocument, MediaImageDocument
+from strapi_client import LocalizedSmartDocument, MediaImageDocument, SmartDocument, StrapiClientAsync
 
 
 class User(SmartDocument):
@@ -79,6 +79,10 @@ class User(SmartDocument):
 class Session(SmartDocument):
     uid: str
     user: User | None
+
+
+class Article(LocalizedSmartDocument):
+    title: str
 
 
 async def main():
@@ -96,6 +100,10 @@ async def main():
         user1 = await User.get_first_document(client, filters={"username": "Mark"})
         if user1:
             print(user1)
+
+        # Localized documents keep their locale for refresh, update, and delete operations
+        article = await Article.get_document(client, document_id="YOUR_DOCUMENT_ID", locale="fr")
+        await article.update_document(client, {"title": "Bonjour"})
 
 
 asyncio.run(main())

@@ -34,11 +34,11 @@ class SmartDocument(BaseDocument):
     @classmethod
     def __pydantic_init_subclass__(cls, **kwargs: Any) -> None:
         super().__pydantic_init_subclass__(**kwargs)
-        if not hasattr(cls, "__singular_api_id__"):
+        if "__singular_api_id__" not in cls.__dict__:
             cls.__singular_api_id__ = re.sub(r"(?<!^)(?=[A-Z])", "-", cls.__name__).lower()
-        if not hasattr(cls, "__plural_api_id__"):
+        if "__plural_api_id__" not in cls.__dict__:
             cls.__plural_api_id__ = f"{cls.__singular_api_id__}s"
-        if not hasattr(cls, "__content_type_id__"):
+        if "__content_type_id__" not in cls.__dict__:
             cls.__content_type_id__ = f"api::{cls.__singular_api_id__}.{cls.__singular_api_id__}"
 
     @classmethod
@@ -46,6 +46,7 @@ class SmartDocument(BaseDocument):
         cls,
         client: StrapiClientAsync,
         document_id: str,
+        locale: str | None = None,
     ) -> Self:
         """Get document by document id."""
         fields, populate = get_model_fields_and_population(cls)
@@ -54,6 +55,7 @@ class SmartDocument(BaseDocument):
             document_id=document_id,
             fields=fields,
             populate=populate,
+            locale=locale,
         )
         return cls.from_scalar_response(response)
 
@@ -147,18 +149,20 @@ class SmartDocument(BaseDocument):
         cls,
         client: StrapiClientAsync,
         data: dict[str, Any] | BaseModel,
+        locale: str | None = None,
     ) -> Self:
         """Create a new document."""
         response = await client.create_document(
             plural_api_id=cls.__plural_api_id__,
             data=serialize_document_data(data),
+            locale=locale,
         )
         _, populate = get_model_fields_and_population(cls)
         if not populate:
             return cls.from_scalar_response(response)
         else:
             result_document = BaseDocument.from_scalar_response(response)
-            return await cls.get_document(client, result_document.document_id)
+            return await cls.get_document(client, result_document.document_id, locale=locale)
 
     def model_dump_data(self, exclude_managed_fields: bool = False, json_mode: bool = False) -> dict[str, Any]:
         """
@@ -198,6 +202,7 @@ class SmartDocument(BaseDocument):
             plural_api_id=self.__plural_api_id__,
             document_id=self.document_id,
             data=serialize_document_data(data),
+            locale=getattr(self, "locale", None),
         )
         if not populate:
             result_document = self.__class__.from_scalar_response(response)
@@ -220,6 +225,7 @@ class SmartDocument(BaseDocument):
                 plural_api_id=self.__plural_api_id__,
                 document_id=self.document_id,
                 data=serialize_document_data(data),
+                locale=getattr(self, "locale", None),
             )
             return True
 
@@ -249,6 +255,7 @@ class SmartDocument(BaseDocument):
             plural_api_id=self.__plural_api_id__,
             document_id=self.document_id,
             data=data,
+            locale=getattr(self, "locale", None),
         )
         return await self.refresh_document(client)
 
@@ -260,6 +267,7 @@ class SmartDocument(BaseDocument):
             document_id=self.document_id,
             fields=fields,
             populate=populate,
+            locale=getattr(self, "locale", None),
         )
         document = self.from_scalar_response(response)
         self.__dict__.update(document.__dict__)
@@ -270,6 +278,7 @@ class SmartDocument(BaseDocument):
         await client.delete_document(
             plural_api_id=self.__plural_api_id__,
             document_id=self.document_id,
+            locale=getattr(self, "locale", None),
         )
 
     async def upload_file(

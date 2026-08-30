@@ -443,7 +443,8 @@ def test_patch_document_with_mocked_client():
             mock_client.update_document.assert_called_with(
                 plural_api_id="todo-items",
                 document_id="1",
-                data={"name": "Updated"}
+                data={"name": "Updated"},
+                locale=None,
             )
         
     asyncio.run(main())
@@ -523,7 +524,8 @@ def test_patch_document_lazy_with_changes_mocked_client():
             mock_client.update_document.assert_called_with(
                 plural_api_id="todo-items",
                 document_id="1",
-                data={"name": "Updated"}
+                data={"name": "Updated"},
+                locale=None,
             )
         
     asyncio.run(main())
@@ -808,7 +810,8 @@ def test_update_relations():
             mock_client.update_document.assert_called_with(
                 plural_api_id="todo-items",
                 document_id="1",
-                data={"related": {"set": ["2", "3"]}}
+                data={"related": {"set": ["2", "3"]}},
+                locale=None,
             )
             
             # Verify refresh_document was called
@@ -832,7 +835,8 @@ def test_update_relations():
             mock_client.update_document.assert_called_with(
                 plural_api_id="todo-items",
                 document_id="1",
-                data={"related": {"connect": ["2"], "disconnect": ["3"]}}
+                data={"related": {"connect": ["2"], "disconnect": ["3"]}},
+                locale=None,
             )
             
             # Verify refresh_document was called
@@ -866,7 +870,8 @@ def test_delete_document(async_client):
         # Verify delete_document was called with correct parameters
         mock_client.delete_document.assert_called_with(
             plural_api_id="todo-items",
-            document_id="1"
+            document_id="1",
+            locale=None,
         )
         
     asyncio.run(main())

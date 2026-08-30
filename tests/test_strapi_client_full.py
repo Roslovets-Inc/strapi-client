@@ -84,6 +84,57 @@ def test_create_update_delete_document(client):
     client.delete_document('items', '2')
 
 
+def test_locale_is_forwarded_for_sync_crud():
+    requests = []
+
+    def handler(request: httpx2.Request) -> httpx2.Response:
+        requests.append(request)
+        if request.method == 'DELETE':
+            return httpx2.Response(204)
+        return httpx2.Response(200, json={'data': {'id': 1}})
+
+    localized_client = StrapiClient(base_url='http://test', token='token')
+    localized_client._client = httpx2.Client(transport=httpx2.MockTransport(handler))
+    try:
+        localized_client.get_document('items', '1', locale='fr')
+        localized_client.get_single_document('homepage', locale='fr')
+        localized_client.create_document('items', {'title': 'a'}, locale='fr')
+        localized_client.update_document('items', '1', {'title': 'b'}, locale='fr')
+        localized_client.delete_document('items', '1', locale='fr')
+    finally:
+        localized_client.close()
+
+    assert len(requests) == 5
+    assert all(request.url.params['locale'] == 'fr' for request in requests)
+
+
+def test_locale_is_forwarded_for_async_crud():
+    requests = []
+
+    def handler(request: httpx2.Request) -> httpx2.Response:
+        requests.append(request)
+        if request.method == 'DELETE':
+            return httpx2.Response(204)
+        return httpx2.Response(200, json={'data': {'id': 1}})
+
+    async def main():
+        localized_client = StrapiClientAsync(base_url='http://test', token='token')
+        localized_client._client = httpx2.AsyncClient(transport=httpx2.MockTransport(handler))
+        try:
+            await localized_client.get_document('items', '1', locale='fr')
+            await localized_client.get_single_document('homepage', locale='fr')
+            await localized_client.create_document('items', {'title': 'a'}, locale='fr')
+            await localized_client.update_document('items', '1', {'title': 'b'}, locale='fr')
+            await localized_client.delete_document('items', '1', locale='fr')
+        finally:
+            await localized_client.close()
+
+    asyncio.run(main())
+
+    assert len(requests) == 5
+    assert all(request.url.params['locale'] == 'fr' for request in requests)
+
+
 def test_upload_and_list_files(client, tmp_path):
     f = tmp_path / 'file.txt'
     f.write_text('content')

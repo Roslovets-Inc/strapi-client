@@ -23,7 +23,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "python-semantic-release==10.6.1",
+    "python-semantic-release==10.6.2",
     "pydocstyle==6.3.0",
     "mkdocs==1.6.1",
     "mkdocs-awesome-nav==3.3.0",
@@ -33,8 +33,8 @@ dev = [
     "pytest==9.1.1",
     "pytest-cov==7.1.0",
     "mypy==2.3.0",
-    "ty==0.0.71",
-    "ruff==0.16.3",
+    "ty==0.0.75",
+    "ruff==0.16.5",
 ]
 [project.urls]
 Homepage = "https://github.com/Roslovets-Inc/strapi-client"
