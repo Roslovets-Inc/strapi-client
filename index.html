@@ -147,7 +147,7 @@ asyncio.run(main())
 </code></pre>
 <h3 id="quick-start-with-smartdocument-orm">Quick start with SmartDocument ORM</h3>
 <pre><code class="language-python">import asyncio
-from strapi_client import StrapiClientAsync, SmartDocument, MediaImageDocument
+from strapi_client import LocalizedSmartDocument, MediaImageDocument, SmartDocument, StrapiClientAsync
 
 
 class User(SmartDocument):
@@ -160,6 +160,10 @@ class User(SmartDocument):
 class Session(SmartDocument):
     uid: str
     user: User | None
+
+
+class Article(LocalizedSmartDocument):
+    title: str
 
 
 async def main():
@@ -177,6 +181,10 @@ async def main():
         user1 = await User.get_first_document(client, filters={&quot;username&quot;: &quot;Mark&quot;})
         if user1:
             print(user1)
+
+        # Localized documents keep their locale for refresh, update, and delete operations
+        article = await Article.get_document(client, document_id=&quot;YOUR_DOCUMENT_ID&quot;, locale=&quot;fr&quot;)
+        await article.update_document(client, {&quot;title&quot;: &quot;Bonjour&quot;})
 
 
 asyncio.run(main())
@@ -272,5 +280,5 @@ asyncio.run(main())
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2026-08-13 23:36:23.634447+00:00
+Build Date UTC : 2026-08-30 08:14:56.270910+00:00
 -->
