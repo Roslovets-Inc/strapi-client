@@ -1,6 +1,21 @@
 # CHANGELOG
 
 
+## v5.2.1 (2026-09-08)
+
+### Bug Fixes
+
+- Support abstract smart documents and API id inheritance
+  ([`d07f5b7`](https://github.com/Roslovets-Inc/strapi-client/commit/d07f5b7828788c3102893177393092cdf22f3728))
+
+Treat LocalizedSmartDocument as an abstract SmartDocument to prevent automatic API id generation.
+  Update SmartDocument.__pydantic_init_subclass__ to skip abstract classes and to correctly
+  propagate or preserve __singular_api_id__, __plural_api_id__, and __content_type_id__ across
+  multiple inheritance levels while allowing subclasses to override individual ids. Add tests
+  (tests/test_smart_document_api_ids.py) to verify inheritance, override behavior, and that abstract
+  classes do not receive API ids.
+
+
 ## v5.2.0 (2026-08-30)
 
 ### Features
