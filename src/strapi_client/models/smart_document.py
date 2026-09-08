@@ -19,6 +19,7 @@ class SmartDocument(BaseDocument):
     __singular_api_id__: ClassVar[str]
     __plural_api_id__: ClassVar[str]
     __content_type_id__: ClassVar[str]
+    __abstract_smart_document__: ClassVar[bool]
     __managed_fields__: ClassVar[set[str]] = {
         "id",
         "document_id",
@@ -34,12 +35,23 @@ class SmartDocument(BaseDocument):
     @classmethod
     def __pydantic_init_subclass__(cls, **kwargs: Any) -> None:
         super().__pydantic_init_subclass__(**kwargs)
+        if cls.__dict__.get("__abstract_smart_document__", False):
+            return
         if "__singular_api_id__" not in cls.__dict__:
-            cls.__singular_api_id__ = re.sub(r"(?<!^)(?=[A-Z])", "-", cls.__name__).lower()
+            if hasattr(cls, "__singular_api_id__"):
+                cls.__singular_api_id__ = cls.__singular_api_id__
+            else:
+                cls.__singular_api_id__ = re.sub(r"(?<!^)(?=[A-Z])", "-", cls.__name__).lower()
         if "__plural_api_id__" not in cls.__dict__:
-            cls.__plural_api_id__ = f"{cls.__singular_api_id__}s"
+            if hasattr(cls, "__plural_api_id__"):
+                cls.__plural_api_id__ = cls.__plural_api_id__
+            else:
+                cls.__plural_api_id__ = f"{cls.__singular_api_id__}s"
         if "__content_type_id__" not in cls.__dict__:
-            cls.__content_type_id__ = f"api::{cls.__singular_api_id__}.{cls.__singular_api_id__}"
+            if hasattr(cls, "__content_type_id__"):
+                cls.__content_type_id__ = cls.__content_type_id__
+            else:
+                cls.__content_type_id__ = f"api::{cls.__singular_api_id__}.{cls.__singular_api_id__}"
 
     @classmethod
     async def get_document(
